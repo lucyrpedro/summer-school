@@ -1,0 +1,204 @@
+% Composition by Julian Kunkel, copied from existing beamer templates.
+% This program can be redistributed and/or modified under the terms
+% of the GNU Public License, version 2.
+\usepackage{tikz}
+\usepackage{tcolorbox}
+
+
+
+\mode<presentation>
+
+% Define the esiways colors
+\definecolor{EsiOrange}{HTML}{F39600}
+\definecolor{EsiBlue}{HTML}{006d9a}
+\definecolor{EsiBlue2}{HTML}{006d9a}
+\definecolor{EsiGreen}{HTML}{9ac013}
+
+% coloured frame block
+\tcbset{colback=Linen}
+\tcbsetforeverylayer{colframe=EsiBlue}
+\tcbset{left=0pt}
+
+\setbeamertemplate{title page}[default][colsep=-4bp,rounded=true,shadow=true]
+\setbeamertemplate{part page}[default][colsep=-4bp,rounded=true,shadow=true]
+\setbeamertemplate{sections/subsections in toc}[square]
+\setbeamertemplate{items}[square]
+
+\beamer@compresstrue
+\setbeamertemplate{navigation symbols}{}
+
+\newcommand{\esiwaceBar}[0]{
+  \begin{tikzpicture}
+    \path [left color = EsiOrange!100, right color = EsiGreen!100]
+      (0,0) rectangle (\paperwidth,0.5ex);
+  \end{tikzpicture}
+}
+
+\defbeamertemplate*{headline}{esiwaceBar}
+{
+  \esiwaceBar
+}%
+
+\defbeamertemplate*{headline}{esiwaceDefault}
+{
+  \begin{beamercolorbox}[ht=2.25ex,dp=3.75ex]{section in head/foot}
+    \insertnavigation{\paperwidth}
+  \end{beamercolorbox}%
+  \esiwaceBar
+}%
+
+
+
+\defbeamertemplate*{frametitle}{}[1][left]
+{
+  \nointerlineskip
+  \@tempdima=\textwidth%
+  \advance\@tempdima by\beamer@leftmargin%
+  \advance\@tempdima by\beamer@rightmargin%
+  \begin{beamercolorbox}[sep=0.2cm,#1,wd=\the\@tempdima]{frametitle}
+    \usebeamerfont{frametitle}%
+    \vbox{}\vskip-1.2ex%
+    \if@tempswa\else\csname beamer@fte#1\endcsname\fi%
+    \strut\insertframetitle\strut\par%
+    {%
+      \ifx\insertframesubtitle\@empty%
+      \else%
+      {\usebeamerfont{framesubtitle}\usebeamercolor[fg]{framesubtitle}\insertframesubtitle\strut\par}%
+      \fi
+    }%
+    \vskip-1ex%
+    \if@tempswa\else\vskip-.3cm\fi% set inside beamercolorbox... evil here...
+  \end{beamercolorbox}
+  \vspace*{-0.3cm}\hspace*{\the\@tempdima}\hspace*{-3cm}\includegraphics[width=1.75cm]{esiwace-logo}
+}
+
+\defbeamertemplate*{footline}{}
+{
+  \leavevmode%
+  %\begin{tikzpicture}
+  %  \path [left color = EsiOrange!100, right color = EsiGreen!100]
+  %    (0,0) rectangle (\paperwidth,0.2ex);
+  %\end{tikzpicture}
+  \hbox{%
+  \begin{beamercolorbox}[wd=.333333\paperwidth,ht=2.25ex,dp=1ex,center]{author in foot}%
+    \usebeamerfont{author in head/foot}\insertshortauthor\expandafter\beamer@ifempty\expandafter{\beamer@shortinstitute}{}{~~(\insertshortinstitute)}
+  \end{beamercolorbox}%
+  \begin{beamercolorbox}[wd=.333333\paperwidth,ht=2.25ex,dp=1ex,center]{title in foot}%
+    \usebeamerfont{title in head/foot}\insertshorttitle
+  \end{beamercolorbox}%
+  \begin{beamercolorbox}[wd=.333333\paperwidth,ht=2.25ex,dp=1ex,right]{date in foot}%
+    \usebeamerfont{date in head/foot}\insertshortdate{}\hspace*{2em}
+    \insertframenumber{} / \ref{pg:lastframe} \hspace*{2ex}
+  \end{beamercolorbox}}%
+  \vskip0pt%
+}
+
+%\setbeamersize{text margin left=1em,text margin right=1em}
+
+
+\setbeamertemplate{enumerate item}[rectangle]
+
+\setbeamercolor{structure}{fg=EsiBlue}
+\setbeamercolor{footer}{fg=EsiGreen}
+\setbeamercolor{title}{fg=EsiBlue}
+\setbeamercolor{items}{fg=EsiGreen}
+
+\setbeamertemplate{itemize item}{\color{EsiGreen}$\blacksquare$}
+\setbeamertemplate{itemize subitem}{\color{EsiGreen}$\blacktriangleright$}
+\setbeamertemplate{itemize subsubitem}{\color{EsiGreen}$\blacktriangleright$}
+
+
+\setbeamertemplate{enumerate item}{
+\hbox{%
+   \usebeamerfont*{item projected}%
+   \usebeamercolor[EsiOrange]{item projected}
+   \vrule width2.25ex height1.85ex depth.4ex%
+   \hskip-2.25ex%
+   \hbox to2.25ex{%
+     \hfil%
+     \color{black}\insertenumlabel% original: [fg]
+     \hfil}%
+ }%
+}
+
+
+\setbeamertemplate{enumerate subitem}{
+\hbox{%
+   \usebeamerfont*{subitem projected}%
+   \usebeamercolor[EsiOrange]{subitem projected}
+   \vrule width2.25ex height1.85ex depth.4ex%
+   \hskip-2.25ex%
+   \hbox to2.25ex{%
+     \hfil%
+     \color{black}\insertsubenumlabel% original: [fg]
+     \hfil}%
+ }%
+}
+\setbeamertemplate{enumerate subsubitem}{
+\hbox{%
+   \usebeamerfont*{subsubitem projected}%
+   \usebeamercolor[EsiOrange]{subsubitem projected}
+   \vrule width2.25ex height1.85ex depth.4ex%
+   \hskip-2.25ex%
+   \hbox to2.25ex{%
+     \hfil%
+     \color{black}\insertsubsubenumlabel% original: [fg]
+     \hfil}%
+ }%
+}
+\setbeamercolor{section number projected}{bg=EsiBlue}
+\setbeamercolor{subsection number projected}{bg=EsiBlue}
+\setbeamercolor{subsubsection number projected}{bg=EsiBlue}
+
+\setbeamercolor{headerline2}{fg=EsiOrange}
+\setbeamercolor{headerline}{fg=EsiGreen}
+
+\setbeamercolor{section in head/foot}{fg=White,bg=EsiBlue}
+\setbeamercolor{author in head/foot}{fg=EsiBlue,bg=White}
+\setbeamercolor{title in head/foot}{fg=EsiBlue,bg=White}
+\setbeamercolor{date in head/foot}{fg=EsiBlue,bg=White}
+
+\setbeamercolor{author in foot}{fg=EsiBlue,bg=White}
+\setbeamercolor{title in foot}{fg=EsiBlue,bg=White}
+\setbeamercolor{date in foot}{fg=EsiBlue,bg=White}
+
+\setbeamercolor{subsection in head/foot}{fg=White,bg=EsiBlue}
+\setbeamercolor{frametitle}{fg=EsiBlue2}
+\setbeamercolor{block title}{fg=Black,bg=EsiBlue!30}
+\setbeamercolor{block body}{fg=Black,bg=EsiBlue!10}
+
+
+\makeatletter
+    \newenvironment{withoutheadline}{
+     \setbeamertemplate{headline}[default]
+     \def\beamer@entrycode{\vspace*{-\headheight}}
+    }{
+    }
+\makeatother
+
+\mode<all>
+
+
+
+
+\titlegraphic{\includegraphics[scale=.3]{esiwace-logo}}
+
+\newcommand{\disclaimer}{
+\textit{\scriptsize Disclaimer: This material reflects only the author's view and the EU-Commission is not responsible for any use that may be made of the information it contains}
+}
+
+\newcommand{\acknowledgement}[0]{
+\begin{frame}
+The ESiWACE project has received funding from the European Union's Horizon 2020 research and innovation programme under grant agreement No \textbf{675191}
+
+\begin{figure}
+\includegraphics[scale=.5]{eu-flag}
+\end{figure}
+
+\begin{figure}
+\includegraphics[scale=.4]{esiwace-logo}
+\end{figure}
+
+\disclaimer
+\end{frame}
+}
