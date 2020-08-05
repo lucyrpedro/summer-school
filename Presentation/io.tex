@@ -296,7 +296,7 @@ widen and researchers are looking for solutions to tackle this problem.\\[0.4cm]
 
     \end{itemize}
 
-\end{itemize}
+\end{itemize}Burst buffer (BB) is a fast and intermediate storage layer positioned between the front-end computing processes and the back-end storage systems.
 
 \end{frame}
 
@@ -342,7 +342,7 @@ widen and researchers are looking for solutions to tackle this problem.\\[0.4cm]
 
 \begin{itemize}
 
-      \item Multi-layer Storage Hierarchy (Examples)\\[0.4cm]
+      \item Multi-layer Storage (Examples)\\[0.4cm]
 
         \begin{itemize}
         \setlength\itemsep{0.6cm}
@@ -350,6 +350,8 @@ widen and researchers are looking for solutions to tackle this problem.\\[0.4cm]
         \item Attached SSDs to compute nodes to aggregate many small I/O requests into few larger ones and/or to compute nodes to speed-up MPI-IO.
 
         \item Multi-layer storage hierarchy with NVM, SSDs, and different types of hard disks. % drives.
+
+The SAGE storage system consists of multiple types of storage device technologies in a multi-tier I/O hierarchy, including flash, disk, and non-volatile memory technologies.
 
         \end{itemize}
 
@@ -987,6 +989,13 @@ NetCDF-4 uses HDF5 as a storage layer:
     \item Visualise and regrid field constructs within NetCDF
 
 \end{itemize}
+
+\end{frame}
+
+\begin{frame}[allowframebreaks]{Bibliography}
+
+\bibliographystyle{apalike}
+\bibliography{io}
 
 \end{frame}
 

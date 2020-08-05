@@ -9,11 +9,17 @@
 \usepackage[english]{babel}
 \usepackage[T1]{fontenc}
 \usepackage{eurosym}
-\usepackage{ulem}
+%\usepackage{ulem}
 \usepackage{listings}
-\usepackage{ragged2e}  %For \justify and \justifying, but it's not working
+\usepackage{ragged2e}
 \usepackage{pgfgantt}
 \usepackage{comment}
+% \usepackage[backend=bibtex]{biblatex}
+% \bibliography{io} % \footfullcite{jones00}
+% \usepackage[numbers]{natbib}
+
+\newcommand{\lr}[1]{\textcolor{cyan}{LR: #1}}
+\setbeamercolor{bibliography item}{parent=palette primary}
 
 \newcommand{\sectionIntro}{
 \begin{frame}{Outline}
@@ -26,6 +32,8 @@
   \tableofcontents[currentsection,subsectionstyle=hide/hide/hide]
 \end{frame}
 }
+
+\definecolor{gold}{rgb}{0.83, 0.69, 0.22}
 
 \makeatletter
 \renewcommand{\itemize}[1][]{%
@@ -56,7 +64,7 @@
 
 \tcbuselibrary{raster}
 
-\DeclareGraphicsExtensions{.pdf,.png,.jpg,}
+\DeclareGraphicsExtensions{.pdf,.png,.jpg,.jpeg}
 \graphicspath{{./fig/}}
 
 \title[Summer School -- Input/Output and Middleware]{Summer School on Effective HPC for Climate and Weather \\[0.5cm] Input/Output and Middleware}
@@ -90,12 +98,12 @@
 
 \begin{itemize}
 \setlength\itemsep{0.4cm}
+  \item Discuss challenges for data-driven research (Section Introduction)
   \item Describe the role of middleware and file formats (Section Middleware)
-  \item Discuss challenges for data-driven research (Section Data)
-  \item Identify typical I/O performance issues and their causes (Section Performance)
-  \item Apply performance models to assess and optimize the application I/O performance (Section Model)
+  \item Identify typical I/O performance issues and their causes (Section I/O Performance)
+  \item Apply performance models to assess and optimize the application I/O performance (Section I/O Performance)
   \item Design a data model for NetCDF/CF (Section NetCDF)
-  \item Describe ongoing research activities in high-performance storage (Section Storage)
+  \item Describe ongoing research activities in high-performance storage (Section Research Activities)
 \end{itemize}
 
 \end{frame}
@@ -103,7 +111,7 @@
 \section{Introduction}
 \sectionIntro
 
-\subsection{Bottleneck}
+\subsection{I/O Bottleneck}
 
 \begin{frame}[t]{I/O Bottleneck -- Example}
 
@@ -111,14 +119,30 @@
 \includegraphics[scale=0.5]{fig/bottleneck-titan}
 \end{center}
 
+\lr{tut153s3}
+
 \end{frame}
 
 \begin{frame}[t]{I/O Bottleneck -- Historical Data}
 
-Kunkel et al. [105] analyze historical data from the German Climate Computing Center (DKRZ) and predict processor performance growth by 20x each generation ($\sim$5 years), while storage throughput/capacity improves by just 6x.
+\begin{itemize}
+
+\item Kunkel et al. \cite{ESSAASOEKK14} analyze historical data from the German Climate Computing Center (DKRZ) and predict processor performance growth by 20x each generation ($\sim$5 years), while storage throughput/capacity improves by just 6x.
+
+\end{itemize}
 
 \begin{center}
 \includegraphics[scale=0.4]{fig/bottleneck-dkrz}
+\end{center}
+
+\nocite{ESSAASOEKK14}
+
+\end{frame}
+
+\begin{frame}[t]{Folders vs Meta}
+
+\begin{center}
+\includegraphics[scale=0.6]{fig/FoldersVsMeta}
 \end{center}
 
 \end{frame}
@@ -127,48 +151,53 @@ Kunkel et al. [105] analyze historical data from the German Climate Computing Ce
 
 \begin{frame}[t]{Input/Output}
 
-Input/Output (I/O) is simply data migration.
-
 \begin{itemize}
-  \item Memory $\Leftrightarrow$ Disk
+\setlength\itemsep{0.3cm}
+
+    \item Input/Output (I/O) is simply data migration.
+
+    \begin{itemize}
+      \item Memory $\Leftrightarrow$ Disk
+    \end{itemize}
+
+    \item I/O is a very expensive operation!
+
+%    \begin{itemize}
+%      \item Interactions with data in memory and on disk.
+%    \end{itemize}
+
+    \item How is I/O performed?
+
+    \begin{itemize}
+
+      \item I/O Pattern
+
+      \begin{itemize}
+        \item Number of processes and files.
+        \item Characteristics of file access.
+      \end{itemize}
+
+    \end{itemize}
+
+    \item Where is I/O performed?
+
+    \begin{itemize}
+      \item Characteristics of the computational system.
+      \item Characteristics of the file system.
+    \end{itemize}
+
 \end{itemize}
 
-I/O is a very expensive operation.
-
-\begin{itemize}
-  \item Interactions with data in memory and on disk.
-\end{itemize}
-
-How is I/O performed?
-
-\begin{itemize}
-
-  \item I/O Pattern
-
-  \begin{itemize}
-    \item Number of processes and files.
-    \item Characteristics of file access.
-  \end{itemize}
-
-\end{itemize}
-
-Where is I/O performed?
-
-\begin{itemize}
-  \item Characteristics of the computational system.
-  \item Characteristics of the file system.
-\end{itemize}
+\nocite{PIOTAPO12}
 
 \end{frame}
 
 \begin{frame}[t]{I/O Performance}
 
 \begin{itemize}
-\setlength\itemsep{0.4cm}
+\setlength\itemsep{0.5cm}
 
   \item There is no ``One Size Fits All'' solution to the I/O problem.
-
-  \item Many I/O patterns work well for some range of parameters.
 
   \item Bottlenecks in performance can occur in many locations.
 
@@ -176,11 +205,15 @@ Where is I/O performed?
     \item Application and/or file system.
   \end{itemize}
 
+  \item Many I/O patterns work well for some range of parameters.
+
   \item Going to extremes with an I/O pattern will typically lead to problems.
 
-  \item Increase performance by decreasing number of I/O operations (latency) and increasing size (bandwidth).
+  \item {\color{gold}\textbf{Golden Rule:}} \lr{Increase performance by decreasing the number of I/O operations (latency) and increasing size (bandwidth).}
 
 \end{itemize}
+
+\nocite{PIOTAPO12}
 
 \end{frame}
 
@@ -190,55 +223,90 @@ Where is I/O performed?
 \includegraphics[scale=0.3]{io-types}
 \end{center}
 
+\lr{tut145s3}
+
 \end{frame}
 
-\begin{frame}[t]{I/O Patterns}
+\begin{frame}[t]{I/O Access Patterns \lr{(Double-check the last two)}}
 
 \begin{center}
 \includegraphics[scale=0.3]{io-patterns}
 \end{center}
 
+\lr{tut145s3}
+
 \end{frame}
 
-\begin{frame}[t]{I/O Probs}
+\begin{frame}[t]{File Striping}
 
 \begin{center}
-\includegraphics[scale=0.5]{io-probs}
+\includegraphics[scale=0.3]{file-striping}
 \end{center}
+
+\nocite{PIOTAPO12}
 
 \end{frame}
 
-\begin{frame}[t]{Challenges in Application I/O}
+\begin{frame}[t]{I/O Problems}
+
+\begin{itemize}
+\setlength\itemsep{0.7cm}
+
+\item Not enough I/O capacity on current HPC systems, and the trend is getting worse.
+
+\item If there is not enough I/O, you can not write data% to storage
+, so you can not analyze it.
+    \begin{itemize}
+        \item Lost science!
+    \end{itemize}
+
+\item Energy consumption: it costs a lot of power to write data to disk.
+
+\item \lr{Opportunity for doing better science (analysis) when have access to full spatiotemporal resolution data.}
+
+\end{itemize}
+
+\begin{center}
+%\includegraphics[scale=0.5]{io-probs}
+\end{center}
+
+\lr{tut153s3}
+
+\end{frame}
+
+\begin{frame}[t]{Challenges in Application I/O \lr{(== I/O Applications)}}
 
 \begin{itemize}
 \setlength\itemsep{0.4cm}
 
-\item Leveraging aggregate communication and I/O bandwidth of clients
+\item \lr{Leverage aggregate communication and I/O bandwidth of clients}
     \begin{itemize}
-        \item ... but not overwhelming a resource limited I/O system with uncoordinated accesses!
+        \item \lr{... but not overwhelming a resource limited I/O system with uncoordinated accesses!}
     \end{itemize}
 
-\item Limiting number of files that must be managed
+\item Limit the number of files that must be managed.
+
+\item Avoid unnecessary post-processing. \lr{(why?)}
+
+\item Interact with storage through convenient abstractions.
     \begin{itemize}
-      \item Also a performance issue
+      \item Store in portable formats!
     \end{itemize}
 
-\item Avoiding unnecessary post-processing
-
-\item Often application teams spend so much time on this that they never get any further:
-    \begin{itemize}
-      \item Interacting with storage through convenient abstractions
-%      \item Storing in portable formats
-    \end{itemize}
+\item {\color{gold}\textbf{Golden Rule:}} Parallel I/O software is available and they can address all
+of these problems, when used appropriately.
 
 \end{itemize}
-
-Parallel I/O software is available that can address all
-of these problems, when used appropriately.
 
 %\begin{center}
 %\includegraphics[scale=0.5]{fig/challenges-io}
 %\end{center}
+
+\lr{tut145s3}
+
+\end{frame}
+
+\begin{frame}[t]{Parallel I/O}
 
 \end{frame}
 
@@ -247,32 +315,27 @@ of these problems, when used appropriately.
 \begin{frame}[t]{Data-driven Research}
 
 \begin{itemize}
-\setlength\itemsep{1cm}
-
-  \item Data-driven research is the science of letting data tell us what we are looking for.
-
-  \item Database management is the science of efficiently storing and retrieving data.
-
-  \item Data mining is the science of discovering hidden correlations in data.
-
-\end{itemize}
-
-\end{frame}
-
-\begin{frame}[t]{Challenges for Data-driven Research}
-
-\begin{itemize}
 \setlength\itemsep{0.4cm}
 
-  \item In HPC, the concerns of storage and computing are traditionally separated and optimised independently from each other and the needs of the end-to-end user.
+  \item \textbf{Data-driven Research} is the science of letting data tell us what we are looking for.
+    \begin{itemize}
+      \item \textbf{Database Management} is the science of efficiently storing and retrieving data.
+      \item \textbf{Data Mining} is the science of discovering hidden correlations in data.
+    \end{itemize}
+
+  \item In HPC, the concerns of \textbf{storage} and \textbf{computing} are traditionally separated and optimised independently from each other and the needs of the end-to-end user.
 
   \item Workflows composed of data, computing, and communication-intensive tasks should drive interfaces and hardware configurations to best support the programming models.
 
-  \item Many processes still require experts. For example, porting a workflow from one system to another still requires adjusting runtime parameters of applications and deciding on how data is managed.
-
   \item Data-driven workflows may benefit from the explicit and simultaneous use of a locally heterogeneous set of computing and storage technologies.
 
+%  \item Many processes still require experts. For example, porting a workflow from one system to another still requires adjusting runtime parameters of applications and deciding on how data is managed.
+
 \end{itemize}
+
+\nocite{01403233}
+
+\nocite{JSFI309}
 
 \end{frame}
 
@@ -286,34 +349,34 @@ of these problems, when used appropriately.
 \begin{itemize}
 \setlength\itemsep{0.4cm}
 
-  \item Middleware is software occupying a middle position between application programs and operating systems.
+  \item Middleware is software occupying a middle position between application programs and operating systems.\lr{What is this database table in the picture? Just a common database for the application?}
 
   \begin{center}
   \includegraphics[scale=0.5]{fig/middleware}
   \end{center}
 
-  \item Common middleware examples include database middleware, application server middleware, message-oriented middleware, web middleware, and transaction-processing monitors.
+  \item Common middleware examples include relational database systems, application server middleware, message-oriented middleware, web middleware, and transaction-processing monitors.\lr{Famous "brand" examples? I couldn't find any...}
 
 \end{itemize}
+
+\lr{osm-rev1.3.1 1.3}
 
 \end{frame}
 
 \begin{frame}[t]{Middleware}
 
 \begin{itemize}
-\setlength\itemsep{0.4cm}
+\setlength\itemsep{0.6cm}
 
   \item Middleware is in the middle of the vertical stack, between the application programs and the operating system.
 
-  \item Viewed horizontally rather than vertically, middleware is also in the middle of interactions between different application programs (possibly even running on different computer systems), because it provides mechanisms to support controlled interaction through coordination, persistent storage, naming, and communication.
+  \item Viewed horizontally rather than vertically, middleware is also in the middle of interactions between different application programs (possibly even running on different computer systems), because it provides mechanisms to support controlled interaction through coordination, persistent storage, naming, and communication.\lr{Link ESDM here!}
 
-  \item Relational database systems is one example of middleware.
-
-  \begin{itemize}
-    \item Such systems provide a more sophisticated form of persistent storage than the files supported by most operating systems.
-  \end{itemize}
+  \item Middleware provide a more sophisticated form of persistent storage than the standard supported by most operating systems.\lr{Is this true for all types of middleware?}
 
 \end{itemize}
+
+\lr{osm-rev1.3.1 1.3}
 
 \end{frame}
 
@@ -351,12 +414,14 @@ widen and researchers are looking for solutions to tackle this problem.\\[0.4cm]
     \setlength\itemsep{0.6cm}
 
       \item at hardware level,
-      \item at middleware level,
+      \item at middleware level,\lr{Link ESDM here!}
       \item and at application level.
 
     \end{itemize}
 
 \end{itemize}
+
+\nocite{3372390}
 
 \end{frame}
 
@@ -373,11 +438,134 @@ widen and researchers are looking for solutions to tackle this problem.\\[0.4cm]
 
         \item The capabilities of NVM (i.e., capacity, bandwidth, energy consumption) are somewhere in-between main memory and persistent storage, thus it is often used as a ``caching'' solution between these two layers.
 
-        \item Picture
+        \item Examples of non-volatile memory include flash memory, read-only memory (ROM), ferroelectric RAM, most types of magnetic computer storage devices (e.g. hard disk drives, floppy disks, and magnetic tape), optical discs, and early computer storage methods such as paper tape and punched cards.
 
     \end{itemize}
 
 \end{itemize}
+
+\nocite{3372390}
+
+\end{frame}
+
+\begin{frame}[t]{Hardware Pop Quiz -- Non-volatile Memory}
+
+\begin{center}
+
+\begin{tabular}{cc}
+
+\begin{tabular}{ccc}
+\includegraphics[scale=0.15]{fig/paper-tape} &
+\includegraphics[scale=0.15]{fig/usb} &
+\includegraphics[scale=0.15]{fig/fram} \\
+1 & 2 & 3 \\
+\includegraphics[scale=0.15]{fig/disk} &
+\includegraphics[scale=0.15]{fig/punch-card} &
+\includegraphics[scale=0.15]{fig/tape} \\
+4 & 5 & 6 \\
+\includegraphics[scale=0.15]{fig/card} &
+\includegraphics[scale=0.15]{fig/rom} &
+\includegraphics[scale=0.15]{fig/vhs} \\
+7 & 8 & 9 \\
+\includegraphics[scale=0.15]{fig/floppy} &
+\includegraphics[scale=0.15]{fig/k7} &
+\includegraphics[scale=0.15]{fig/cd} \\
+10 & 11 & 12 \\
+\end{tabular}
+
+\end{tabular}
+
+\end{center}
+
+\end{frame}
+
+\begin{frame}[t]{Hardware Pop Quiz -- Non-volatile Memory}
+
+\begin{center}
+
+\begin{tabular}{cc}
+
+\begin{tabular}{ll}
+A & \parbox{4cm}{flash memory}\\
+B & read-only memory\\
+C & ferroelectric RAM\\
+D & hard disk drives\\
+E & floppy disks\\
+F & magnetic tape\\
+G & optical discs\\
+H & paper tape\\
+I & punched cards\\
+\end{tabular}
+
+&
+
+\begin{tabular}{ccc}
+\includegraphics[scale=0.15]{fig/paper-tape} &
+\includegraphics[scale=0.15]{fig/usb} &
+\includegraphics[scale=0.15]{fig/fram} \\
+1 & 2 & 3 \\
+\includegraphics[scale=0.15]{fig/disk} &
+\includegraphics[scale=0.15]{fig/punch-card} &
+\includegraphics[scale=0.15]{fig/tape} \\
+4 & 5 & 6 \\
+\includegraphics[scale=0.15]{fig/card} &
+\includegraphics[scale=0.15]{fig/rom} &
+\includegraphics[scale=0.15]{fig/vhs} \\
+7 & 8 & 9 \\
+\includegraphics[scale=0.15]{fig/floppy} &
+\includegraphics[scale=0.15]{fig/k7} &
+\includegraphics[scale=0.15]{fig/cd} \\
+10 & 11 & 12 \\
+\end{tabular}
+
+\end{tabular}
+
+\end{center}
+
+\end{frame}
+
+\begin{frame}[t]{Hardware Pop Quiz -- Non-volatile Memory}
+
+\begin{center}
+
+\begin{tabular}{cc}
+
+\begin{tabular}{ll}
+A & \parbox{4cm}{flash memory -- 2/7}\\
+B & read-only memory -- 8\\
+C & ferroelectric RAM -- 3\\
+D & hard disk drives -- 4\\
+E & floppy disks -- 10\\
+F & magnetic tape -- 6/9/11\\
+G & optical discs -- 12\\
+H & paper tape -- 1\\
+I & punched cards -- 5\\
+\end{tabular}
+
+&
+
+\begin{tabular}{ccc}
+\includegraphics[scale=0.15]{fig/paper-tape} &
+\includegraphics[scale=0.15]{fig/usb} &
+\includegraphics[scale=0.15]{fig/fram} \\
+1 & 2 & 3 \\
+\includegraphics[scale=0.15]{fig/disk} &
+\includegraphics[scale=0.15]{fig/punch-card} &
+\includegraphics[scale=0.15]{fig/tape} \\
+4 & 5 & 6 \\
+\includegraphics[scale=0.15]{fig/card} &
+\includegraphics[scale=0.15]{fig/rom} &
+\includegraphics[scale=0.15]{fig/vhs} \\
+7 & 8 & 9 \\
+\includegraphics[scale=0.15]{fig/floppy} &
+\includegraphics[scale=0.15]{fig/k7} &
+\includegraphics[scale=0.15]{fig/cd} \\
+10 & 11 & 12 \\
+\end{tabular}
+
+\end{tabular}
+
+\end{center}
 
 \end{frame}
 
@@ -388,17 +576,34 @@ widen and researchers are looking for solutions to tackle this problem.\\[0.4cm]
     \item Burst buffer (BB)\\[0.4cm]
 
       \begin{itemize}
-      \setlength\itemsep{0.6cm}
+      \setlength\itemsep{0.3cm}
 
       \item Burst buffer (BB) is a fast and intermediate storage layer positioned between the front-end computing processes and the back-end storage systems.
 
       \item HPC applications often show bursty I/O behavior (i.e., all processes read/write at the same time) and burst buffers help to absorb these workloads.
 
-      \item Picture
+      \item Burst buffer is built from arrays of high-performance storage devices, such as NVRAM and SSD.
+
+      \begin{center}
+      \begin{tabular}{ccccc}
+      \raisebox{1cm}{NVRAM} &
+      \includegraphics[scale=0.25]{fig/nvram} & $\qquad$ &
+      \includegraphics[scale=0.25]{fig/ssd} &
+      \raisebox{1cm}{
+        \begin{tabular}{c}
+        SSD \\
+        (on top of \\
+        a hard drive)
+        \end{tabular}
+      }
+      \end{tabular}
+      \end{center}
 
       \end{itemize}
 
 \end{itemize}
+
+\nocite{3372390}
 
 \end{frame}
 
@@ -415,11 +620,12 @@ widen and researchers are looking for solutions to tackle this problem.\\[0.4cm]
 
         \item Multi-layer storage hierarchy with NVM, SSDs, and different types of hard disks. % drives.
 
-        \item Picture
 
         \end{itemize}
 
 \end{itemize}
+
+\nocite{3372390}
 
 \end{frame}
 
@@ -444,6 +650,8 @@ widen and researchers are looking for solutions to tackle this problem.\\[0.4cm]
 
 \end{itemize}
 
+\nocite{3372390}
+
 \end{frame}
 
 \begin{frame}[t]{Application Level}
@@ -465,6 +673,8 @@ widen and researchers are looking for solutions to tackle this problem.\\[0.4cm]
 
 \end{itemize}
 
+\nocite{3372390}
+
 \end{frame}
 
 \begin{frame}[t]{Discussion}
@@ -485,9 +695,11 @@ widen and researchers are looking for solutions to tackle this problem.\\[0.4cm]
 
 \end{itemize}
 
+\nocite{3372390}
+
 \end{frame}
 
-\section{Performance}
+\section{I/O Performance}
 \sectionIntro
 
 \subsection{}
@@ -511,6 +723,18 @@ In brief, the I/O path of a write operation can be described as follows:
 
     \end{itemize}
 
+\nocite{SOPPOAASLK13}
+
+\end{frame}
+
+\begin{frame}[t]{I/O Performance}
+
+\begin{center}
+\includegraphics[scale=0.4]{fig/io-path}
+\end{center}
+
+\nocite{SOPPOAASLK13}
+
 \end{frame}
 
 \begin{frame}[t]{I/O Performance}
@@ -522,25 +746,43 @@ In brief, the I/O path of a write operation can be described as follows:
 
   \item Running the same application with different I/O configurations gives the possibility to tune the I/O system according to the application access pattern.
 
-  \item One way to predict application performance in HPC systems with different I/O configurations is by using modelling and simulation techniques.
+  \item One way to predict application performance in HPC systems with different I/O configurations is by using modeling and simulation techniques.
 
 \end{itemize}
 
+\nocite{SOPPOAASLK13}
+
 \end{frame}
 
-\begin{frame}[t]{I/O Layers}
+\begin{frame}[t]{I/O Performance}
+
+\begin{center}
+\includegraphics[scale=0.4]{fig/performance}
+\end{center}
+
+\lr{Sangireddy}
+
+\end{frame}
+
+\subsection{I/O Layers}
+
+\begin{frame}[t]{I/O Layers \lr{(Stack?)}}
 
 \begin{center}
 \includegraphics[scale=0.5]{fig/io-layers}
 \end{center}
+
+\lr{2007 What NetCDF users should know about HDF5}
 
 \end{frame}
 
 \begin{frame}[t]{I/O Stack}
 
 \begin{center}
-\includegraphics[scale=0.5]{fig/io-stack2}
+\includegraphics[scale=0.4]{fig/io-stack2}
 \end{center}
+
+\lr{tut145s3}
 
 \end{frame}
 
@@ -550,6 +792,8 @@ In brief, the I/O path of a write operation can be described as follows:
 \includegraphics[scale=0.3]{fig/io-stack3}
 \end{center}
 
+\lr{tut145s3}
+
 \end{frame}
 
 \begin{frame}[t]{Storage Stack}
@@ -557,6 +801,8 @@ In brief, the I/O path of a write operation can be described as follows:
 \begin{center}
 \includegraphics[scale=0.3]{fig/storage-stack}
 \end{center}
+
+\lr{tut145s3}
 
 \end{frame}
 
@@ -566,11 +812,27 @@ In brief, the I/O path of a write operation can be described as follows:
 \includegraphics[scale=0.5]{fig/layers-xios}
 \end{center}
 
+\nocite{JSFI309}
+
 \end{frame}
+
+\subsection{Typical Performance Issues}
+
+\begin{frame}[t]{Typical Performance Issues}
+
+\begin{center}
+\includegraphics[scale=0.4]{fig/performance-skill-tree}
+\end{center}
+
+\nocite{SOPPOAASLK13}
+
+\end{frame}
+
+\subsection{Typical I/O Performance Issues}
 
 \begin{frame}[t]{Typical I/O Performance Issues}
 
- Access patterns:
+ Access patterns:\nocite{SOPPOAASLK13}
 
     \begin{itemize}
     \setlength\itemsep{0.3cm}
@@ -581,6 +843,8 @@ In brief, the I/O path of a write operation can be described as follows:
         \item Access type
         \item Predictability
     \end{itemize}
+
+\nocite{SOPPOAASLK13}
 
 \end{frame}
 
@@ -597,6 +861,8 @@ I/O strategy:
         \item Aggregation
         \item Scheduling
     \end{itemize}
+
+\nocite{SOPPOAASLK13}
 
 \end{frame}
 
@@ -616,6 +882,8 @@ Parallel file system:
         \item Locking strategy
     \end{itemize}
 
+\nocite{SOPPOAASLK13}
+
 \end{frame}
 
 \begin{frame}[t]{Assess and Optimize the Application I/O Performance}
@@ -623,44 +891,45 @@ Parallel file system:
 \begin{itemize}
 \setlength\itemsep{0.4cm}
 
-\item Develop general considerations about what influences the I/O performance
+    \item Develop general considerations about what influences the I/O performance
 
-\begin{itemize}
-  \item What?
+    \begin{itemize}
+      \item What?
+    \end{itemize}
+
+    \item Analyze access pattern and define how it defines the performance of the I/O subsystems
+
+    \begin{itemize}
+      \item How?
+    \end{itemize}
+
+    \item Apply I/O strategies to improve the access pattern
+
+    \begin{itemize}
+      \item Which?
+    \end{itemize}
+
+    \item Identify options for the deployed optimization strategies in a specific parallel file system
+
+    \begin{itemize}
+      \item Which?
+    \end{itemize}
+
 \end{itemize}
 
-\item Analyze access pattern and define how it defines the performance of the I/O subsystems
-
-\begin{itemize}
-  \item How?
-\end{itemize}
-
-\item Apply I/O strategies to improve the access pattern
-
-\begin{itemize}
-  \item Which?
-\end{itemize}
-
-\item Identify options for the deployed optimization strategies in a specific parallel file system
-
-\begin{itemize}
-  \item Which?
-\end{itemize}
-
-\end{itemize}
+\nocite{SOPPOAASLK13} \lr{skill-tree}
 
 \end{frame}
 
-\section{Model}
-\sectionIntro
-
-\subsection{}
+\subsection{I/O Performance Model}
 
 \begin{frame}[t]{I/O Performance Tuning ``Rules of Thumb''}
 
 \begin{center}
 \includegraphics[scale=0.35]{fig/io-rules}
 \end{center}
+
+\lr{tut145s3}
 
 \end{frame}
 
@@ -670,6 +939,8 @@ Parallel file system:
 \includegraphics[scale=0.7]{fig/5-1}
 \end{center}
 
+\lr{lecture 5}
+
 \end{frame}
 
 \begin{frame}[t]{I/O Performance Model}
@@ -677,6 +948,8 @@ Parallel file system:
 \begin{center}
 \includegraphics[scale=0.7]{fig/5-2}
 \end{center}
+
+\lr{lecture 5}
 
 \end{frame}
 
@@ -686,6 +959,8 @@ Parallel file system:
 \includegraphics[scale=0.7]{fig/5-3}
 \end{center}
 
+\lr{lecture 5}
+
 \end{frame}
 
 \begin{frame}[t]{I/O Performance Model}
@@ -693,6 +968,8 @@ Parallel file system:
 \begin{center}
 \includegraphics[scale=0.7]{fig/5-4}
 \end{center}
+
+\lr{lecture 5}
 
 \end{frame}
 
@@ -702,6 +979,8 @@ Parallel file system:
 \includegraphics[scale=0.7]{fig/5-5}
 \end{center}
 
+\lr{lecture 5}
+
 \end{frame}
 
 \begin{frame}[t]{I/O Performance Model}
@@ -710,12 +989,14 @@ Parallel file system:
 \includegraphics[scale=0.7]{fig/5-6}
 \end{center}
 
+\lr{lecture 5}
+
 \end{frame}
 
 \section{NetCDF}
 \sectionIntro
 
-\subsection{}
+\subsection{Introduction}
 
 \begin{frame}[t]{NetCDF}
 
@@ -738,7 +1019,11 @@ Parallel file system:
 
 \end{itemize}
 
+\nocite{netcdf}
+
 \end{frame}
+
+\subsection{Common Data form Language (CDL)}
 
 \begin{frame}[fragile]{Common Data form Language (CDL)}
 
@@ -782,7 +1067,11 @@ data:
 
 \end{itemize}
 
+\nocite{netcdf}
+
 \end{frame}
+
+\subsection{NetCDF Data Models}
 
 \begin{frame}[t]{The Classic NetCDF Model}
 
@@ -796,6 +1085,8 @@ data:
 \includegraphics[scale=0.6]{fig/netcdf-classic}
 \end{center}
 
+\nocite{netcdf}
+
 \end{frame}
 
 \begin{frame}[t]{NetCDF Data Models}
@@ -804,13 +1095,15 @@ data:
 
         \item Classic: Simplest model -- Dimensions, variables, attributes
 
-        \item Enhanced: More powerful model -- Adds groups, types, nesting
+        \item {\color{red}{Enhanced: More powerful model -- Adds groups, types, nesting}}
 
     \end{itemize}
 
     \begin{center}
-    \includegraphics[scale=0.5]{fig/nc4-uml}
+    \includegraphics[scale=0.45]{fig/nc4-uml}
     \end{center}
+
+\nocite{netcdf}
 
 \end{frame}
 
@@ -833,18 +1126,22 @@ data:
 
 \end{itemize}
 
+\nocite{netcdf}
+
 \end{frame}
 
 \begin{frame}[t]{The NetCDF-4 Enhanced Data Model}
 
     \begin{itemize}
-    \setlength\itemsep{0.4cm}
+    \setlength\itemsep{0.5cm}
         \item A file has a top-level unnamed group.
         \item Each group may contain one or more named subgroups, user-defined types, variables, dimensions, and attributes.
         \item Variables also have attributes.
         \item Variables may share dimensions, indicating a common grid.
         \item One or more dimensions may be of unlimited length.
     \end{itemize}
+
+\nocite{netcdf}
 
 \end{frame}
 
@@ -853,14 +1150,18 @@ data:
 NetCDF-4 uses HDF5 as a storage layer:
 
 \begin{itemize}
-\setlength\itemsep{0.4cm}
+\setlength\itemsep{0.6cm}
 
     \item Provide performance advantages of HDF5
-    \item Compression
-    \item Chunking
-    \item Efficient schema changes
+      \begin{itemize}
+        \item Compression
+        \item Chunking
+        \item Efficient schema changes
+      \end{itemize}
     \item Useful for very large or complex data
     \item Suitable for high-performance computing
+
+    \nocite{netcdf}
 
 \end{itemize}
 
@@ -869,8 +1170,10 @@ NetCDF-4 uses HDF5 as a storage layer:
 \begin{frame}[t]{NetCDF Data Model}
 
 \begin{center}
-\includegraphics[scale=0.4]{fig/netcdf-data}
+\includegraphics[scale=0.32]{fig/netcdf-data}
 \end{center}
+
+\lr{Sangireddy}
 
 \end{frame}
 
@@ -879,6 +1182,8 @@ NetCDF-4 uses HDF5 as a storage layer:
 \begin{center}
 \includegraphics[scale=0.5]{fig/hdf5-data}
 \end{center}
+
+\lr{2007 What NetCDF users should know about HDF5}
 
 \end{frame}
 
@@ -890,10 +1195,12 @@ NetCDF-4 uses HDF5 as a storage layer:
 
 \end{frame}
 
+\subsection{Best Practices for Writing NetCDF Files}
+
 \begin{frame}[t]{Experience-based ``Best Practices'' for Writing NetCDF Files}
 
     \begin{itemize}
-    \setlength\itemsep{0.3cm}
+    \setlength\itemsep{0.4cm}
 
         \item	Conventions
         \begin{itemize}
@@ -917,12 +1224,14 @@ NetCDF-4 uses HDF5 as a storage layer:
 
     \end{itemize}
 
+\nocite{netcdf}
+
 \end{frame}
 
 \begin{frame}[t]{Experience-based ``Best Practices'' for Writing NetCDF Files}
 
     \begin{itemize}
-    \setlength\itemsep{0.4cm}
+    \setlength\itemsep{0.5cm}
 
         \item	Strings and Character Variables
         \begin{itemize}
@@ -946,7 +1255,11 @@ NetCDF-4 uses HDF5 as a storage layer:
 
     \end{itemize}
 
+\nocite{netcdf}
+
 \end{frame}
+
+\subsection{Climate and Forecast (CF) Conventions}
 
 \begin{frame}[t]{Climate and Forecast (CF) Conventions}
 
@@ -973,7 +1286,7 @@ NetCDF-4 uses HDF5 as a storage layer:
 
 \end{frame}
 
-\section{Storage}
+\section{Research Activities}
 \sectionIntro
 
 \subsection{}
@@ -995,9 +1308,6 @@ NetCDF-4 uses HDF5 as a storage layer:
 
 \end{frame}
 
-
-\section{Others}
-
 \begin{frame}[t]{Previous Learning Objectives}
 
 \begin{itemize}
@@ -1010,6 +1320,19 @@ NetCDF-4 uses HDF5 as a storage layer:
     \item Visualise and regrid field constructs within NetCDF
 
 \end{itemize}
+
+\end{frame}
+
+\begin{frame}[allowframebreaks]{Bibliography}
+
+{
+
+\tiny
+
+\bibliographystyle{alpha}
+\bibliography{io}
+
+}
 
 \end{frame}
 
