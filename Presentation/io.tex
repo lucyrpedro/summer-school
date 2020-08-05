@@ -486,6 +486,81 @@ In brief, the I/O path of a write operation can be described as follows:
 
 \end{frame}
 
+\subsection{I/O Path}
+
+\begin{frame}[t]{I/O Path}
+
+The I/O path describes all the layers (and components) involved in I/O and how they interact.
+In brief, the I/O path of a write operation can be described as follows:
+
+    \begin{itemize}
+
+        \item When an application issues an I/O call, data is copied between the user-space buffer and the page cache that is offered in kernel-space.
+
+        \item In kernel-space memory the data is cached and write operations can be deferred as long as free memory is available.
+
+        \item At this point the write call can complete, because a programmer cannot modify kernel-space directly.
+
+        \item A scheduler inside the kernel decides when modified pages are transferred to the block device.
+
+        \item The mapping from offsets in logical files to addresses on the block storage is managed by a file system. Further, file systems provide the hierarchical namespace and offer additional management features.
+
+    \end{itemize}
+
+\nocite{SOPPOAASLK13}
+
+\end{frame}
+
+\begin{frame}[t]{Performance Factor -- Hardware}
+
+\begin{center}
+\includegraphics[scale=0.4]{fig/tree-hard}
+\end{center}
+
+\nocite{SOPPOAASLK13}
+
+\end{frame}
+
+\begin{frame}[t]{Performance Factor -- Computation Performance}
+
+\begin{center}
+\includegraphics[scale=0.4]{fig/tree-comp-perf}
+\end{center}
+
+\nocite{SOPPOAASLK13}
+
+\end{frame}
+
+\begin{frame}[t]{Performance Factor -- Communication Performance}
+
+\begin{center}
+\includegraphics[scale=0.4]{fig/tree-comm-perf}
+\end{center}
+
+\nocite{SOPPOAASLK13}
+
+\end{frame}
+
+\begin{frame}[t]{I/O Path}
+
+\begin{center}
+\includegraphics[scale=0.5]{fig/io-path}
+\end{center}
+
+\nocite{SOPPOAASLK13}
+
+\end{frame}
+
+\begin{frame}[t]{I/O Performance}
+
+\begin{center}
+\includegraphics[scale=0.3]{fig/performance}
+\end{center}
+
+\lr{Sangireddy}
+
+\end{frame}
+
 \begin{frame}[t]{I/O Performance}
 
 \begin{itemize}
@@ -507,6 +582,8 @@ In brief, the I/O path of a write operation can be described as follows:
 \includegraphics[scale=0.5]{fig/io-layers}
 \end{center}
 
+\lr{2007 What NetCDF users should know about HDF5}
+
 \end{frame}
 
 \begin{frame}[t]{I/O Stack}
@@ -514,6 +591,8 @@ In brief, the I/O path of a write operation can be described as follows:
 \begin{center}
 \includegraphics[scale=0.5]{fig/io-stack2}
 \end{center}
+
+\lr{tut145s3}
 
 \end{frame}
 
@@ -523,6 +602,8 @@ In brief, the I/O path of a write operation can be described as follows:
 \includegraphics[scale=0.3]{fig/io-stack3}
 \end{center}
 
+\lr{tut145s3}
+
 \end{frame}
 
 \begin{frame}[t]{Storage Stack}
@@ -530,6 +611,8 @@ In brief, the I/O path of a write operation can be described as follows:
 \begin{center}
 \includegraphics[scale=0.3]{fig/storage-stack}
 \end{center}
+
+\lr{tut145s3}
 
 \end{frame}
 
@@ -711,6 +794,8 @@ Parallel file system:
 
 \end{itemize}
 
+\nocite{netcdf}
+
 \end{frame}
 
 \begin{frame}[t]{Common Data form Language (CDL)}
@@ -728,6 +813,8 @@ Parallel file system:
 
 \end{itemize}
 
+\nocite{netcdf}
+
 \end{frame}
 
 \begin{frame}[t]{The Classic NetCDF Model}
@@ -741,6 +828,8 @@ Parallel file system:
 \begin{center}
 \includegraphics[scale=0.6]{fig/netcdf-classic}
 \end{center}
+
+\nocite{netcdf}
 
 \end{frame}
 
@@ -757,6 +846,8 @@ Parallel file system:
         \item Each variable or attribute has one of six types: char, byte, short, int, float, double
     \end{itemize}
 
+\nocite{netcdf}
+
 \end{frame}
 
 \begin{frame}[t]{The Classic NetCDF Model Limitations}
@@ -771,6 +862,8 @@ Parallel file system:
         \item A small set of numeric types
     \end{itemize}
 
+\nocite{netcdf}
+
 \end{frame}
 
 \begin{frame}[t]{The Classic NetCDF Format Limitations}
@@ -783,6 +876,8 @@ Parallel file system:
         \item I/O is serial in Unidata NetCDF-3 (but see Argonne/Northwestern Parallel NetCDF project)
         \item Efficient access requires data for a variable to be written and read contiguously
     \end{itemize}
+
+\nocite{netcdf}
 
 \end{frame}
 
@@ -799,6 +894,8 @@ Parallel file system:
     \begin{center}
     \includegraphics[scale=0.5]{fig/nc4-uml}
     \end{center}
+
+\nocite{netcdf}
 
 \end{frame}
 
@@ -819,6 +916,8 @@ Parallel file system:
 
     \end{itemize}
 
+\nocite{netcdf}
+
 \end{itemize}
 
 \end{frame}
@@ -833,6 +932,8 @@ Parallel file system:
         \item Variables may share dimensions, indicating a common grid.
         \item One or more dimensions may be of unlimited length.
     \end{itemize}
+
+\nocite{netcdf}
 
 \end{frame}
 
@@ -850,6 +951,8 @@ NetCDF-4 uses HDF5 as a storage layer:
     \item Useful for very large or complex data
     \item Suitable for high-performance computing
 
+\nocite{netcdf}
+
 \end{itemize}
 
 \end{frame}
@@ -860,6 +963,8 @@ NetCDF-4 uses HDF5 as a storage layer:
 \includegraphics[scale=0.4]{fig/netcdf-data}
 \end{center}
 
+\lr{Sangireddy}
+
 \end{frame}
 
 \begin{frame}[t]{HDF5 Data Model}
@@ -867,6 +972,8 @@ NetCDF-4 uses HDF5 as a storage layer:
 \begin{center}
 \includegraphics[scale=0.5]{fig/hdf5-data}
 \end{center}
+
+\lr{2007 What NetCDF users should know about HDF5}
 
 \end{frame}
 

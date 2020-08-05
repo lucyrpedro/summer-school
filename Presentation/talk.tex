@@ -342,7 +342,7 @@ of these problems, when used appropriately.
 \section{Middleware}
 \sectionIntro
 
-\subsection{Definition}
+\subsection{Introduction}
 
 \begin{frame}[t]{Middleware}
 
@@ -588,7 +588,7 @@ I & punched cards -- 5\\
       \begin{tabular}{ccccc}
       \raisebox{1cm}{NVRAM} &
       \includegraphics[scale=0.25]{fig/nvram} & $\qquad$ &
-      \includegraphics[scale=0.25]{fig/ssd} &
+      \includegraphics[scale=0.24]{fig/ssd} &
       \raisebox{1cm}{
         \begin{tabular}{c}
         SSD \\
@@ -607,7 +607,7 @@ I & punched cards -- 5\\
 
 \end{frame}
 
-\begin{frame}[t]{Hardware Level}
+\begin{frame}[t]{Hardware Level \lr{(Keep it?)}}
 
 \begin{itemize}
 
@@ -620,6 +620,11 @@ I & punched cards -- 5\\
 
         \item Multi-layer storage hierarchy with NVM, SSDs, and different types of hard disks. % drives.
 
+        \item Fast Forward Storage and IO (FFSIO), SAGE, Distributed Application Object Store (DAOS), Post-Petascale File System (PPFS), Scalable Object-Centric Metadata Management (SoMeta), Extensible Metadata Provider for Extreme-Scale Scientific Simulations (EMPRESS), Týr
+
+        \item ECP [16], Fast-Forward [44], ADIOS [72], HDF VOL [29], ESiWACE [20], NEXTGenIO [69] and SAGE [78]
+
+        \item Blue gene active storage, Dash
 
         \end{itemize}
 
@@ -638,15 +643,15 @@ I & punched cards -- 5\\
 
     \begin{itemize}
 
-    \item E.g., file systems, I/O interfaces.
+    \item E.g., file systems, I/O interfaces.\lr{Is a file systems an I/O middleware?}
 
     \end{itemize}
 
-\item Software framework that overlaps computation and I/O operations by dedicating a single core to I/O tasks.
+\item \textbf{Damaris:} Software framework that overlaps computation and I/O operations by dedicating a single core to I/O tasks.
 
-\item I/O abstraction framework for HPC applications that enables switching between different I/O transport methods with little modification to application code.
+\item \textbf{ADIOS:} I/O abstraction framework for HPC applications that enables switching between different I/O transport methods with little modification to application code and enabling integration of new I/O solutions.
 
-\item File systems that improves the scalability of file systems by letting compute nodes manage metadata instead of a centralized server.
+\item \textbf{DeltaFS:} File systems that improves the scalability of file systems by letting compute nodes manage metadata instead of a centralized server.
 
 \end{itemize}
 
@@ -667,7 +672,7 @@ I & punched cards -- 5\\
 
     \item Rather than applications writing their raw output to storage to later be read again for post-processing (e.g., visualization, filtering, statistics), in-situ processing removes this overhead by performing the analysis directly on the same machines as where the applications run.
 
-    \item ParaView, Dax, and Damaris/Viz are tools for large-scale in-situ visualization.
+    \item ParaView, Dax, and Damaris/Viz are tools for large-scale in-situ visualization.\lr{Use that style in middleware?}
 
     \end{itemize}
 
@@ -677,21 +682,22 @@ I & punched cards -- 5\\
 
 \end{frame}
 
-\begin{frame}[t]{Discussion}
+\begin{frame}[t]{Discussion\lr{Keep just this slide?}}
 
 \begin{itemize}
+\setlength\itemsep{0.2cm}
+
+\item No one-size-fits-all solution to the storage problem and programmers must take I/O into careful consideration when developing applications.
 
 \item Mismatch between the massive computational performance of processors and relatively limited I/O bandwidth of storage systems.
 
-\item Three methods to alleviate this problem: new hardware technology, new I/O middleware, and application-specific solutions).
+\item Three methods to alleviate this problem: new hardware technology, new I/O middleware, and application-specific solutions.
 
 \item Hardware technology shows promising solutions, but different systems might employ different solutions, reducing the portability and increasing the complexity. % of software.
 
 \item Middleware can alleviate some of this complexity with solutions such as ADIOS.
 
 \item In-situ analysis is an example of how application-specific solutions can be used to improve I/O throughput and thus application performance.
-
-\item No one-size-fits-all solution to the storage problem and programmers must take I/O into careful consideration when developing applications.
 
 \end{itemize}
 
@@ -702,45 +708,12 @@ I & punched cards -- 5\\
 \section{I/O Performance}
 \sectionIntro
 
-\subsection{}
-
-\begin{frame}[t]{I/O Path}
-
-The I/O path describes all the layers (and components) involved in I/O and how they interact.
-In brief, the I/O path of a write operation can be described as follows:
-
-    \begin{itemize}
-
-        \item When an application issues an I/O call, data is copied between the user-space buffer and the page cache that is offered in kernel-space.
-
-        \item In kernel-space memory the data is cached and write operations can be deferred as long as free memory is available.
-
-        \item At this point the write call can complete, because a programmer cannot modify kernel-space directly.
-
-        \item A scheduler inside the kernel decides when modified pages are transferred to the block device.
-
-        \item The mapping from offsets in logical files to addresses on the block storage is managed by a file system. Further, file systems provide the hierarchical namespace and offer additional management features.
-
-    \end{itemize}
-
-\nocite{SOPPOAASLK13}
-
-\end{frame}
-
-\begin{frame}[t]{I/O Performance}
-
-\begin{center}
-\includegraphics[scale=0.4]{fig/io-path}
-\end{center}
-
-\nocite{SOPPOAASLK13}
-
-\end{frame}
+\subsection{Introduction}
 
 \begin{frame}[t]{I/O Performance}
 
 \begin{itemize}
-\setlength\itemsep{0.6cm}
+\setlength\itemsep{0.8cm}
 
   \item There are several aspects involved in delivering high I/O performance to parallel applications, from hardware characteristics to methods that manipulate workloads to improve achievable performance.
 
@@ -754,135 +727,88 @@ In brief, the I/O path of a write operation can be described as follows:
 
 \end{frame}
 
-\begin{frame}[t]{I/O Performance}
-
-\begin{center}
-\includegraphics[scale=0.4]{fig/performance}
-\end{center}
-
-\lr{Sangireddy}
-
-\end{frame}
-
-\subsection{I/O Layers}
-
-\begin{frame}[t]{I/O Layers \lr{(Stack?)}}
-
-\begin{center}
-\includegraphics[scale=0.5]{fig/io-layers}
-\end{center}
-
-\lr{2007 What NetCDF users should know about HDF5}
-
-\end{frame}
-
 \begin{frame}[t]{I/O Stack}
 
 \begin{center}
 \includegraphics[scale=0.4]{fig/io-stack2}
 \end{center}
 
-\lr{tut145s3}
-
-\end{frame}
-
-\begin{frame}[t]{I/O Stack}
-
-\begin{center}
-\includegraphics[scale=0.3]{fig/io-stack3}
-\end{center}
+\lr{Insert explanation about each leavel? Keep only the picture.}
 
 \lr{tut145s3}
 
 \end{frame}
 
-\begin{frame}[t]{Storage Stack}
+\subsection{Typical Performance Factors}
+
+\begin{frame}[t]{Typical Performance Factors}
 
 \begin{center}
-\includegraphics[scale=0.3]{fig/storage-stack}
+\includegraphics[scale=0.45]{fig/tree-perf}
 \end{center}
+
+\nocite{SOPPOAASLK13}
+
+\end{frame}
+
+\begin{frame}[t]{I/O Performance Factor -- Access Patterns}
+
+\begin{center}
+\includegraphics[scale=0.6]{fig/tree-io-ac-pat}
+\end{center}
+
+\nocite{SOPPOAASLK13}
+
+\end{frame}
+
+\begin{frame}[t]{I/O Performance Factor -- I/O Strategy}
+
+\begin{center}
+\includegraphics[scale=0.6]{fig/tree-io-strat}
+\end{center}
+
+\nocite{SOPPOAASLK13}
+
+\end{frame}
+
+\begin{frame}[t]{I/O Performance Factor -- Parallel File System}
+
+\begin{center}
+\includegraphics[scale=0.6]{fig/tree-io-pfs}
+\end{center}
+
+\nocite{SOPPOAASLK13}
+
+\end{frame}
+
+\subsection{I/O Performance Factors}
+
+\begin{frame}[t]{I/O Performance Tuning ``Rules of Thumb''}
+
+\begin{itemize}
+\setlength\itemsep{0.3cm}
+
+  \item Use collectives when possible
+
+  \item Use high-level libraries (e.g. HDF5 or PnetCDF) when possible
+
+  \item A few large I/O operations are better than many small I/O operations
+
+  \item Avoid unnecessary metadata operations, especially \texttt{stat()}
+
+  \item Avoid writing to shared files with POSIX
+
+  \item Avoid leaving gaps/holes in files to be written later
+
+  \item Use tools like \textbf{Darshan} to check assumptions about behavior
+
+\end{itemize}
+
+%\begin{center}
+%\includegraphics[scale=0.35]{fig/io-rules}
+%\end{center}
 
 \lr{tut145s3}
-
-\end{frame}
-
-\begin{frame}[t]{Storage Stack}
-
-\begin{center}
-\includegraphics[scale=0.5]{fig/layers-xios}
-\end{center}
-
-\nocite{JSFI309}
-
-\end{frame}
-
-\subsection{Typical Performance Issues}
-
-\begin{frame}[t]{Typical Performance Issues}
-
-\begin{center}
-\includegraphics[scale=0.4]{fig/performance-skill-tree}
-\end{center}
-
-\nocite{SOPPOAASLK13}
-
-\end{frame}
-
-\subsection{Typical I/O Performance Issues}
-
-\begin{frame}[t]{Typical I/O Performance Issues}
-
- Access patterns:\nocite{SOPPOAASLK13}
-
-    \begin{itemize}
-    \setlength\itemsep{0.3cm}
-        \item Access granularity
-        \item Randomness
-        \item Concurrency
-        \item Load balance
-        \item Access type
-        \item Predictability
-    \end{itemize}
-
-\nocite{SOPPOAASLK13}
-
-\end{frame}
-
-\begin{frame}[t]{Typical I/O Performance Issues}
-
-I/O strategy:
-
-    \begin{itemize}
-    \setlength\itemsep{0.3cm}
-        \item Caching algorithm
-        \item Replication
-        \item High availability (HA) support
-        \item I/O forwarding
-        \item Aggregation
-        \item Scheduling
-    \end{itemize}
-
-\nocite{SOPPOAASLK13}
-
-\end{frame}
-
-\begin{frame}[t]{Typical I/O Performance Issues}
-
-Parallel file system:
-
-    \begin{itemize}
-    \setlength\itemsep{0.3cm}
-        \item Design
-        \item Implementation
-        \item Resource consumption
-        \item Communication
-        \item Data distribution
-        \item Metadata handling
-        \item Consistency semantics
-        \item Locking strategy
-    \end{itemize}
-
-\nocite{SOPPOAASLK13}
 
 \end{frame}
 
@@ -917,79 +843,7 @@ Parallel file system:
 
 \end{itemize}
 
-\nocite{SOPPOAASLK13} \lr{skill-tree}
-
-\end{frame}
-
-\subsection{I/O Performance Model}
-
-\begin{frame}[t]{I/O Performance Tuning ``Rules of Thumb''}
-
-\begin{center}
-\includegraphics[scale=0.35]{fig/io-rules}
-\end{center}
-
-\lr{tut145s3}
-
-\end{frame}
-
-\begin{frame}[t]{I/O Performance Model}
-
-\begin{center}
-\includegraphics[scale=0.7]{fig/5-1}
-\end{center}
-
-\lr{lecture 5}
-
-\end{frame}
-
-\begin{frame}[t]{I/O Performance Model}
-
-\begin{center}
-\includegraphics[scale=0.7]{fig/5-2}
-\end{center}
-
-\lr{lecture 5}
-
-\end{frame}
-
-\begin{frame}[t]{I/O Performance Model}
-
-\begin{center}
-\includegraphics[scale=0.7]{fig/5-3}
-\end{center}
-
-\lr{lecture 5}
-
-\end{frame}
-
-\begin{frame}[t]{I/O Performance Model}
-
-\begin{center}
-\includegraphics[scale=0.7]{fig/5-4}
-\end{center}
-
-\lr{lecture 5}
-
-\end{frame}
-
-\begin{frame}[t]{I/O Performance Model}
-
-\begin{center}
-\includegraphics[scale=0.7]{fig/5-5}
-\end{center}
-
-\lr{lecture 5}
-
-\end{frame}
-
-\begin{frame}[t]{I/O Performance Model}
-
-\begin{center}
-\includegraphics[scale=0.7]{fig/5-6}
-\end{center}
-
-\lr{lecture 5}
+\nocite{SOPPOAASLK13} \lr{skill-tree, Julian needs to address it.}
 
 \end{frame}
 
@@ -1142,56 +996,6 @@ data:
     \end{itemize}
 
 \nocite{netcdf}
-
-\end{frame}
-
-\begin{frame}[t]{NetCDF-4 and HDF5}
-
-NetCDF-4 uses HDF5 as a storage layer:
-
-\begin{itemize}
-\setlength\itemsep{0.6cm}
-
-    \item Provide performance advantages of HDF5
-      \begin{itemize}
-        \item Compression
-        \item Chunking
-        \item Efficient schema changes
-      \end{itemize}
-    \item Useful for very large or complex data
-    \item Suitable for high-performance computing
-
-    \nocite{netcdf}
-
-\end{itemize}
-
-\end{frame}
-
-\begin{frame}[t]{NetCDF Data Model}
-
-\begin{center}
-\includegraphics[scale=0.32]{fig/netcdf-data}
-\end{center}
-
-\lr{Sangireddy}
-
-\end{frame}
-
-\begin{frame}[t]{HDF5 Data Model}
-
-\begin{center}
-\includegraphics[scale=0.5]{fig/hdf5-data}
-\end{center}
-
-\lr{2007 What NetCDF users should know about HDF5}
-
-\end{frame}
-
-\begin{frame}[t]{ESDM Data Model}
-
-\begin{center}
-% \includegraphics[scale=0.4]{fig/esdm-data}
-\end{center}
 
 \end{frame}
 
