@@ -70,7 +70,32 @@
 
 % Inserting [fragile] to be able to work with \verb
 
-\subsection{Definition}
+\subsection{Introduction}
+
+\begin{frame}[fragile]{References}
+
+\begin{itemize}
+\setlength\itemsep{0.6cm}
+
+  \item The files and data used in this presentation were collected on the Unidata website.
+
+    \begin{itemize}
+    \item \url{https://www.unidata.ucar.edu/}
+    \end{itemize}
+
+  \item All files used here are available in the following Git Repository:
+
+    \begin{itemize}
+    \item \url{https://github.com/ESiWACE/io-training}
+    \end{itemize}
+
+  \item These files are also available with the NetCDF main installation, in the directory \texttt{examples}.
+
+  \item For more information about how to install NetCDF in your personal computer, from scratch, check Section \ref{netcdf}.
+
+\end{itemize}
+
+\end{frame}
 
 \begin{frame}[fragile]{File Reference: \texttt{simple\_xy\_wr.c}}
 
@@ -764,7 +789,8 @@ Implement an application that utilises parallel I/O to store and analyse data
 
 \end{frame}
 
-\section{Starting NetCDF from Scratch}
+\section{Starting with NetCDF}
+\label{netcdf}
 
 \subsection{Building NetCDF}
 
