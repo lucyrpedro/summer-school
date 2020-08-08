@@ -17,6 +17,8 @@
 % \usepackage[backend=bibtex]{biblatex}
 % \bibliography{io} % \footfullcite{jones00}
 % \usepackage[numbers]{natbib}
+\usepackage[absolute,overlay]{textpos}
+\usepackage{varwidth}
 
 \newcommand{\lr}[1]{\textcolor{cyan}{LR: #1}}
 \setbeamercolor{bibliography item}{parent=palette primary}
@@ -94,7 +96,7 @@
 % Input/Output and Middleware
 % Climate and weather research is typically data-intensive and applications must utilise input/output efficiently. Often, a user struggles to assess observed performance leading to superflux attempts to tune the application and optimise performance in a wrong layer of the stack. The content of this session is twofold. Firstly, we discuss storage layers focusing on the NetCDF middleware and provide a performance model that aids users to identify inefficient I/O. Secondly, we introduce the NetCDF Climate and Forecast (CF) conventions that are often used as a standard to exchange data.
 
-\begin{frame}[t]{Learning Objectives}
+\begin{frame}[fragile] {Learning Objectives}
 
 \begin{itemize}
 \setlength\itemsep{0.4cm}
@@ -113,7 +115,7 @@
 
 \subsection{I/O Bottleneck}
 
-\begin{frame}[t]{I/O Bottleneck -- Example}
+\begin{frame}[fragile] {I/O Bottleneck -- Example}
 
 \begin{center}
 \includegraphics[scale=0.5]{fig/bottleneck-titan}
@@ -123,7 +125,7 @@
 
 \end{frame}
 
-\begin{frame}[t]{I/O Bottleneck -- Historical Data}
+\begin{frame}[fragile] {I/O Bottleneck -- Historical Data}
 
 \begin{itemize}
 
@@ -139,7 +141,7 @@
 
 \end{frame}
 
-\begin{frame}[t]{Folders vs Meta}
+\begin{frame}[fragile] {Folders vs Metadata}
 
 \begin{center}
 \includegraphics[scale=0.6]{fig/FoldersVsMeta}
@@ -147,9 +149,41 @@
 
 \end{frame}
 
+\subsection{Data-driven Research}
+
+\begin{frame}[fragile] {Data-driven Research}
+
+\begin{itemize}
+\setlength\itemsep{0.4cm}
+
+  \item \textbf{Data-driven Research} is the science of letting data tell us what we are looking for.
+    \begin{itemize}
+      \item \textbf{Database Management} is the science of efficiently storing and retrieving data.
+      \item \textbf{Data Mining} is the science of discovering hidden correlations in data.
+    \end{itemize}
+
+  \item In HPC, the concerns of \textbf{storage} and \textbf{computing} are traditionally separated and optimised independently from each other and the needs of the end-to-end user.
+
+  \item Workflows composed of data, computing, and communication-intensive tasks should drive interfaces and hardware configurations to best support the programming models.
+
+  \item Data-driven workflows may benefit from the explicit and simultaneous use of a locally heterogeneous set of computing and storage technologies.
+
+%  \item Many processes still require experts. For example, porting a workflow from one system to another still requires adjusting runtime parameters of applications and deciding on how data is managed.
+
+\end{itemize}
+
+\nocite{01403233}
+
+\nocite{JSFI309}
+
+\end{frame}
+
+\section{Input/Output}
+\sectionIntro
+
 \subsection{Input/Output}
 
-\begin{frame}[t]{Input/Output}
+\begin{frame}[fragile] {Input/Output}
 
 \begin{itemize}
 \setlength\itemsep{0.3cm}
@@ -192,7 +226,7 @@
 
 \end{frame}
 
-\begin{frame}[t]{I/O Performance}
+\begin{frame}[fragile] {I/O Performance}
 
 \begin{itemize}
 \setlength\itemsep{0.5cm}
@@ -217,7 +251,7 @@
 
 \end{frame}
 
-\begin{frame}[t]{I/O Types}
+\begin{frame}[fragile] {I/O Types}
 
 \begin{center}
 \includegraphics[scale=0.3]{io-types}
@@ -227,7 +261,7 @@
 
 \end{frame}
 
-\begin{frame}[t]{I/O Access Patterns \lr{(Double-check the last two)}}
+\begin{frame}[fragile] {I/O Access Patterns \lr{(Double-check the last two)}}
 
 \begin{center}
 \includegraphics[scale=0.3]{io-patterns}
@@ -237,7 +271,7 @@
 
 \end{frame}
 
-\begin{frame}[t]{File Striping}
+\begin{frame}[fragile] {File Striping}
 
 \begin{center}
 \includegraphics[scale=0.3]{file-striping}
@@ -247,7 +281,7 @@
 
 \end{frame}
 
-\begin{frame}[t]{I/O Problems}
+\begin{frame}[fragile] {I/O Problems}
 
 \begin{itemize}
 \setlength\itemsep{0.7cm}
@@ -262,7 +296,7 @@
 
 \item Energy consumption: it costs a lot of power to write data to disk.
 
-\item \lr{Opportunity for doing better science (analysis) when have access to full spatiotemporal resolution data.}
+\item Opportunity for doing better science (analysis) when have access to full spatiotemporal resolution data.\lr{What does that mean?}
 
 \end{itemize}
 
@@ -274,7 +308,7 @@
 
 \end{frame}
 
-\begin{frame}[t]{Challenges in Application I/O \lr{(== I/O Applications)}}
+\begin{frame}[fragile] {Challenges in Application I/O \lr{(== I/O Applications)}}
 
 \begin{itemize}
 \setlength\itemsep{0.4cm}
@@ -306,45 +340,12 @@ of these problems, when used appropriately.
 
 \end{frame}
 
-\begin{frame}[t]{Parallel I/O}
-
-\end{frame}
-
-\subsection{Data-driven Research}
-
-\begin{frame}[t]{Data-driven Research}
-
-\begin{itemize}
-\setlength\itemsep{0.4cm}
-
-  \item \textbf{Data-driven Research} is the science of letting data tell us what we are looking for.
-    \begin{itemize}
-      \item \textbf{Database Management} is the science of efficiently storing and retrieving data.
-      \item \textbf{Data Mining} is the science of discovering hidden correlations in data.
-    \end{itemize}
-
-  \item In HPC, the concerns of \textbf{storage} and \textbf{computing} are traditionally separated and optimised independently from each other and the needs of the end-to-end user.
-
-  \item Workflows composed of data, computing, and communication-intensive tasks should drive interfaces and hardware configurations to best support the programming models.
-
-  \item Data-driven workflows may benefit from the explicit and simultaneous use of a locally heterogeneous set of computing and storage technologies.
-
-%  \item Many processes still require experts. For example, porting a workflow from one system to another still requires adjusting runtime parameters of applications and deciding on how data is managed.
-
-\end{itemize}
-
-\nocite{01403233}
-
-\nocite{JSFI309}
-
-\end{frame}
-
 \section{Middleware}
 \sectionIntro
 
 \subsection{Introduction}
 
-\begin{frame}[t]{Middleware}
+\begin{frame}[fragile] {Middleware}
 
 \begin{itemize}
 \setlength\itemsep{0.4cm}
@@ -363,7 +364,7 @@ of these problems, when used appropriately.
 
 \end{frame}
 
-\begin{frame}[t]{Middleware}
+\begin{frame}[fragile] {Middleware}
 
 \begin{itemize}
 \setlength\itemsep{0.6cm}
@@ -380,7 +381,7 @@ of these problems, when used appropriately.
 
 \end{frame}
 
-\begin{frame}[t]{Describe the role of middleware and file formats}
+\begin{frame}[fragile] {Describe the role of middleware and file formats}
 
 \begin{itemize}
 
@@ -401,7 +402,7 @@ of these problems, when used appropriately.
 
 \subsection{I/O Solutions}
 
-\begin{frame}[t]{I/O Solutions}
+\begin{frame}[fragile] {I/O Solutions}
 
 \begin{itemize}
 
@@ -425,7 +426,7 @@ widen and researchers are looking for solutions to tackle this problem.\\[0.4cm]
 
 \end{frame}
 
-\begin{frame}[t]{Hardware Level}
+\begin{frame}[fragile] {Hardware Level}
 
 \begin{itemize}
 
@@ -448,29 +449,25 @@ widen and researchers are looking for solutions to tackle this problem.\\[0.4cm]
 
 \end{frame}
 
-\begin{frame}[t]{Hardware Pop Quiz -- Non-volatile Memory}
+\begin{frame}[fragile] {Hardware Pop Quiz -- Non-volatile Memory}
 
 \begin{center}
 
 \begin{tabular}{cc}
 
 \begin{tabular}{ccc}
-\includegraphics[scale=0.15]{fig/paper-tape} &
-\includegraphics[scale=0.15]{fig/usb} &
-\includegraphics[scale=0.15]{fig/fram} \\
-1 & 2 & 3 \\
-\includegraphics[scale=0.15]{fig/disk} &
-\includegraphics[scale=0.15]{fig/punch-card} &
-\includegraphics[scale=0.15]{fig/tape} \\
-4 & 5 & 6 \\
-\includegraphics[scale=0.15]{fig/card} &
-\includegraphics[scale=0.15]{fig/rom} &
-\includegraphics[scale=0.15]{fig/vhs} \\
-7 & 8 & 9 \\
-\includegraphics[scale=0.15]{fig/floppy} &
-\includegraphics[scale=0.15]{fig/k7} &
-\includegraphics[scale=0.15]{fig/cd} \\
-10 & 11 & 12 \\
+\includegraphics[scale=0.2 ]{fig/paper-tape} &
+\includegraphics[scale=0.2 ]{fig/usb} &
+\includegraphics[scale=0.2 ]{fig/fram} \\
+\includegraphics[scale=0.2 ]{fig/disk} &
+\includegraphics[scale=0.2 ]{fig/punch-card} &
+\includegraphics[scale=0.2 ]{fig/tape} \\
+\includegraphics[scale=0.2 ]{fig/card} &
+\includegraphics[scale=0.2 ]{fig/rom} &
+\includegraphics[scale=0.2 ]{fig/vhs} \\
+\includegraphics[scale=0.2 ]{fig/floppy} &
+\includegraphics[scale=0.2 ]{fig/k7} &
+\includegraphics[scale=0.2 ]{fig/cd} \\
 \end{tabular}
 
 \end{tabular}
@@ -479,7 +476,7 @@ widen and researchers are looking for solutions to tackle this problem.\\[0.4cm]
 
 \end{frame}
 
-\begin{frame}[t]{Hardware Pop Quiz -- Non-volatile Memory}
+\begin{frame}[fragile] {Hardware Pop Quiz -- Non-volatile Memory}
 
 \begin{center}
 
@@ -524,7 +521,7 @@ I & punched cards\\
 
 \end{frame}
 
-\begin{frame}[t]{Hardware Pop Quiz -- Non-volatile Memory}
+\begin{frame}[fragile] {Hardware Pop Quiz -- Non-volatile Memory}
 
 \begin{center}
 
@@ -569,7 +566,7 @@ I & punched cards -- 5\\
 
 \end{frame}
 
-\begin{frame}[t]{Hardware Level}
+\begin{frame}[fragile] {Hardware Level}
 
 \begin{itemize}
 
@@ -607,7 +604,7 @@ I & punched cards -- 5\\
 
 \end{frame}
 
-\begin{frame}[t]{Hardware Level \lr{(Keep it?)}}
+\begin{frame}[fragile] {Hardware Level \lr{(Keep it?)}}
 
 \begin{itemize}
 
@@ -634,7 +631,7 @@ I & punched cards -- 5\\
 
 \end{frame}
 
-\begin{frame}[t]{Middleware Level}
+\begin{frame}[fragile] {Middleware Level}
 
 \begin{itemize}
 \setlength\itemsep{0.4cm}
@@ -659,7 +656,7 @@ I & punched cards -- 5\\
 
 \end{frame}
 
-\begin{frame}[t]{Application Level}
+\begin{frame}[fragile] {Application Level}
 
 \begin{itemize}
 
@@ -682,7 +679,7 @@ I & punched cards -- 5\\
 
 \end{frame}
 
-\begin{frame}[t]{Discussion\lr{Keep just this slide?}}
+\begin{frame}[fragile] {Discussion\lr{Keep just this slide?}}
 
 \begin{itemize}
 \setlength\itemsep{0.2cm}
@@ -710,7 +707,7 @@ I & punched cards -- 5\\
 
 \subsection{Introduction}
 
-\begin{frame}[t]{I/O Performance}
+\begin{frame}[fragile] {I/O Performance}
 
 \begin{itemize}
 \setlength\itemsep{0.8cm}
@@ -727,7 +724,7 @@ I & punched cards -- 5\\
 
 \end{frame}
 
-\begin{frame}[t]{I/O Stack}
+\begin{frame}[fragile] {I/O Stack}
 
 \begin{center}
 \includegraphics[scale=0.4]{fig/io-stack2}
@@ -741,40 +738,95 @@ I & punched cards -- 5\\
 
 \subsection{Typical Performance Factors}
 
-\begin{frame}[t]{Typical Performance Factors}
+\begin{frame}[fragile] {Typical Performance Factors}
 
 \begin{center}
-\includegraphics[scale=0.45]{fig/tree-perf}
+\includegraphics[scale=0.44]{fig/tree-perf}
 \end{center}
 
 \nocite{SOPPOAASLK13}
 
 \end{frame}
 
-\begin{frame}[t]{I/O Performance Factor -- Access Patterns}
+\begin{frame}[fragile] {I/O Performance Factor -- Access Patterns}
 
-\begin{center}
-\includegraphics[scale=0.6]{fig/tree-io-ac-pat}
-\end{center}
+\vspace*{0.6cm}
+
+\begin{itemize}
+\setlength\itemsep{1cm}
+
+  \item The access pattern describes how\\ spatial access is performed over time.
+
+  \item With an access pattern, the I/O of a single client process can be described, but also the actual observable patterns on the I/O servers, or on a single block device.
+
+  \item The pattern on the I/O servers is caused by all clients and defines the performance of the I/O subsystems.
+
+\end{itemize}
+
+%\begin{textblock}{20}(40,20)
+\begin{textblock}{2}(9,3)
+   \includegraphics[scale=0.5]{fig/tree-io-ac-pat}
+\end{textblock}
+
+%\begin{picture}(50,50)
+%\put(10,10){\hbox{\includegraphics[scale=0.3]{fig/tree-io-ac-pat}}}
+%\put(200,-300){\hbox{\includegraphics[scale=0.3]{fig/tree-io-ac-pat}}}
+%\end{picture}
+
+%\begin{center}
+%\includegraphics[scale=0.6]{fig/tree-io-ac-pat}
+%\end{center}
 
 \nocite{SOPPOAASLK13}
 
 \end{frame}
 
-\begin{frame}[t]{I/O Performance Factor -- I/O Strategy}
+\begin{frame}[fragile] {I/O Performance Factor -- I/O Strategy}
 
-\begin{center}
-\includegraphics[scale=0.6]{fig/tree-io-strat}
-\end{center}
+\begin{itemize}
+\setlength\itemsep{0.5cm}
+
+  \item In general, the mechanisms introduced here are orthogonal to the hardware and the architecture of the parallel file system.
+
+  \item On the client-side, for instance, \\
+  requests could already be tuned to improve \\
+  the access pattern which will be observed \\
+  on the servers.
+
+  \item Similar to optimizations in communication, \\
+  these strategies could be applied on any layer involved in I/O.
+
+\end{itemize}
+
+\begin{textblock}{0}(9,5)
+   \includegraphics[scale=0.4]{fig/tree-io-strat}
+\end{textblock}
+
+%\begin{center}
+%\includegraphics[scale=0.6]{fig/tree-io-strat}
+%\end{center}
 
 \nocite{SOPPOAASLK13}
 
 \end{frame}
 
-\begin{frame}[t]{I/O Performance Factor -- Parallel File System}
+\begin{frame}[fragile] {I/O Performance Factor -- Parallel File System}
+
+\begin{itemize}
+\setlength\itemsep{0.5cm}
+
+  \item Performance of a parallel file system highly depends on its design as it provides the frame for the deployed optimization strategies.
+
+  \item Several aspects like consistency semantics also apply to higher level interfaces like domain specific I/O libraries.
+
+\end{itemize}
+
+%\begin{textblock}{0}(9,5)
+%   \includegraphics[scale=0.5]{fig/tree-io-pfs}
+%\end{textblock}
 
 \begin{center}
-\includegraphics[scale=0.6]{fig/tree-io-pfs}
+\includegraphics[scale=0.5]{fig/tree-io-pfs}
 \end{center}
 
 \nocite{SOPPOAASLK13}
@@ -783,14 +835,14 @@ I & punched cards -- 5\\
 
 \subsection{I/O Performance Factors}
 
-\begin{frame}[t]{I/O Performance Tuning ``Rules of Thumb''}
+\begin{frame}[fragile] {I/O Performance Tuning ``Rules of Thumb''}
 
 \begin{itemize}
 \setlength\itemsep{0.3cm}
 
   \item Use collectives when possible
 
-  \item Use high-level libraries (e.g. HDF5 or PnetCDF) when possible
+  \item Use high-level libraries (e.g. HDF5 or PNetCDF) when possible
 
   \item A few large I/O operations are better than many small I/O operations
 
@@ -812,7 +864,7 @@ I & punched cards -- 5\\
 
 \end{frame}
 
-\begin{frame}[t]{Assess and Optimize the Application I/O Performance}
+\begin{frame}[fragile] {Assess and Optimize the Application I/O Performance}
 
 \begin{itemize}
 \setlength\itemsep{0.4cm}
@@ -852,7 +904,7 @@ I & punched cards -- 5\\
 
 \subsection{Introduction}
 
-\begin{frame}[t]{NetCDF}
+\begin{frame}[fragile] {NetCDF}
 
 \begin{itemize}
 \setlength\itemsep{0.4cm}
@@ -886,12 +938,9 @@ I & punched cards -- 5\\
 
 \item The notation used to describe a NetCDF object is called CDL (network Common Data form Language), which provides a convenient way of describing NetCDF datasets.
 
-\begin{center}
-\includegraphics[scale=0.4]{fig/short-nc}\vspace{-0.2cm}
-\end{center}
-
-\begin{comment}
-
+\begin{figure}
+\centering
+\begin{varwidth}{\linewidth}
 \tiny{
 
 \begin{verbatim}
@@ -912,10 +961,10 @@ data:
 }
 
 \end{verbatim}
-
 }
-
-\end{comment}
+\end{varwidth}
+%\caption{C++ code}
+\end{figure}
 
 \item The NetCDF system includes utilities for producing human-oriented CDL text files from binary NetCDF datasets and vice-versa.
 
@@ -927,7 +976,7 @@ data:
 
 \subsection{NetCDF Data Models}
 
-\begin{frame}[t]{The Classic NetCDF Model}
+\begin{frame}[fragile] {The Classic NetCDF Model}
 
 \begin{itemize}
 
@@ -943,7 +992,7 @@ data:
 
 \end{frame}
 
-\begin{frame}[t]{NetCDF Data Models}
+\begin{frame}[fragile] {NetCDF Data Models}
 
     \begin{itemize}
 
@@ -961,7 +1010,7 @@ data:
 
 \end{frame}
 
-\begin{frame}[t]{The NetCDF-4 Enhanced Data Model}
+\begin{frame}[fragile] {The NetCDF-4 Enhanced Data Model}
 
 \begin{itemize}
 \setlength\itemsep{0.4cm}
@@ -984,7 +1033,7 @@ data:
 
 \end{frame}
 
-\begin{frame}[t]{The NetCDF-4 Enhanced Data Model}
+\begin{frame}[fragile] {The NetCDF-4 Enhanced Data Model}
 
     \begin{itemize}
     \setlength\itemsep{0.5cm}
@@ -1001,7 +1050,7 @@ data:
 
 \subsection{Best Practices for Writing NetCDF Files}
 
-\begin{frame}[t]{Experience-based ``Best Practices'' for Writing NetCDF Files}
+\begin{frame}[fragile] {Experience-based ``Best Practices'' for Writing NetCDF Files}
 
     \begin{itemize}
     \setlength\itemsep{0.4cm}
@@ -1032,7 +1081,7 @@ data:
 
 \end{frame}
 
-\begin{frame}[t]{Experience-based ``Best Practices'' for Writing NetCDF Files}
+\begin{frame}[fragile] {Experience-based ``Best Practices'' for Writing NetCDF Files}
 
     \begin{itemize}
     \setlength\itemsep{0.5cm}
@@ -1065,7 +1114,7 @@ data:
 
 \subsection{Climate and Forecast (CF) Conventions}
 
-\begin{frame}[t]{Climate and Forecast (CF) Conventions}
+\begin{frame}[fragile] {Climate and Forecast (CF) Conventions}
 
 \begin{itemize}
 \setlength\itemsep{0.3cm}
@@ -1090,12 +1139,242 @@ data:
 
 \end{frame}
 
+\section{Parallel I/O in NetCDF-4}
+\sectionIntro
+
+\begin{frame}[fragile] {Parallel I/O}
+
+\begin{itemize}
+\setlength\itemsep{0.1cm}
+
+  \item Parallel I/O allows each processor in a multi-processor system to read and write data from multiple processes to a common file independently.
+
+  \begin{center}
+  \includegraphics[scale=0.5]{fig/pnetcdf}
+  \end{center}
+
+  \item Data-intensive scientific applications use parallel I/O software to access files.
+
+  \item In HPC, increasing demands in the I/O system can cause bottlenecks. Parallel I/O plays a fundamental role to balance the fast increase in computational power and the progress of processor architectures.
+
+  \item Used properly, parallel I/O allows users to overcome I/O bottlenecks in HPC environments.
+
+\end{itemize}
+
+\end{frame}
+
+\begin{frame}[fragile]{Parallel I/O in NetCDF-4}
+
+\begin{itemize}
+\setlength\itemsep{0.6cm}
+
+  \item NetCDF-4 provides parallel file access to both classic and NetCDF-4/HDF5 files.
+
+  \item The parallel I/O to NetCDF-4 files is achieved through the HDF5 library while the parallel I/O to classic files is through PNetCDF.
+
+  \item NetCDF-4 exposes the parallel I/O features of HDF5.
+    \begin{itemize}
+    \item HDF5 provides easy-to-use parallel I/O feature.
+    \end{itemize}
+
+  \item Parallel NetCDF uses MPI I/O to perform parallel I/O. It is a complete rewrite of the core C library using MPI I/O instead of POSIX.
+
+\end{itemize}
+
+\end{frame}
+
+\begin{frame}[fragile]{Using Parallel I/O in NetCDF-4}
+
+\begin{itemize}
+\setlength\itemsep{0.4cm}
+
+  \item Special \verb|nc_create_par| and \verb|nc_open_par| functions are used to create/open a NetCDF file.
+
+  \item The files they open are normal NetCDF-4/HDF5 files, but these functions also take MPI parameters.
+
+  \item The parallel access associated with these functions is not a characteristic of the data file, but the way it was opened. The data file is the same, but using the parallel \verb|open/create| function allows parallel I/O to take place.
+
+\end{itemize}
+
+\begin{figure}
+\centering
+\begin{varwidth}{\linewidth}
+{ \tiny
+
+\begin{verbatim}
+
+EXTERNL int
+nc_create_par(const char *path, int cmode, MPI_Comm comm,
+               MPI_Info info, int *ncidp);
+
+EXTERNL int
+nc_open_par(const char *path, int mode, MPI_Comm comm,
+             MPI_Info info, int *ncidp);
+
+\end{verbatim}
+
+}
+\end{varwidth}
+\end{figure}
+
+\end{frame}
+
+\begin{frame}[fragile]{Collective and Independent Operations with Parallel I/O}
+
+\begin{itemize}
+\setlength\itemsep{0.4cm}
+
+  \item In MPI programs, I/O may be collective or independent.
+
+    \begin{itemize}
+      \item Collective: It must be done by all processes at the same time
+      \item Independent: It can be done by any process at any time.
+    \end{itemize}
+
+  \item All NetCDF metadata writing operations are collective. That is, all creation of groups, types, variables, dimensions, or attributes.
+
+  \item Data reads and writes (ex. calls to \verb|nc_put_vara_int| and \verb|nc_get_vara_int|) may be independent (the default) or collective. To make writes to a variable collective, call the \verb|nc_var_par_access| function.
+
+\end{itemize}
+
+\begin{figure}
+\centering
+\begin{varwidth}{\linewidth}
+{ \tiny
+
+\begin{verbatim}
+
+/* Use these with nc_var_par_access(). */
+#define NC_INDEPENDENT 0
+#define NC_COLLECTIVE 1
+
+EXTERNL int
+nc_var_par_access(int ncid, int varid, int par_access);
+
+\end{verbatim}
+
+}
+\end{varwidth}
+\end{figure}
+
+\end{frame}
+
+\begin{frame}[fragile]{Collective and Independent Operations with Parallel I/O}
+
+\begin{itemize}
+
+  \item You must build NetCDF-4 properly to take advantage of parallel features.
+
+  \begin{itemize}
+  \setlength\itemsep{0.3cm}
+
+    \item HDF5 must be built with \verb|--enable-parallel|.
+
+    \item Typically the CC environment variable is set to mpicc, and the FC to mpifc (or some local variant.) You must build HDF5 and NetCDF-4 with the same compiler and compiler options.
+
+    \item The NetCDF configure script will detect the parallel capability of HDF5 and build the NetCDF-4 parallel I/O features automatically. No configure options to the netcdf configure are required.
+
+    \item For parallel builds you must include \verb|"netcdf_par.h"| before (or instead of) \verb|netcdf.h|.
+
+    \item Parallel tests are run by shell scripts. For testing to work on your platform the \verb|mpiexec| utility must be supported.
+
+    \item Parallel I/O is tested in \verb|nc_test4/tst_parallel.c|, \verb|nc_test4/tst_parallel2.c|, and \verb|nc_test4/tst_parallel3.c|, and other programs, if the \verb|--enable-parallel-tests| option to configure is used.
+
+  \end{itemize}
+
+\end{itemize}
+
+\end{frame}
+
+\begin{frame}[fragile] {Parallel I/O Example -- Part I}
+
+\begin{figure}
+\centering
+\begin{varwidth}{\linewidth}
+{ \tiny
+
+\begin{verbatim}
+
+/* Initialize MPI. */
+    MPI_Init(&argc,&argv);
+    MPI_Comm_size(MPI_COMM_WORLD, &mpi_size);
+    MPI_Comm_rank(MPI_COMM_WORLD, &mpi_rank);
+    MPI_Get_processor_name(mpi_name, &mpi_namelen);
+
+    if (mpi_rank == 1)
+       printf("\n*** tst_parallel testing very basic parallel access.\n");
+
+    /* Create a parallel netcdf-4 file. */
+    if ((res = nc_create_par(FILE, NC_NETCDF4|NC_MPIIO, comm,
+			     info, &ncid))) ERR;
+
+    /* Create two dimensions. */
+    if ((res = nc_def_dim(ncid, "d1", DIMSIZE, dimids))) ERR;
+    if ((res = nc_def_dim(ncid, "d2", DIMSIZE, &dimids[1]))) ERR;
+
+    /* Create one var. */
+    if ((res = nc_def_var(ncid, "v1", NC_INT, NDIMS, dimids, &v1id))) ERR;
+
+    if ((res = nc_enddef(ncid))) ERR;
+
+\end{verbatim}
+
+}
+\end{varwidth}
+\end{figure}
+
+\end{frame}
+
+\begin{frame}[fragile] {Parallel I/O Example -- Part II}
+
+\begin{figure}
+\centering
+\begin{varwidth}{\linewidth}
+{ \tiny
+
+\begin{verbatim}
+
+    /* Set up slab for this process. */
+    start[0] = mpi_rank * DIMSIZE/mpi_size;
+    start[1] = 0;
+    count[0] = DIMSIZE/mpi_size;
+    count[1] = DIMSIZE;
+
+    /* Create phoney data. We're going to write a 24x24 array of ints,
+       in 4 sets of 144. */
+    for (i=mpi_rank*QTR_DATA; i < (mpi_rank+1)*QTR_DATA; i++)
+       data[i] = mpi_rank;
+
+    /*if ((res = nc_var_par_access(ncid, v1id, NC_COLLECTIVE)))
+      ERR;*/
+    if ((res = nc_var_par_access(ncid, v1id, NC_INDEPENDENT))) ERR;
+
+    /* Write slabs of phoney data. */
+    if ((res = nc_put_vara_int(ncid, v1id, start, count,
+			       &data[mpi_rank*QTR_DATA]))) ERR;
+
+    /* Close the netcdf file. */
+    if ((res = nc_close(ncid)))	ERR;
+
+    /* Shut down MPI. */
+    MPI_Finalize();
+
+    return 0;
+
+\end{verbatim}
+
+}
+\end{varwidth}
+\end{figure}
+
+\end{frame}
+
 \section{Research Activities}
 \sectionIntro
 
 \subsection{}
 
-\begin{frame}[t]{Describe ongoing research activities in high-performance storage}
+\begin{frame}[fragile] {Describe ongoing research activities in high-performance storage}
 
 \begin{itemize}
 
@@ -1112,7 +1391,7 @@ data:
 
 \end{frame}
 
-\begin{frame}[t]{Previous Learning Objectives}
+\begin{frame}[fragile] {Previous Learning Objectives}
 
 \begin{itemize}
 

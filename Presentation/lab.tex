@@ -15,6 +15,7 @@
 \usepackage{pgfgantt}
 \usepackage{comment}
 \usepackage{verbatim}
+\usepackage{varwidth}
 
 \newcommand{\lr}[1]{\textcolor{cyan}{LR: #1}}
 
@@ -122,6 +123,9 @@
 
 \begin{frame}[fragile]{File \texttt{simple\_xy\_wr.c}: Header and Constants Declaration}
 
+\begin{figure}
+\centering
+\begin{varwidth}{\linewidth}
 {\tiny
 
 \begin{verbatim}
@@ -153,11 +157,16 @@ int main()
 \end{verbatim}
 
 }
+\end{varwidth}
+\end{figure}
 
 \end{frame}
 
 \begin{frame}[fragile]{File \texttt{simple\_xy\_wr.c}: Variables Declaration}
 
+\begin{figure}
+\centering
+\begin{varwidth}{\linewidth}
 {\tiny
 
 \begin{verbatim}
@@ -188,11 +197,16 @@ int main()
 \end{verbatim}
 
 }
+\end{varwidth}
+\end{figure}
 
 \end{frame}
 
 \begin{frame}[fragile]{File \texttt{simple\_xy\_wr.c}: Creating (loading!) data}
 
+\begin{figure}
+\centering
+\begin{varwidth}{\linewidth}
 {\tiny
 
 \begin{verbatim}
@@ -216,11 +230,16 @@ int main()
 \end{verbatim}
 
 }
+\end{varwidth}
+\end{figure}
 
 \end{frame}
 
 \begin{frame}[fragile]{File \texttt{simple\_xy\_wr.c}: Creating the NetCDF file}
 
+\begin{figure}
+\centering
+\begin{varwidth}{\linewidth}
 {\tiny
 
 \begin{verbatim}
@@ -247,11 +266,16 @@ int main()
 \end{verbatim}
 
 }
+\end{varwidth}
+\end{figure}
 
 \end{frame}
 
 \begin{frame}[fragile]{File \texttt{simple\_xy\_wr.c}: Defining the dimensions}
 
+\begin{figure}
+\centering
+\begin{varwidth}{\linewidth}
 {\tiny
 
 \begin{verbatim}
@@ -279,11 +303,16 @@ int main()
 \end{verbatim}
 
 }
+\end{varwidth}
+\end{figure}
 
 \end{frame}
 
 \begin{frame}[fragile]{File \texttt{simple\_xy\_wr.c}: Defining the variable}
 
+\begin{figure}
+\centering
+\begin{varwidth}{\linewidth}
 {\tiny
 
 \begin{verbatim}
@@ -311,11 +340,16 @@ int main()
 \end{verbatim}
 
 }
+\end{varwidth}
+\end{figure}
 
 \end{frame}
 
 \begin{frame}[fragile]{File \texttt{simple\_xy\_wr.c}: Writing data to the file}
 
+\begin{figure}
+\centering
+\begin{varwidth}{\linewidth}
 {\tiny
 
 \begin{verbatim}
@@ -343,11 +377,16 @@ int main()
 \end{verbatim}
 
 }
+\end{varwidth}
+\end{figure}
 
 \end{frame}
 
 \begin{frame}[fragile]{File \texttt{simple\_xy\_wr.c}: Getting SUCCESS!}
 
+\begin{figure}
+\centering
+\begin{varwidth}{\linewidth}
 {\tiny
 
 \begin{verbatim}
@@ -365,10 +404,12 @@ int main()
 \end{verbatim}
 
 }
-
-\subsection{Working and analysing the NetCDF File}
+\end{varwidth}
+\end{figure}
 
 \end{frame}
+
+\subsection{Working and analysing the NetCDF File}
 
 \begin{frame}[fragile]{Compiling and running the file \texttt{simple\_xy\_wr.c}}
 
@@ -423,6 +464,9 @@ int main()
 
 \begin{frame}[fragile]{File \texttt{simple\_xy\_rd.c}}
 
+\begin{figure}
+\centering
+\begin{varwidth}{\linewidth}
 {\tiny
 
 \begin{verbatim}
@@ -456,6 +500,8 @@ int main()
 \end{verbatim}
 
 }
+\end{varwidth}
+\end{figure}
 
 \end{frame}
 
@@ -571,6 +617,9 @@ int main()
 
 \begin{frame}[fragile]{NetCDF CDL Format}
 
+\begin{figure}
+\centering
+\begin{varwidth}{\linewidth}
 {\footnotesize
 
 \begin{verbatim}
@@ -595,6 +644,8 @@ data:
 \end{verbatim}
 
 }
+\end{varwidth}
+\end{figure}
 
 \end{frame}
 
@@ -838,7 +889,7 @@ Implement an application that utilises parallel I/O to store and analyse data
   \item tar -xvzf zlib-1.2.8.tar.gz
   \item cd zlib-1.2.8
   \item mkdir /home/username/local/
-  \item ./configure --prefix=/home/username/local/
+  \item ./configure {-}{-}prefix=/home/username/local/
   \item make check install
 
 \end{itemize}
@@ -855,7 +906,7 @@ Implement an application that utilises parallel I/O to store and analyse data
   \item wget \url{ftp://ftp.unidata.ucar.edu/pub/netcdf/netcdf-4/hdf5-1.8.13.tar.gz}
   \item tar -xvzf hdf5-1.8.13.tar.gz
   \item cd hdf5-1.8.13
-  \item ./configure --with-zlib=/home/username/local/ --prefix=/home/username/local/
+  \item ./configure {-}{-}with-zlib=/home/username/local/ {-}{-}prefix=/home/username/local/
   \item make
   \item make check
   \item make install
@@ -878,7 +929,7 @@ Implement an application that utilises parallel I/O to store and analyse data
   \item wget \url{ftp://ftp.unidata.ucar.edu/pub/netcdf/netcdf-c-4.7.4.tar.gz}
   \item tar -xvzf netcdf-c-4.7.4.tar.gz
   \item cd netcdf-c-4.7.4
-  \item CPPFLAGS=-I/home/username/local/include LDFLAGS=-L/home/username/local/lib ./configure --prefix=/home/username/local
+  \item CPPFLAGS=-I/home/username/local/include LDFLAGS=-L/home/username/local/lib ./configure {-}{-}prefix=/home/username/local
   \item make check install
 
 \end{itemize}
@@ -968,6 +1019,9 @@ Inspect the output file \verb|simple_xy.nc| using \verb|ncdump|
 
 \begin{frame}[fragile]{NetCDF CDL Format}
 
+\begin{figure}
+\centering
+\begin{varwidth}{\linewidth}
 {\footnotesize
 
 \begin{verbatim}
@@ -992,6 +1046,8 @@ data:
 \end{verbatim}
 
 }
+\end{varwidth}
+\end{figure}
 
 \end{frame}
 
