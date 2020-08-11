@@ -96,7 +96,7 @@
 % Input/Output and Middleware
 % Climate and weather research is typically data-intensive and applications must utilise input/output efficiently. Often, a user struggles to assess observed performance leading to superflux attempts to tune the application and optimise performance in a wrong layer of the stack. The content of this session is twofold. Firstly, we discuss storage layers focusing on the NetCDF middleware and provide a performance model that aids users to identify inefficient I/O. Secondly, we introduce the NetCDF Climate and Forecast (CF) conventions that are often used as a standard to exchange data.
 
-\begin{frame}[fragile] {Learning Objectives}
+\begin{frame}[fragile]{Learning Objectives}
 
 \begin{itemize}
 \setlength\itemsep{0.4cm}
@@ -115,7 +115,7 @@
 
 \subsection{I/O Bottleneck}
 
-\begin{frame}[fragile] {I/O Bottleneck -- Example}
+\begin{frame}[fragile]{I/O Bottleneck -- Example}
 
 \begin{center}
 \includegraphics[scale=0.5]{fig/bottleneck-titan}
@@ -125,7 +125,7 @@
 
 \end{frame}
 
-\begin{frame}[fragile] {I/O Bottleneck -- Historical Data}
+\begin{frame}[fragile]{I/O Bottleneck -- Historical Data}
 
 \begin{itemize}
 
@@ -141,7 +141,7 @@
 
 \end{frame}
 
-\begin{frame}[fragile] {Folders vs Metadata}
+\begin{frame}[fragile]{Folders vs Metadata}
 
 \begin{center}
 \includegraphics[scale=0.6]{fig/FoldersVsMeta}
@@ -151,7 +151,7 @@
 
 \subsection{Data-driven Research}
 
-\begin{frame}[fragile] {Data-driven Research}
+\begin{frame}[fragile]{Data-driven Research}
 
 \begin{itemize}
 \setlength\itemsep{0.4cm}
@@ -183,7 +183,7 @@
 
 \subsection{Input/Output}
 
-\begin{frame}[fragile] {Input/Output}
+\begin{frame}[fragile]{Input/Output}
 
 \begin{itemize}
 \setlength\itemsep{0.3cm}
@@ -226,7 +226,7 @@
 
 \end{frame}
 
-\begin{frame}[fragile] {I/O Performance}
+\begin{frame}[fragile]{I/O Performance}
 
 \begin{itemize}
 \setlength\itemsep{0.5cm}
@@ -251,7 +251,7 @@
 
 \end{frame}
 
-\begin{frame}[fragile] {I/O Types}
+\begin{frame}[fragile]{I/O Types}
 
 \begin{center}
 \includegraphics[scale=0.3]{io-types}
@@ -261,7 +261,7 @@
 
 \end{frame}
 
-\begin{frame}[fragile] {I/O Access Patterns \lr{(Double-check the last two)}}
+\begin{frame}[fragile]{I/O Access Patterns \lr{(Double-check the last two)}}
 
 \begin{center}
 \includegraphics[scale=0.3]{io-patterns}
@@ -271,7 +271,7 @@
 
 \end{frame}
 
-\begin{frame}[fragile] {File Striping}
+\begin{frame}[fragile]{File Striping}
 
 \begin{center}
 \includegraphics[scale=0.3]{file-striping}
@@ -281,7 +281,7 @@
 
 \end{frame}
 
-\begin{frame}[fragile] {I/O Problems}
+\begin{frame}[fragile]{I/O Problems}
 
 \begin{itemize}
 \setlength\itemsep{0.7cm}
@@ -300,15 +300,11 @@
 
 \end{itemize}
 
-\begin{center}
-%\includegraphics[scale=0.5]{io-probs}
-\end{center}
-
 \lr{tut153s3}
 
 \end{frame}
 
-\begin{frame}[fragile] {Challenges in Application I/O \lr{(== I/O Applications)}}
+\begin{frame}[fragile]{Challenges in Application I/O \lr{(== I/O Applications)}}
 
 \begin{itemize}
 \setlength\itemsep{0.4cm}
@@ -345,43 +341,136 @@ of these problems, when used appropriately.
 
 \subsection{Introduction}
 
-\begin{frame}[fragile] {Middleware}
+\begin{frame}[fragile]{Middleware}
 
 \begin{itemize}
-\setlength\itemsep{0.4cm}
+\setlength\itemsep{0.6cm}
 
-  \item Middleware is software occupying a middle position between application programs and operating systems.\lr{What is this database table in the picture? Just a common database for the application?}
-
-  \begin{center}
-  \includegraphics[scale=0.5]{fig/middleware}
-  \end{center}
-
-  \item Common middleware examples include relational database systems, application server middleware, message-oriented middleware, web middleware, and transaction-processing monitors.\lr{Famous "brand" examples? I couldn't find any...}
+  \item Middleware is software occupying a middle position between application programs and operating systems.\lr{I'll properly recreate this picture later.}
 
 \end{itemize}
 
-\lr{osm-rev1.3.1 1.3}
+\begin{center}
+\includegraphics[scale=0.7]{fig/Middleware}
+\end{center}
+
+\nocite{hailperin2006operating}
 
 \end{frame}
 
-\begin{frame}[fragile] {Middleware}
+\begin{frame}[fragile]{Middleware}
 
 \begin{itemize}
 \setlength\itemsep{0.6cm}
 
   \item Middleware is in the middle of the vertical stack, between the application programs and the operating system.
 
-  \item Viewed horizontally rather than vertically, middleware is also in the middle of interactions between different application programs (possibly even running on different computer systems), because it provides mechanisms to support controlled interaction through coordination, persistent storage, naming, and communication.\lr{Link ESDM here!}
+  \item Viewed horizontally rather than vertically, middleware is also in the middle of interactions between different application programs (possibly even running on different computer systems), because it provides mechanisms to support controlled interaction through coordination, persistent storage, \lr{naming?}, and communication.
 
   \item Middleware provide a more sophisticated form of persistent storage than the standard supported by most operating systems.\lr{Is this true for all types of middleware?}
 
 \end{itemize}
 
-\lr{osm-rev1.3.1 1.3}
+\nocite{hailperin2006operating}
 
 \end{frame}
 
-\begin{frame}[fragile] {Describe the role of middleware and file formats}
+\begin{frame}[fragile]{Middleware -- Examples}
+
+\begin{itemize}
+\setlength\itemsep{0.6cm}
+
+\item Common middleware examples include relational database systems, application server middleware, message-oriented middleware, web middleware, and transaction-processing monitors.
+
+  \begin{itemize}
+  \setlength\itemsep{0.4cm}
+
+  \item Relational Database Management Systems (RDBMS): Oracle Database\footnote{\tiny \url{https://www.oracle.com/database/technologies/}} and PostgreSQL\footnote{\tiny \url{https://www.postgresql.org/}}.
+
+  \item Messaging Systems: IBM MQ\footnote{\tiny \url{https://www.ibm.com/uk-en/products/mq}}, Jakarta Messaging API\footnote{\tiny \url{https://projects.eclipse.org/projects/ee4j.jms}}, and Java RMI (Remote Method Invocation)\footnote{\tiny \url{https://www.oracle.com/java/technologies/javase/remote-method-invocation-home.html}}.
+
+  \item \lr{Input/Output Systems: ESDM?}
+
+  \end{itemize}
+
+\end{itemize}
+
+\nocite{hailperin2006operating}
+
+\end{frame}
+
+\begin{frame}[fragile]{Operating Systems and Middleware}
+
+\begin{itemize}
+\setlength\itemsep{0.4cm}
+
+  \item Operating systems and middleware have much in common.
+
+  \item Both are software used to support other software, such as the application programs you run.
+
+  \item Both provide a similar range of services centered around \textit{controlled interaction}.
+
+  \item \textbf{Controlled Interaction} is the interaction between concurrent computations:
+
+  \begin{itemize}
+  \setlength\itemsep{0.4cm}
+    \item On the same system -- As between your email program and your word processor.
+    \item Across time -- As between your word processor before your trip and your word processor after your trip.
+    \item Across space -- As between your email program and your service provider's email server.
+  \end{itemize}
+
+\end{itemize}
+
+\nocite{hailperin2006operating}
+
+\end{frame}
+
+\begin{frame}[fragile]{Operating Systems and Middleware}
+
+\begin{itemize}
+\setlength\itemsep{0.5cm}
+
+  \item Like an operating system, middleware may enforce rules designed to keep the computations from interfering with one another. An example is the rule that only one computation may modify a shared data structure at a time.
+
+  \item Like an operating system, middleware may bring computations at different times into contact through persistent storage and may support interaction between computations on different computers by providing network communication services.
+
+  \item However, operating systems and middleware are not the same.
+
+  \item They rely upon different underlying providers of lower-level services.
+
+\end{itemize}
+
+\nocite{hailperin2006operating}
+
+\end{frame}
+
+\begin{frame}[fragile]{Operating Systems and Middleware}
+
+\begin{itemize}
+\setlength\itemsep{0.6cm}
+
+  \item An operating system provides the services in its API by making use of the features supported by the hardware.
+
+    \begin{itemize}
+    \setlength\itemsep{0.4cm}
+        \item For example, it might provide API services of reading and writing \lr{named} \lr{Named Binary Tag (NBT)?}, variable-length files by making use of a disk drive's ability to read and write \lr{numbered} \lr{???}, fixed-length blocks of data.
+    \end{itemize}
+
+  \item Middleware, on the other hand, provides the services in its API by making use of the features supported by an underlying operating system.
+
+    \begin{itemize}
+    \setlength\itemsep{0.4cm}
+        \item For example, the middleware might provide API services for updating relational database tables by making use of an operating system's ability to read and write files that contain the database.
+        \item \lr{ESDM!}
+    \end{itemize}
+
+\end{itemize}
+
+\nocite{hailperin2006operating}
+
+\end{frame}
+
+\begin{frame}[fragile]{Describe the role of middleware and file formats}
 
 \begin{itemize}
 
@@ -402,7 +491,7 @@ of these problems, when used appropriately.
 
 \subsection{I/O Solutions}
 
-\begin{frame}[fragile] {I/O Solutions}
+\begin{frame}[fragile]{I/O Solutions}
 
 \begin{itemize}
 
@@ -415,7 +504,7 @@ widen and researchers are looking for solutions to tackle this problem.\\[0.4cm]
     \setlength\itemsep{0.6cm}
 
       \item at hardware level,
-      \item at middleware level,\lr{Link ESDM here!}
+      \item at middleware level,
       \item and at application level.
 
     \end{itemize}
@@ -426,7 +515,7 @@ widen and researchers are looking for solutions to tackle this problem.\\[0.4cm]
 
 \end{frame}
 
-\begin{frame}[fragile] {Hardware Level}
+\begin{frame}[fragile]{Hardware Level}
 
 \begin{itemize}
 
@@ -449,124 +538,7 @@ widen and researchers are looking for solutions to tackle this problem.\\[0.4cm]
 
 \end{frame}
 
-\begin{frame}[fragile] {Hardware Pop Quiz -- Non-volatile Memory}
-
-\begin{center}
-
-\begin{tabular}{cc}
-
-\begin{tabular}{ccc}
-\includegraphics[scale=0.2 ]{fig/paper-tape} &
-\includegraphics[scale=0.2 ]{fig/usb} &
-\includegraphics[scale=0.2 ]{fig/fram} \\
-\includegraphics[scale=0.2 ]{fig/disk} &
-\includegraphics[scale=0.2 ]{fig/punch-card} &
-\includegraphics[scale=0.2 ]{fig/tape} \\
-\includegraphics[scale=0.2 ]{fig/card} &
-\includegraphics[scale=0.2 ]{fig/rom} &
-\includegraphics[scale=0.2 ]{fig/vhs} \\
-\includegraphics[scale=0.2 ]{fig/floppy} &
-\includegraphics[scale=0.2 ]{fig/k7} &
-\includegraphics[scale=0.2 ]{fig/cd} \\
-\end{tabular}
-
-\end{tabular}
-
-\end{center}
-
-\end{frame}
-
-\begin{frame}[fragile] {Hardware Pop Quiz -- Non-volatile Memory}
-
-\begin{center}
-
-\begin{tabular}{cc}
-
-\begin{tabular}{ll}
-A & \parbox{4cm}{flash memory}\\
-B & read-only memory\\
-C & ferroelectric RAM\\
-D & hard disk drives\\
-E & floppy disks\\
-F & magnetic tape\\
-G & optical discs\\
-H & paper tape\\
-I & punched cards\\
-\end{tabular}
-
-&
-
-\begin{tabular}{ccc}
-\includegraphics[scale=0.15]{fig/paper-tape} &
-\includegraphics[scale=0.15]{fig/usb} &
-\includegraphics[scale=0.15]{fig/fram} \\
-1 & 2 & 3 \\
-\includegraphics[scale=0.15]{fig/disk} &
-\includegraphics[scale=0.15]{fig/punch-card} &
-\includegraphics[scale=0.15]{fig/tape} \\
-4 & 5 & 6 \\
-\includegraphics[scale=0.15]{fig/card} &
-\includegraphics[scale=0.15]{fig/rom} &
-\includegraphics[scale=0.15]{fig/vhs} \\
-7 & 8 & 9 \\
-\includegraphics[scale=0.15]{fig/floppy} &
-\includegraphics[scale=0.15]{fig/k7} &
-\includegraphics[scale=0.15]{fig/cd} \\
-10 & 11 & 12 \\
-\end{tabular}
-
-\end{tabular}
-
-\end{center}
-
-\end{frame}
-
-\begin{frame}[fragile] {Hardware Pop Quiz -- Non-volatile Memory}
-
-\begin{center}
-
-\begin{tabular}{cc}
-
-\begin{tabular}{ll}
-A & \parbox{4cm}{flash memory -- 2/7}\\
-B & read-only memory -- 8\\
-C & ferroelectric RAM -- 3\\
-D & hard disk drives -- 4\\
-E & floppy disks -- 10\\
-F & magnetic tape -- 6/9/11\\
-G & optical discs -- 12\\
-H & paper tape -- 1\\
-I & punched cards -- 5\\
-\end{tabular}
-
-&
-
-\begin{tabular}{ccc}
-\includegraphics[scale=0.15]{fig/paper-tape} &
-\includegraphics[scale=0.15]{fig/usb} &
-\includegraphics[scale=0.15]{fig/fram} \\
-1 & 2 & 3 \\
-\includegraphics[scale=0.15]{fig/disk} &
-\includegraphics[scale=0.15]{fig/punch-card} &
-\includegraphics[scale=0.15]{fig/tape} \\
-4 & 5 & 6 \\
-\includegraphics[scale=0.15]{fig/card} &
-\includegraphics[scale=0.15]{fig/rom} &
-\includegraphics[scale=0.15]{fig/vhs} \\
-7 & 8 & 9 \\
-\includegraphics[scale=0.15]{fig/floppy} &
-\includegraphics[scale=0.15]{fig/k7} &
-\includegraphics[scale=0.15]{fig/cd} \\
-10 & 11 & 12 \\
-\end{tabular}
-
-\end{tabular}
-
-\end{center}
-
-\end{frame}
-
-\begin{frame}[fragile] {Hardware Level}
+\begin{frame}[fragile]{Hardware Level}
 
 \begin{itemize}
 
@@ -604,7 +576,7 @@ I & punched cards -- 5\\
 
 \end{frame}
 
-\begin{frame}[fragile] {Hardware Level \lr{(Keep it?)}}
+\begin{frame}[fragile]{Hardware Level \lr{(Keep it?)}}
 
 \begin{itemize}
 
@@ -631,7 +603,7 @@ I & punched cards -- 5\\
 
 \end{frame}
 
-\begin{frame}[fragile] {Middleware Level}
+\begin{frame}[fragile]{Middleware Level}
 
 \begin{itemize}
 \setlength\itemsep{0.4cm}
@@ -656,7 +628,7 @@ I & punched cards -- 5\\
 
 \end{frame}
 
-\begin{frame}[fragile] {Application Level}
+\begin{frame}[fragile]{Application Level}
 
 \begin{itemize}
 
@@ -679,7 +651,7 @@ I & punched cards -- 5\\
 
 \end{frame}
 
-\begin{frame}[fragile] {Discussion\lr{Keep just this slide?}}
+\begin{frame}[fragile]{Discussion\lr{Keep just this slide?}}
 
 \begin{itemize}
 \setlength\itemsep{0.2cm}
@@ -707,7 +679,7 @@ I & punched cards -- 5\\
 
 \subsection{Introduction}
 
-\begin{frame}[fragile] {I/O Performance}
+\begin{frame}[fragile]{I/O Performance}
 
 \begin{itemize}
 \setlength\itemsep{0.8cm}
@@ -724,7 +696,7 @@ I & punched cards -- 5\\
 
 \end{frame}
 
-\begin{frame}[fragile] {I/O Stack}
+\begin{frame}[fragile]{I/O Stack}
 
 \begin{center}
 \includegraphics[scale=0.4]{fig/io-stack2}
@@ -738,7 +710,7 @@ I & punched cards -- 5\\
 
 \subsection{Typical Performance Factors}
 
-\begin{frame}[fragile] {Typical Performance Factors}
+\begin{frame}[fragile]{Typical Performance Factors}
 
 \begin{center}
 \includegraphics[scale=0.44]{fig/tree-perf}
@@ -748,7 +720,7 @@ I & punched cards -- 5\\
 
 \end{frame}
 
-\begin{frame}[fragile] {I/O Performance Factor -- Access Patterns}
+\begin{frame}[fragile]{I/O Performance Factor -- Access Patterns}
 
 \vspace*{0.6cm}
 
@@ -781,7 +753,7 @@ I & punched cards -- 5\\
 
 \end{frame}
 
-\begin{frame}[fragile] {I/O Performance Factor -- I/O Strategy}
+\begin{frame}[fragile]{I/O Performance Factor -- I/O Strategy}
 
 \begin{itemize}
 \setlength\itemsep{0.5cm}
@@ -810,7 +782,7 @@ I & punched cards -- 5\\
 
 \end{frame}
 
-\begin{frame}[fragile] {I/O Performance Factor -- Parallel File System}
+\begin{frame}[fragile]{I/O Performance Factor -- Parallel File System}
 
 \begin{itemize}
 \setlength\itemsep{0.5cm}
@@ -835,7 +807,7 @@ I & punched cards -- 5\\
 
 \subsection{I/O Performance Factors}
 
-\begin{frame}[fragile] {I/O Performance Tuning ``Rules of Thumb''}
+\begin{frame}[fragile]{I/O Performance Tuning ``Rules of Thumb''}
 
 \begin{itemize}
 \setlength\itemsep{0.3cm}
@@ -864,7 +836,7 @@ I & punched cards -- 5\\
 
 \end{frame}
 
-\begin{frame}[fragile] {Assess and Optimize the Application I/O Performance}
+\begin{frame}[fragile]{Assess and Optimize the Application I/O Performance}
 
 \begin{itemize}
 \setlength\itemsep{0.4cm}
@@ -904,7 +876,7 @@ I & punched cards -- 5\\
 
 \subsection{Introduction}
 
-\begin{frame}[fragile] {NetCDF}
+\begin{frame}[fragile]{NetCDF}
 
 \begin{itemize}
 \setlength\itemsep{0.4cm}
@@ -912,7 +884,7 @@ I & punched cards -- 5\\
 \item In a simple view, NetCDF is:
 
     \begin{itemize}
-        \item A data mode.
+        \item A data model.
         \item A file format.
         \item A set of APIs and libraries for various programming languages.
     \end{itemize}
@@ -976,7 +948,7 @@ data:
 
 \subsection{NetCDF Data Models}
 
-\begin{frame}[fragile] {The Classic NetCDF Model}
+\begin{frame}[fragile]{The Classic NetCDF Model}
 
 \begin{itemize}
 
@@ -992,7 +964,7 @@ data:
 
 \end{frame}
 
-\begin{frame}[fragile] {NetCDF Data Models}
+\begin{frame}[fragile]{NetCDF Data Models}
 
     \begin{itemize}
 
@@ -1010,7 +982,7 @@ data:
 
 \end{frame}
 
-\begin{frame}[fragile] {The NetCDF-4 Enhanced Data Model}
+\begin{frame}[fragile]{The NetCDF-4 Enhanced Data Model}
 
 \begin{itemize}
 \setlength\itemsep{0.4cm}
@@ -1033,7 +1005,7 @@ data:
 
 \end{frame}
 
-\begin{frame}[fragile] {The NetCDF-4 Enhanced Data Model}
+\begin{frame}[fragile]{The NetCDF-4 Enhanced Data Model}
 
     \begin{itemize}
     \setlength\itemsep{0.5cm}
@@ -1050,7 +1022,7 @@ data:
 
 \subsection{Best Practices for Writing NetCDF Files}
 
-\begin{frame}[fragile] {Experience-based ``Best Practices'' for Writing NetCDF Files}
+\begin{frame}[fragile]{Experience-based ``Best Practices'' for Writing NetCDF Files}
 
     \begin{itemize}
     \setlength\itemsep{0.4cm}
@@ -1081,7 +1053,7 @@ data:
 
 \end{frame}
 
-\begin{frame}[fragile] {Experience-based ``Best Practices'' for Writing NetCDF Files}
+\begin{frame}[fragile]{Experience-based ``Best Practices'' for Writing NetCDF Files}
 
     \begin{itemize}
     \setlength\itemsep{0.5cm}
@@ -1114,7 +1086,7 @@ data:
 
 \subsection{Climate and Forecast (CF) Conventions}
 
-\begin{frame}[fragile] {Climate and Forecast (CF) Conventions}
+\begin{frame}[fragile]{Climate and Forecast (CF) Conventions}
 
 \begin{itemize}
 \setlength\itemsep{0.3cm}
@@ -1142,7 +1114,7 @@ data:
 \section{Parallel I/O in NetCDF-4}
 \sectionIntro
 
-\begin{frame}[fragile] {Parallel I/O}
+\begin{frame}[fragile]{Parallel I/O}
 
 \begin{itemize}
 \setlength\itemsep{0.1cm}
@@ -1286,7 +1258,7 @@ nc_var_par_access(int ncid, int varid, int par_access);
 
 \end{frame}
 
-\begin{frame}[fragile] {Parallel I/O Example -- Part I}
+\begin{frame}[fragile]{Parallel I/O Example -- Part I}
 
 \begin{figure}
 \centering
@@ -1325,7 +1297,7 @@ nc_var_par_access(int ncid, int varid, int par_access);
 
 \end{frame}
 
-\begin{frame}[fragile] {Parallel I/O Example -- Part II}
+\begin{frame}[fragile]{Parallel I/O Example -- Part II}
 
 \begin{figure}
 \centering
@@ -1374,7 +1346,7 @@ nc_var_par_access(int ncid, int varid, int par_access);
 
 \subsection{}
 
-\begin{frame}[fragile] {Describe ongoing research activities in high-performance storage}
+\begin{frame}[fragile]{Describe ongoing research activities in high-performance storage}
 
 \begin{itemize}
 
@@ -1391,7 +1363,7 @@ nc_var_par_access(int ncid, int varid, int par_access);
 
 \end{frame}
 
-\begin{frame}[fragile] {Previous Learning Objectives}
+\begin{frame}[fragile]{Previous Learning Objectives}
 
 \begin{itemize}
 
