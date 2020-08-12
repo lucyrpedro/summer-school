@@ -346,12 +346,12 @@ of these problems, when used appropriately.
 \begin{itemize}
 \setlength\itemsep{0.6cm}
 
-  \item Middleware is software occupying a middle position between application programs and operating systems.\lr{I'll properly recreate this picture later.}
+  \item Middleware is software occupying a middle position between application programs and operating systems.
 
 \end{itemize}
 
 \begin{center}
-\includegraphics[scale=0.7]{fig/Middleware}
+\includegraphics[scale=0.5]{fig/middleware2}
 \end{center}
 
 \nocite{hailperin2006operating}
@@ -410,7 +410,7 @@ of these problems, when used appropriately.
 
   \item Both provide a similar range of services centered around \textit{controlled interaction}.
 
-  \item \textbf{Controlled Interaction} is the interaction between concurrent computations:
+  \item \textbf{Controlled Interaction} is the interaction between concurrent computations.\\[0.3cm]
 
   \begin{itemize}
   \setlength\itemsep{0.4cm}
@@ -489,6 +489,9 @@ of these problems, when used appropriately.
 
 \end{frame}
 
+\section{I/O Solutions}
+\sectionIntro
+
 \subsection{I/O Solutions}
 
 \begin{frame}[fragile]{I/O Solutions}
@@ -514,6 +517,8 @@ widen and researchers are looking for solutions to tackle this problem.\\[0.4cm]
 \nocite{3372390}
 
 \end{frame}
+
+\subsection{Hardware Level}
 
 \begin{frame}[fragile]{Hardware Level}
 
@@ -603,6 +608,8 @@ widen and researchers are looking for solutions to tackle this problem.\\[0.4cm]
 
 \end{frame}
 
+\subsection{Middleware Level}
+
 \begin{frame}[fragile]{Middleware Level}
 
 \begin{itemize}
@@ -627,6 +634,21 @@ widen and researchers are looking for solutions to tackle this problem.\\[0.4cm]
 \nocite{3372390}
 
 \end{frame}
+
+\begin{frame}[fragile]{Middleware Level}
+
+\begin{itemize}
+\setlength\itemsep{0.4cm}
+
+\item ESDM
+
+\end{itemize}
+
+% \nocite{3372390}
+
+\end{frame}
+
+\subsection{Application Level}
 
 \begin{frame}[fragile]{Application Level}
 
@@ -664,7 +686,7 @@ widen and researchers are looking for solutions to tackle this problem.\\[0.4cm]
 
 \item Hardware technology shows promising solutions, but different systems might employ different solutions, reducing the portability and increasing the complexity. % of software.
 
-\item Middleware can alleviate some of this complexity with solutions such as ADIOS.
+\item Middleware can alleviate some of this complexity with solutions \lr{such as ESDM}. % such as ADIOS.
 
 \item In-situ analysis is an example of how application-specific solutions can be used to improve I/O throughput and thus application performance.
 
@@ -698,13 +720,93 @@ widen and researchers are looking for solutions to tackle this problem.\\[0.4cm]
 
 \begin{frame}[fragile]{I/O Stack}
 
+\begin{itemize}
+
+\item I/O Hardware: Characteristics of Storage Devices affect performance, reliability, and system design.
+
+\item Parallel File System:
+  \begin{itemize}
+  \item Manage storage hardware.
+  \item In the I/O software stack, focus on concurrent, independent access.
+  \item Publish an interface that middleware can use effectively.
+  \end{itemize}
+
+\item I/O Middleware:
+  \begin{itemize}
+  \item Match the programming model (e.g. MPI).
+  \item Facilitate concurrent access by groups of processes.
+  \item Expose a generic interface.
+  \item Efficiently map middleware operations into operations in the Parallel File System.
+  \end{itemize}
+
+\item High Level Libraries
+  \begin{itemize}
+  \item Match storage abstraction to domain.
+  \item Provide self-describing, structured files.
+  \item Map to middleware interface.
+  \item Implement further optimizations.
+  \end{itemize}
+
+\item Application
+  \begin{itemize}
+  \item \lr{Climate and Weather (choose some)}
+  \end{itemize}
+
+\end{itemize}
+
 \begin{center}
-\includegraphics[scale=0.4]{fig/io-stack2}
+\includegraphics[scale=0.1]{fig/io-stack2}
 \end{center}
 
-\lr{Insert explanation about each leavel? Keep only the picture.}
-
 \lr{tut145s3}
+
+\end{frame}
+
+\begin{frame}[fragile]{I/O Stack}
+
+{\tiny
+
+\begin{columns}
+\begin{column}{0.45\textwidth}
+\begin{block}{I/O Middleware}
+\begin{itemize}
+\item Match the programming model (e.g. MPI).
+\item Facilitate concurrent access by groups of processes.
+\item Expose a generic interface.
+\item Efficiently map middleware operations into operations in the Parallel File System.
+\end{itemize}
+\end{block}
+\begin{block}{Parallel File System}
+\begin{itemize}
+\item Manage storage hardware.
+\item In the I/O software stack, focus on concurrent, independent access.
+\item Publish an interface that middleware can use effectively.
+\end{itemize}
+\end{block}
+\end{column}
+\begin{column}{0.25\textwidth}
+\begin{center}
+\includegraphics[scale=0.8]{fig/io-stack}
+\end{center}
+\end{column}
+\begin{column}{0.28\textwidth}
+\begin{block}{High Level I/O Library}
+\begin{itemize}
+\item Match storage abstraction to domain.
+\item Provide self-describing, structured files.
+\item Map to middleware interface.
+\item Implement further optimizations.
+\end{itemize}
+\end{block}
+\begin{block}{Application}
+\begin{itemize}
+\item \lr{Climate and Weather (choose some)}
+\end{itemize}
+\end{block}
+\end{column}
+\end{columns}
+
+}
 
 \end{frame}
 
@@ -828,11 +930,27 @@ widen and researchers are looking for solutions to tackle this problem.\\[0.4cm]
 
 \end{itemize}
 
-%\begin{center}
-%\includegraphics[scale=0.35]{fig/io-rules}
-%\end{center}
-
 \lr{tut145s3}
+
+\end{frame}
+
+\begin{frame}[fragile]{I/O Performance Model}
+
+\nocite{CAPMFESDMA19}
+
+\begin{center}
+\includegraphics[scale=0.7]{fig/bottleneck3}
+\end{center}
+
+\end{frame}
+
+\begin{frame}[fragile]{I/O Performance Model}
+
+\nocite{CAPMFESDMA19}
+
+\begin{center}
+\includegraphics[scale=0.7]{fig/bottleneck4}
+\end{center}
 
 \end{frame}
 
