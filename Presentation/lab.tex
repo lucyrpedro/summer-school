@@ -788,7 +788,69 @@ Implement an application that utilises parallel I/O to store and analyse data
 
 \end{frame}
 
-\begin{frame}[fragile]{Parallel I/O Example -- Part I}
+\begin{frame}[fragile]{Collective and Independent Operations with Parallel I/O}
+
+\begin{itemize}
+
+  \item You must build NetCDF-4 properly to take advantage of parallel features.
+
+  \begin{itemize}
+  \setlength\itemsep{0.3cm}
+
+    \item HDF5 must be built with \verb|--enable-parallel|.
+
+    \item Typically the CC environment variable is set to mpicc, and the FC to mpifc (or some local variant.) You must build HDF5 and NetCDF-4 with the same compiler and compiler options.
+
+    \item The NetCDF configure script will detect the parallel capability of HDF5 and build the NetCDF-4 parallel I/O features automatically. No configure options to the netcdf configure are required.
+
+    \item For parallel builds you must include \verb|"netcdf_par.h"| before (or instead of) \verb|netcdf.h|.
+
+    \item Parallel tests are run by shell scripts. For testing to work on your platform the \verb|mpiexec| utility must be supported.
+
+    \item Parallel I/O is tested in \verb|nc_test4/tst_parallel.c|, \verb|nc_test4/tst_parallel2.c|, and \verb|nc_test4/tst_parallel3.c|, and other programs, if the \verb|--enable-parallel-tests| option to configure is used.
+
+  \end{itemize}
+
+\end{itemize}
+
+\end{frame}
+
+\begin{frame}[fragile]{Parallel I/O Example -- MPI-IO}
+
+\begin{figure}
+\centering
+\begin{varwidth}{\linewidth}
+{ \tiny
+
+\begin{verbatim}
+
+#include <stdio.h>
+#include <mpi.h>
+int main(int argc, char *argv[])
+{
+ MPI_File fh;
+ int buf[1000], rank;
+ MPI_Init(0,0);
+ MPI_Comm_rank(MPI_COMM_WORLD, &rank);
+ MPI_File_open(MPI_COMM_WORLD, "test.out",
+ MPI_MODE_CREATE|MPI_MODE_WRONLY,
+ MPI_INFO_NULL, &fh);
+ if (rank == 0)
+ MPI_File_write(fh, buf, 1000, MPI_INT, MPI_STATUS_IGNORE);
+ MPI_File_close(&fh);
+ MPI_Finalize();
+ return 0;
+}
+
+\end{verbatim}
+
+}
+\end{varwidth}
+\end{figure}
+
+\end{frame}
+
+\begin{frame}[fragile]{Parallel I/O Example -- NetCDF4 -- Part I}
 
 \begin{figure}
 \centering
@@ -827,7 +889,7 @@ Implement an application that utilises parallel I/O to store and analyse data
 
 \end{frame}
 
-\begin{frame}[fragile]{Parallel I/O Example -- Part II}
+\begin{frame}[fragile]{Parallel I/O Example -- NetCDF4 -- Part II}
 
 \begin{figure}
 \centering

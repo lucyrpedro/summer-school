@@ -27,7 +27,7 @@
 \newcommand{\sectionIntro}{
 \begin{frame}{Outline}
   \begin{centering}
-  {\tiny
+  {\scriptsize
   \tableofcontents[currentsection,hideothersubsections]%,subsectionstyle=hide/hide/hide
   }
   \end{centering}
@@ -37,7 +37,7 @@
 \newcommand{\sectionIntroHidden}{
 \begin{frame}{Outline}
   \begin{centering}
-  {\tiny
+  {\scriptsize
   \tableofcontents[currentsection,subsectionstyle=hide/hide/hide]
   }
   \end{centering}
@@ -113,7 +113,7 @@
 \begin{itemize}
 \setlength\itemsep{0.4cm}
   \item Discuss challenges for data-driven research (Section \nameref{sec:intro})
-  \item Describe the role of middleware and file formats (Section \nameref{sec:mid})
+  \item Describe the role of middleware and file formats (Section \nameref{sec:io-sol})
   \item Identify typical I/O performance issues and their causes (Section \nameref{sec:io-sol})
   \item Apply performance models to assess and optimize the application I/O performance (Section \nameref{sec:io-perf})
   \item Design a data model for NetCDF/CF (Section \nameref{sec:netcdf})
@@ -146,7 +146,7 @@
 
 \subsection{I/O Bottleneck}
 
-\begin{frame}[fragile]{I/O Bottleneck -- Example -- Titan}
+\begin{frame}[fragile]{I/O Bottleneck -- Titan}
 
 \begin{center}
 \includegraphics[scale=0.45]{fig/bottleneck}
@@ -178,10 +178,10 @@
 
 \end{frame}
 
-\begin{frame}[fragile]{Folders vs Metadata}
+\begin{frame}[fragile]{}
 
 \begin{center}
-\includegraphics[scale=0.6]{fig/FoldersVsMeta}
+\includegraphics[scale=0.7]{fig/FoldersVsMeta}
 \end{center}
 
 \end{frame}
@@ -303,18 +303,17 @@
 \includegraphics[scale=0.35]{io-patterns}
 \end{center}
 
-\lr{Pending reference: tut145s3}
+\end{frame}
 
-\begin{comment}
+\begin{frame}[fragile]{File Striping}
 
-Burst Buffers deployed: a NERSC
-Case Study
-Thanks and Acknowledgement to Katie
-Antypas, Debbie Bard, Wahid Bhimji, and
-Glenn Lockwood of NERSC for much of these
-materials
+\vspace*{-0.7cm}
 
-\end{comment}
+\begin{center}
+\includegraphics[scale=0.35]{fig/file-striping}
+\end{center}
+
+\nocite{PIOTAPO12}
 
 \end{frame}
 
@@ -371,25 +370,11 @@ materials
 
 \end{frame}
 
-\begin{frame}[fragile]{I/O Stack -- \lr{Optional Slide}}
-
-\vspace*{-0.7cm}
+\begin{frame}[fragile]{I/O Stack -- \lr{Alternative Slide}}
 
 \begin{center}
-\includegraphics[scale=0.35]{fig/stack2}
+\includegraphics[scale=0.7]{fig/stack2}
 \end{center}
-
-\end{frame}
-
-\begin{frame}[fragile]{File Striping}
-
-\vspace*{-0.7cm}
-
-\begin{center}
-\includegraphics[scale=0.35]{fig/file-striping}
-\end{center}
-
-\nocite{PIOTAPO12}
 
 \end{frame}
 
@@ -400,15 +385,14 @@ materials
 
 \item Not enough I/O capacity on current HPC systems, and the trend is getting worse.
 
-\item If there is not enough I/O, you can not write data% to storage
-, so you can not analyze it.
+\item If there is not enough I/O, you cannot write data to storage, so you can not analyze it.
     \begin{itemize}
         \item Lost science!
     \end{itemize}
 
-\item Energy consumption: it costs a lot of power to write data to disk.
+\item Missing opportunity of doing better science (analysis) when have access to full spatiotemporal resolution data.
 
-\item Opportunity for doing better science (analysis) when have access to full spatiotemporal resolution data.\lr{What does that mean?}
+\item Energy consumption: it costs a lot of power to write data to disk.
 
 \end{itemize}
 
@@ -416,47 +400,173 @@ materials
 
 \end{frame}
 
-\begin{frame}[fragile]{Challenges in Application I/O \lr{(== I/O Applications)}}
+\begin{frame}[fragile]{Challenges in Domain of Climate and Weather}
 
 \begin{itemize}
-\setlength\itemsep{0.4cm}
+\setlength\itemsep{0.2cm}
 
-\item \lr{Leverage aggregate communication and I/O bandwidth of clients}
-    \begin{itemize}
-        \item \lr{... but not overwhelming a resource limited I/O system with uncoordinated accesses!}
-    \end{itemize}
+\item High data volume and velocity
 
-\item Limit the number of files that must be managed.
+\item Data management practice does not scale
 
-\item Avoid unnecessary post-processing. \lr{(why?)}
+  \begin{itemize}
+      \item E.g., hierarchical namespaces does not reflect use cases
+      \item Scientists spend quite some time to define the namespace
+  \end{itemize}
 
-\item Interact with storage through convenient abstractions.
-    \begin{itemize}
-      \item Store in portable formats!
-    \end{itemize}
+\item Suboptimal performance (and performance portability) of data formats
 
-\item {\color{gold}\textbf{Golden Rule:}} Parallel I/O software is available and they can address all
-of these problems, when used appropriately.
+  \begin{itemize}
+    \item Tuning for NetCDF, HDF5 and GRIB necessary
+    \item Scientists worry about interoperability
+  \end{itemize}
+
+\item Data conversion is often needed
+
+  \begin{itemize}
+    \item Between formats such as NetCDF and GRIB
+    \item To combine data from multiple experiments, time steps, etc.
+  \end{itemize}
+
+\item External data services to share data in the community
+
+  \begin{itemize}
+    \item (Scientific) metadata is provided by databases
+  \end{itemize}
 
 \end{itemize}
 
-\nocite{pio-sc17}
-
 \end{frame}
 
-\begin{frame}[fragile]{}
-
-\begin{center}
-\includegraphics[scale=0.6]{fig/esdm-chall}
-\end{center}
-
-\end{frame}
-
-\section{Middleware}
+\section{I/O Solutions}
 \sectionIntro
-\label{sec:mid}
+\label{sec:io-sol}
 
-\begin{frame}[fragile]{Middleware}
+\begin{frame}[fragile]{I/O Solutions}
+
+\begin{itemize}
+
+\item As we are moving towards exascale, the gap between computing power and I/O bandwidth will
+widen and researchers are looking for solutions to tackle this problem.\\[0.4cm]
+
+\item There are essentially three lines of research:\\[0.4cm]
+
+    \begin{itemize}
+    \setlength\itemsep{0.6cm}
+
+      \item at hardware level,
+      \item at middleware level,
+      \item and at application level.
+
+    \end{itemize}
+
+\end{itemize}
+
+\nocite{3372390}
+
+\end{frame}
+
+\subsection{Hardware Level}
+
+\begin{frame}[fragile]{Hardware Level}
+
+\begin{itemize}
+
+    \item Non-volatile memory (NVM)\\[0.4cm]
+
+    \begin{itemize}
+    \setlength\itemsep{0.6cm}
+
+        \item Non-volatile memory (NVM) is a type of computer memory that can retrieve stored information even after having been power cycled.
+
+        \item The capabilities of NVM (i.e., capacity, bandwidth, energy consumption) are somewhere in-between main memory and persistent storage, thus it is often used as a ``caching'' solution between these two layers.
+
+        \item Examples of non-volatile memory include flash memory, read-only memory (ROM), ferroelectric RAM, most types of magnetic computer storage devices (e.g. hard disk drives, floppy disks, and magnetic tape), optical discs, and early computer storage methods such as paper tape and punched cards.
+
+    \end{itemize}
+
+\end{itemize}
+
+\nocite{3372390}
+
+\end{frame}
+
+\begin{frame}[fragile]{Hardware Level}
+
+\begin{itemize}
+
+    \item Burst buffer (BB)\\[0.4cm]
+
+      \begin{itemize}
+      \setlength\itemsep{0.5cm}
+
+      \item Burst buffer (BB) is a fast and intermediate storage layer positioned between the front-end computing processes and the backend storage systems.
+
+      \item HPC applications often show bursty I/O behavior (i.e., all processes read/write at the same time) and burst buffers help to absorb these workloads.
+
+      \item Burst buffer is built from arrays of high-performance storage devices, such as NVRAM and SSD.
+
+      \end{itemize}
+
+\begin{comment}
+
+      \begin{center}
+      \begin{tabular}{ccccc}
+      \raisebox{1cm}{NVRAM} &
+      \includegraphics[scale=0.25]{fig/nvram} & $\qquad$ &
+      \includegraphics[scale=0.24]{fig/ssd} &
+      \raisebox{1cm}{
+        \begin{tabular}{c}
+        SSD \\
+        (on top of \\
+        a hard drive)
+        \end{tabular}
+      }
+      \end{tabular}
+      \end{center}
+
+\end{comment}
+
+\end{itemize}
+
+\nocite{3372390}
+
+\end{frame}
+
+\begin{comment}
+
+\begin{frame}[fragile]{Hardware Level \lr{(Keep it?)}}
+
+\begin{itemize}
+
+      \item Multi-layer Storage Hierarchy (Examples)\\[0.4cm]
+
+        \begin{itemize}
+        \setlength\itemsep{0.6cm}
+
+        \item Attached SSDs to compute nodes to aggregate many small I/O requests into few larger ones and/or to compute nodes to speed-up MPI-IO.
+
+        \item Multi-layer storage hierarchy with NVM, SSDs, and different types of hard disks. % drives.
+
+        \item Fast Forward Storage and IO (FFSIO), SAGE, Distributed Application Object Store (DAOS), Post-Petascale File System (PPFS), Scalable Object-Centric Metadata Management (SoMeta), Extensible Metadata Provider for Extreme-Scale Scientific Simulations (EMPRESS), Týr
+
+        \item ECP [16], Fast-Forward [44], ADIOS [72], HDF VOL [29], ESiWACE [20], NEXTGenIO [69] and SAGE [78]
+
+        \item Blue gene active storage, Dash
+
+        \end{itemize}
+
+\end{itemize}
+
+\nocite{3372390}
+
+\end{frame}
+
+\end{comment}
+
+\subsection{Middleware Level}
+
+\begin{frame}[fragile]{Middleware -- Definition}
 
 \begin{itemize}
 \setlength\itemsep{0.6cm}
@@ -480,15 +590,17 @@ of these problems, when used appropriately.
 
   \item Middleware is in the middle of the vertical stack, between the application programs and the operating system.
 
-  \item Viewed horizontally rather than vertically, middleware is also in the middle of interactions between different application programs (possibly even running on different computer systems), because it provides mechanisms to support controlled interaction through coordination, persistent storage, \lr{naming?}, and communication.
+  \item Viewed horizontally rather than vertically, middleware is also in the middle of interactions between different application programs (possibly even running on different computer systems), because it provides mechanisms to support controlled interaction through coordination, persistent storage, naming, and communication.
 
-  \item Middleware provide a more sophisticated form of persistent storage than the standard supported by most operating systems.\lr{Is this true for all types of middleware?}
+  \item Middleware provide a more sophisticated form of persistent storage than the standard supported by most operating systems.
 
 \end{itemize}
 
 \nocite{hailperin2006operating}
 
 \end{frame}
+
+\begin{comment}
 
 \begin{frame}[fragile]{Middleware -- Examples}
 
@@ -513,8 +625,6 @@ of these problems, when used appropriately.
 \nocite{hailperin2006operating}
 
 \end{frame}
-
-\begin{comment}
 
 \begin{frame}[fragile]{Operating Systems and Middleware}
 
@@ -608,126 +718,6 @@ of these problems, when used appropriately.
 
 \end{comment}
 
-\section{I/O Solutions}
-\sectionIntro
-\label{sec:io-sol}
-
-\begin{frame}[fragile]{I/O Solutions}
-
-\begin{itemize}
-
-\item As we are moving towards exascale, the gap between computing power and I/O bandwidth will
-widen and researchers are looking for solutions to tackle this problem.\\[0.4cm]
-
-\item There are essentially three lines of research:\\[0.4cm]
-
-    \begin{itemize}
-    \setlength\itemsep{0.6cm}
-
-      \item at hardware level,
-      \item at middleware level,
-      \item and at application level.
-
-    \end{itemize}
-
-\end{itemize}
-
-\nocite{3372390}
-
-\end{frame}
-
-\subsection{Hardware Level}
-
-\begin{frame}[fragile]{Hardware Level}
-
-\begin{itemize}
-
-    \item Non-volatile memory (NVM)\\[0.4cm]
-
-    \begin{itemize}
-    \setlength\itemsep{0.6cm}
-
-        \item Non-volatile memory (NVM) is a type of computer memory that can retrieve stored information even after having been power cycled.
-
-        \item The capabilities of NVM (i.e., capacity, bandwidth, energy consumption) are somewhere in-between main memory and persistent storage, thus it is often used as a ``caching'' solution between these two layers.
-
-        \item Examples of non-volatile memory include flash memory, read-only memory (ROM), ferroelectric RAM, most types of magnetic computer storage devices (e.g. hard disk drives, floppy disks, and magnetic tape), optical discs, and early computer storage methods such as paper tape and punched cards.
-
-    \end{itemize}
-
-\end{itemize}
-
-\nocite{3372390}
-
-\end{frame}
-
-\begin{frame}[fragile]{Hardware Level}
-
-\begin{itemize}
-
-    \item Burst buffer (BB)\\[0.4cm]
-
-      \begin{itemize}
-      \setlength\itemsep{0.3cm}
-
-      \item Burst buffer (BB) is a fast and intermediate storage layer positioned between the front-end computing processes and the back-end storage systems.
-
-      \item HPC applications often show bursty I/O behavior (i.e., all processes read/write at the same time) and burst buffers help to absorb these workloads.
-
-      \item Burst buffer is built from arrays of high-performance storage devices, such as NVRAM and SSD.
-
-      \begin{center}
-      \begin{tabular}{ccccc}
-      \raisebox{1cm}{NVRAM} &
-      \includegraphics[scale=0.25]{fig/nvram} & $\qquad$ &
-      \includegraphics[scale=0.24]{fig/ssd} &
-      \raisebox{1cm}{
-        \begin{tabular}{c}
-        SSD \\
-        (on top of \\
-        a hard drive)
-        \end{tabular}
-      }
-      \end{tabular}
-      \end{center}
-
-      \end{itemize}
-
-\end{itemize}
-
-\nocite{3372390}
-
-\end{frame}
-
-\begin{frame}[fragile]{Hardware Level \lr{(Keep it?)}}
-
-\begin{itemize}
-
-      \item Multi-layer Storage Hierarchy (Examples)\\[0.4cm]
-
-        \begin{itemize}
-        \setlength\itemsep{0.6cm}
-
-        \item Attached SSDs to compute nodes to aggregate many small I/O requests into few larger ones and/or to compute nodes to speed-up MPI-IO.
-
-        \item Multi-layer storage hierarchy with NVM, SSDs, and different types of hard disks. % drives.
-
-        \item Fast Forward Storage and IO (FFSIO), SAGE, Distributed Application Object Store (DAOS), Post-Petascale File System (PPFS), Scalable Object-Centric Metadata Management (SoMeta), Extensible Metadata Provider for Extreme-Scale Scientific Simulations (EMPRESS), Týr
-
-        \item ECP [16], Fast-Forward [44], ADIOS [72], HDF VOL [29], ESiWACE [20], NEXTGenIO [69] and SAGE [78]
-
-        \item Blue gene active storage, Dash
-
-        \end{itemize}
-
-\end{itemize}
-
-\nocite{3372390}
-
-\end{frame}
-
-\subsection{Middleware Level}
-
 \begin{frame}[fragile]{Middleware Level}
 
 \begin{itemize}
@@ -737,7 +727,7 @@ widen and researchers are looking for solutions to tackle this problem.\\[0.4cm]
 
     \begin{itemize}
 
-    \item E.g., file systems, I/O interfaces.\lr{Is a file systems an I/O middleware?}
+    \item E.g., file systems, I/O interfaces.
 
     \end{itemize}
 
@@ -753,11 +743,25 @@ widen and researchers are looking for solutions to tackle this problem.\\[0.4cm]
 
 \end{frame}
 
-\begin{frame}[fragile]{}
+\begin{frame}[fragile]{Ongoing Activity: Earth-System Data Middleware}
 
-\begin{center}
-\includegraphics[scale=0.6]{fig/esdm-mid}
-\end{center}
+\begin{itemize}
+\setlength\itemsep{0.4cm}
+
+    \item ESDM provides a transitional approach towards a vision for I/O addressing\\[0.3cm]
+
+    \begin{itemize}
+    \setlength\itemsep{0.4cm}
+    \item Scalable data management practice
+    \item The inhomogeneous storage stack
+    \item Suboptimal performance and performance portability
+    \item Data conversion/merging
+
+    \end{itemize}
+
+    \item Part of the ESiWACE Project\footnote{Centre of Excellence in Simulation of Weather and Climate in Europe.}
+
+\end{itemize}
 
 \end{frame}
 
@@ -776,7 +780,7 @@ widen and researchers are looking for solutions to tackle this problem.\\[0.4cm]
 
     \item Rather than applications writing their raw output to storage to later be read again for post-processing (e.g., visualization, filtering, statistics), in-situ processing removes this overhead by performing the analysis directly on the same machines as where the applications run.
 
-    \item ParaView, Dax, and Damaris/Viz are tools for large-scale in-situ visualization.\lr{Use that style in middleware?}
+    \item ParaView, Dax, and Damaris/Viz are tools for large-scale in-situ visualization.
 
     \end{itemize}
 
@@ -786,7 +790,7 @@ widen and researchers are looking for solutions to tackle this problem.\\[0.4cm]
 
 \end{frame}
 
-\begin{frame}[fragile]{Discussion\lr{Keep just this slide?}}
+\begin{frame}[fragile]{Discussion}
 
 \begin{itemize}
 \setlength\itemsep{0.2cm}
@@ -799,7 +803,7 @@ widen and researchers are looking for solutions to tackle this problem.\\[0.4cm]
 
 \item Hardware technology shows promising solutions, but different systems might employ different solutions, reducing the portability and increasing the complexity. % of software.
 
-\item Middleware can alleviate some of this complexity with solutions \lr{such as ESDM}. % such as ADIOS.
+\item Middleware can alleviate some of this complexity with solutions such as ADIOS and ESDM.
 
 \item In-situ analysis is an example of how application-specific solutions can be used to improve I/O throughput and thus application performance.
 
@@ -960,11 +964,123 @@ widen and researchers are looking for solutions to tackle this problem.\\[0.4cm]
       \item Grafana -- Online monitoring for DKRZ (support)
       \end{itemize}
 
-    \item Benchmarks -- on various levels, e.g., Metadata (md-workbench, IOR)
+    \item Benchmarks -- On various levels, e.g., Metadata (md-workbench, IOR)
 
     \item Statistic model to determine likely cause based on time
 
     \end{itemize}
+
+\end{itemize}
+
+\end{frame}
+
+\begin{frame}[fragile]{I/O Performance Analysis -- A Simple Model}
+
+\begin{itemize}
+\setlength\itemsep{0.3cm}
+
+  \item Communication between different machines is limited by the network performance.
+
+  \item \textbf{Network throughput} is the amount of data moved successfully from one place to another in a given time period. The maximum throughput depends on the number of storage servers, client nodes and their network connectivity.
+
+  \item Users typically know:
+
+    \begin{itemize}
+%    \setlength\itemsep{0.1cm}
+      \item Output/input file size.
+      \item Number of nodes a job run on.
+      \item Runtime of the I/O during a job (this can be obtained with simple means).
+    \end{itemize}
+
+  \item Now compute the observed throughput (\verb|tp_obs|) in MiB/s per node. If \verb|tp_obs| is much smaller than the network throughput, then there might be an I/O problem.
+
+  \item This is a very basic model that every user should understand and apply.
+
+\end{itemize}
+
+\end{frame}
+
+\begin{frame}[fragile]{I/O Performance Analysis -- Numeric Example}
+
+\begin{itemize}
+%\setlength\itemsep{0.4cm}
+\setlength\itemsep{0.2cm}
+
+  \item Consider the following scenario:
+
+    \begin{itemize}
+    \setlength\itemsep{0.1cm}
+      \item File size: 10 GiB
+      \item Number of nodes: 10
+      \item Time to transfer the data: 10 seconds
+    \end{itemize}
+
+  \item Calculating the throughput in this example, one will find:\\[0.2cm]
+
+    \begin{itemize}
+    \setlength\itemsep{0.2cm}
+      \item $\displaystyle \frac{10\ \text{GiB}}{10\ \text{nodes} \times 10\ \text{seconds}} = 0.1\ \text{GiB/s per node} = 100\ \text{MiB/s}$.
+    \end{itemize}
+
+  \item Considering that a Gigabit Ethernet network should be capable of delivering a theoretical maximum transfer of about 125 MB/s \lr{MiB/s??}, the estimate throughput is close to the optimal value.
+
+  \item However, if you are using an Infiniband capable of delivering 6 GiB/s, then 0.1 GiB/s is a problem.  \lr{I couldn't verify 6 GiB/s. There are lots of options! So I wrote as an example.}
+
+\end{itemize}
+
+\end{frame}
+
+\begin{frame}[fragile]{I/O Performance Analysis -- Latency}
+
+\begin{itemize}
+\setlength\itemsep{0.3cm}
+
+  \item \textbf{Network latency} is the time between the sending of a message and its arrival at the receiver side.
+
+  \item \textbf{Network bandwidth} is the number of bits which can be transferred in a specific time.
+
+  \item Because protocols like TCP have some overhead and control algorithms, the throughput is smaller than the bandwidth.
+
+  \item Latency and bandwidth depend on the used network technology and topology.
+
+  \item Say, for instance, you also know the number of I/O calls as well. Then, you can compute the latency per call.
+
+    \begin{itemize}
+    \setlength\itemsep{0.3cm}
+      \item This information can actually be measured using Darshan, for example.
+    \end{itemize}
+
+  \item Now compute the calls per second per node and relate it to the network latency.
+
+\end{itemize}
+
+\end{frame}
+
+\begin{frame}[fragile]{Improving I/O Performance}
+
+\begin{itemize}
+\setlength\itemsep{0.3cm}
+
+\item Software and hardware tries to hide I/O penalty.
+
+\item Caching of data:
+
+  \begin{itemize}
+  \setlength\itemsep{0.3cm}
+    \item Allow application to continue while I/O completes in the background (write-behind).
+    \item Allow to aggregate multiple (small) operations into larger operations.
+    \item Read data from disk before it is needed (read-ahead).
+    \item \textbf{Require memory! Hiding vs. increased problem size!}.
+  \end{itemize}
+
+\item Programming:
+
+  \begin{itemize}
+  \setlength\itemsep{0.3cm}
+    \item Overlap I/O (or communication) with computation.
+    \item I/O and communication comes almost for free.
+    \item Optimize file format and access pattern (more complicated).
+  \end{itemize}
 
 \end{itemize}
 
@@ -991,32 +1107,9 @@ widen and researchers are looking for solutions to tackle this problem.\\[0.4cm]
 
 \end{itemize}
 
-\lr{Pending reference: tut145s3}
+\end{frame}
 
 \begin{comment}
-
-Understanding I/O Behavior and
-Performance
-Thanks to the following for much of this material:
-Kevin Harms, Charles Bacon,
-Sam Lang, Bill Allcock
-Math and Computer Science Division
-and Argonne Leadership Computing
-Facility
-Argonne National Laboratory
-Yushu Yao and Katie Antypas
-National Energy Research Scientific
-Computing Center
-Lawrence Berkeley National Laboratory
-For more information, see:
-- P. Carns et al. Understanding and improving computational science
-storage access through continuous characterization. ACM TOS. 2011.
-- P. Carns et al. Production I/O characterization on the Cray XE6. CUG
-2013. May, 2013.
-
-\end{comment}
-
-\end{frame}
 
 \begin{frame}[fragile]{I/O Performance Model}
 
@@ -1061,7 +1154,7 @@ storage access through continuous characterization. ACM TOS. 2011.
       \item Which?
     \end{itemize}
 
-    \item Identify options for the deployed optimization strategies in a specific parallel file system
+    \item Identify options for the deployed optimization strategies in a specific PVFS\footnote{Parallel Virtual File System.}
 
     \begin{itemize}
       \item Which?
@@ -1069,9 +1162,11 @@ storage access through continuous characterization. ACM TOS. 2011.
 
 \end{itemize}
 
-\nocite{SOPPOAASLK13} \lr{skill-tree, Julian needs to address it.}
+\nocite{SOPPOAASLK13}
 
 \end{frame}
+
+\end{comment}
 
 \section{NetCDF}
 \sectionIntro
@@ -1188,7 +1283,7 @@ data:
 \begin{frame}[fragile]{The NetCDF-4 Enhanced Data Model}
 
 \begin{itemize}
-\setlength\itemsep{0.4cm}
+\setlength\itemsep{0.6cm}
 
     \item The NetCDF-4 Enhanced Data Model, which is known as the ``Common Data Model'', is part of an effort of Unidata to find a common engineering language for the development of scientific data solutions.
 
@@ -1374,7 +1469,7 @@ data:
 \begin{frame}[fragile]{Using Parallel I/O in NetCDF-4}
 
 \begin{itemize}
-\setlength\itemsep{0.4cm}
+\setlength\itemsep{0.3cm}
 
   \item Special \verb|nc_create_par| and \verb|nc_open_par| functions are used to create/open a NetCDF file.
 
@@ -1410,7 +1505,7 @@ nc_open_par(const char *path, int mode, MPI_Comm comm,
 \begin{frame}[fragile]{Collective and Independent Operations with Parallel I/O}
 
 \begin{itemize}
-\setlength\itemsep{0.4cm}
+\setlength\itemsep{0.3cm}
 
   \item In MPI programs, I/O may be collective or independent.
 
@@ -1447,130 +1542,179 @@ nc_var_par_access(int ncid, int varid, int par_access);
 
 \end{frame}
 
-\begin{frame}[fragile]{Collective and Independent Operations with Parallel I/O}
+\section{Research Activities}
+\sectionIntro
+\label{sec:res}
+
+\subsection{WP4}
+
+\begin{frame}[fragile]{ESiWACE -- Work Package 4}
+
+\begin{columns}
+
+\begin{column}{0.7\textwidth}
+
+\begin{block}{Objectives}
+\begin{itemize}
+\setlength\itemsep{0.5cm}
+  \item Support data reduction in ensembles by providing tools to carry out ensemble statistics ``in-flight'' and compress ensemble members.
+  \item Hide complexity of multiple-storage tiers (middleware between NetCDF and storage) with industrial prototype backends.
+  \item Deliver portable workflow support for manual migration of semantically important content between disk, tape, and object stores.
+\end{itemize}
+\end{block}
+
+\end{column}
+
+\begin{column}{0.3\textwidth}
+\begin{center}
+\raisebox{0.5cm}{\includegraphics[scale=0.5]{fig/wp4}}
+\end{center}
+\end{column}
+
+\end{columns}
+
+\end{frame}
+
+\subsection{ESDM}
+
+\begin{frame}[fragile]{Earth-System Data Middleware (ESDM)}
+
+\begin{block}{A transitional approach towards a vision for I/O addressing}
+\begin{itemize}
+\setlength\itemsep{0.1cm}
+  \item Scalable data management practice
+  \item The inhomogeneous storage stack
+  \item Suboptimal performance and performance portability
+  \item Data conversion/merging
+\end{itemize}
+\end{block}
+
+\begin{block}{Design goals of the Earth-System Data Middleware}
+\begin{enumerate}
+\setlength\itemsep{0.1cm}
+  \item Relaxed access semantics, tailored to scientific data generation
+  \item Site-specific (optimized) data layout schemes
+  \item Ease of use and deploy a particular configuration
+  \item Enable a configurable namespace based on scientific metadata
+\end{enumerate}
+\end{block}
+
+\end{frame}
+
+\begin{frame}[fragile]{ESDM -- Architecture}
+
+\begin{block}{\textbf{Key Concept}: Decouple data localization decisions from science}
+\begin{itemize}
+\setlength\itemsep{0.2cm}
+  \item Middleware utilizes layout component to make placement decisions
+  \item Applications work through existing API
+  \item Data is then written/read efficiently; potential for optimization inside library
+\end{itemize}
+\end{block}
+
+\begin{center}
+\includegraphics[scale=0.6]{fig/esdm-arch}
+\end{center}
+
+\end{frame}
+
+\begin{frame}[fragile]{ESDM -- Benefits}
 
 \begin{itemize}
+\setlength\itemsep{0.4cm}
+  \item Expose/access the same data via different APIs
+  \item Independent and lock-free writes from parallel applications
+  \item No fixed storage layout
+  \item Less performance tuning from users needed
+  \item Exploit characteristics of different storage technology
+  \item Multiple layouts of one data structure optimize access patterns
+  \item Flexible namespace (similar to MP3 library)
+\end{itemize}
 
-  \item You must build NetCDF-4 properly to take advantage of parallel features.
+\end{frame}
+
+\begin{frame}[fragile]{Next Generation Interfaces (NGI)}
+
+\begin{itemize}
+\setlength\itemsep{0.4cm}
+
+\item Towards a new I/O stack considering:
 
   \begin{itemize}
-  \setlength\itemsep{0.3cm}
+  \setlength\itemsep{0.2cm}
+    \item User metadata and workflows as first-class citizens
+    \item Smart hardware and software components
+    \item Liquid-Computing: Smart-placement of computing
+    \item Self-aware instead of unconscious
+    \item Improving over time (self-learning, hardware upgrades)
+  \end{itemize}
 
-    \item HDF5 must be built with \verb|--enable-parallel|.
+\item Why do we need a new domain-independent API?
 
-    \item Typically the CC environment variable is set to mpicc, and the FC to mpifc (or some local variant.) You must build HDF5 and NetCDF-4 with the same compiler and compiler options.
-
-    \item The NetCDF configure script will detect the parallel capability of HDF5 and build the NetCDF-4 parallel I/O features automatically. No configure options to the netcdf configure are required.
-
-    \item For parallel builds you must include \verb|"netcdf_par.h"| before (or instead of) \verb|netcdf.h|.
-
-    \item Parallel tests are run by shell scripts. For testing to work on your platform the \verb|mpiexec| utility must be supported.
-
-    \item Parallel I/O is tested in \verb|nc_test4/tst_parallel.c|, \verb|nc_test4/tst_parallel2.c|, and \verb|nc_test4/tst_parallel3.c|, and other programs, if the \verb|--enable-parallel-tests| option to configure is used.
-
+  \begin{itemize}
+  \setlength\itemsep{0.2cm}
+    \item Other domains have similar issues
+    \item It is a hard problem approached by countless approaches
+    \item Harness RD\&E effort across domains
   \end{itemize}
 
 \end{itemize}
 
 \end{frame}
 
-\section{Research Activities}
-\sectionIntro
-\label{sec:res}
+\subsection{Smart Compression}
 
-\begin{frame}[fragile]{Describe ongoing research activities in high-performance storage}
+\begin{frame}[fragile]{Smart Compression}
 
 \begin{itemize}
+\setlength\itemsep{0.4cm}
 
-  \item
+\item The main purpose of compression methods is to shrink data and to save storage space.
+
+\item Compression methods also possess a huge potential to reduce the gap between computational power and I/O performance.
+\begin{itemize}
+\item Often, after compression, less data has to be moved.
+\end{itemize}
+
+\item Many modern file formats, in particular HDF5 and NetCDF-4, provide native support for compression.
+\begin{itemize}
+\item Beneficial in climate science, where data amounts are huge and are growing constantly.
+\end{itemize}
+
+\item The compression algorithms used in HDF5 and NetCDF-4 are lossless and do not meet the requirements of climate science to full extent.
 
 \end{itemize}
 
 \end{frame}
+
+\begin{frame}[fragile]{Scientific Compression Library (SCIL)}
+
+\begin{itemize}
+\setlength\itemsep{0.2cm}
+    \item In ESiWACE, SCIL is integrated into ESDM to allow scientists to specify the data properties on datasets.
+
+    \begin{itemize}
+    \setlength\itemsep{0.2cm}
+        \item Developed in the AIMES Project\footnote{Advanced Computation and I/O Methods for Earth-System Simulations (AIMES) Project.}.
+        \item The main purpose of SCIL is compression/decompression of scientific data, especially, of climate modeling data.
+        \item Uses different third party compression libraries as well as specifically developed lossy and lossless compression methods.
+        \item Separates concern of data accuracy and choice of algorithms.
+        \item Users specify necessary accuracy and performance parameters.
+        \item Metacompression library makes the choice of algorithms.
+        \item Supports new algorithms.
+    \end{itemize}
+
+\end{itemize}
+
+\end{frame}
+
+\begin{comment}
 
 \begin{frame}[fragile]{I/O Stack}
 
 \begin{center}
 \includegraphics[scale=0.7]{fig/stack3}
 \end{center}
-
-\end{frame}
-
-\subsection{ESDM}
-
-\begin{frame}[fragile]{ESiWACE -- WP4}
-
-\begin{center}
-\includegraphics[scale=0.6]{fig/esdm3}
-\end{center}
-
-\end{frame}
-
-\begin{frame}[fragile]{}
-
-\begin{center}
-\includegraphics[scale=0.6]{fig/esdm-1}
-\end{center}
-
-\end{frame}
-
-\begin{frame}[fragile]{}
-
-\begin{center}
-\includegraphics[scale=0.6]{fig/esdm-2}
-\end{center}
-
-\end{frame}
-
-\begin{frame}[fragile]{}
-
-\begin{center}
-\includegraphics[scale=0.6]{fig/esdm-3}
-\end{center}
-
-\end{frame}
-
-\begin{frame}[fragile]{}
-
-\begin{center}
-\includegraphics[scale=0.6]{fig/esdm-4}
-\end{center}
-
-\end{frame}
-
-\begin{frame}[fragile]{}
-
-\begin{itemize}
-
-    \item
-
-\end{itemize}
-
-\end{frame}
-
-\begin{frame}[fragile]{}
-
-\begin{itemize}
-
-    \item
-
-\end{itemize}
-
-\end{frame}
-
-\subsection{Compression}
-
-\begin{frame}[fragile]{Scientific Compression Library (SCIL)}
-
-\begin{itemize}
-
-    \item Separates concern of data accuracy and choice of algorithms
-    \item Users specify necessary accuracy and performance parameters
-    \item Metacompression library makes the choice of algorithms
-    \item Supports also new algorithms
-    \item Ongoing: standardization of useful compression quantities
-
-\end{itemize}
 
 \end{frame}
 
@@ -1588,6 +1732,8 @@ nc_var_par_access(int ncid, int varid, int par_access);
 \end{itemize}
 
 \end{frame}
+
+\end{comment}
 
 \begin{frame}[allowframebreaks]{Bibliography}
 
@@ -1612,26 +1758,20 @@ nc_var_par_access(int ncid, int varid, int par_access);
 
 \end{frame}
 
-\begin{frame}[fragile]{ESDM Architecture}
-
-\begin{center}
-\includegraphics[scale=0.6]{fig/esdm}
-\end{center}
-
-\end{frame}
+\section{ESDM Architecture}
 
 \begin{frame}[fragile]{ESDM Architecture}
 
 \begin{center}
-\includegraphics[scale=0.6]{fig/esdm2}
+\includegraphics[scale=0.35]{fig/esdm-arch1}
 \end{center}
 
 \end{frame}
 
-\begin{frame}[fragile]{}
+\begin{frame}[fragile]{ESDM Architecture and Interactions}
 
 \begin{center}
-%\includegraphics[scale=0.6]{fig/}
+\includegraphics[scale=0.3]{fig/esdm-arch2}
 \end{center}
 
 \end{frame}
