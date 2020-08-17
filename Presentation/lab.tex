@@ -92,7 +92,7 @@
 
   \item These files are also available with the NetCDF main installation, in the directory \texttt{examples}.
 
-  \item For more information about how to install NetCDF in your personal computer, from scratch, check Section \ref{netcdf}.
+  \item For more information about how to install NetCDF in your personal computer, from scratch, check Section \ref{ap:netcdf}.
 
 \end{itemize}
 
@@ -788,6 +788,89 @@ Implement an application that utilises parallel I/O to store and analyse data
 
 \end{frame}
 
+\begin{frame}[fragile]{Parallel I/O Example -- Part I}
+
+\begin{figure}
+\centering
+\begin{varwidth}{\linewidth}
+{ \tiny
+
+\begin{verbatim}
+
+/* Initialize MPI. */
+    MPI_Init(&argc,&argv);
+    MPI_Comm_size(MPI_COMM_WORLD, &mpi_size);
+    MPI_Comm_rank(MPI_COMM_WORLD, &mpi_rank);
+    MPI_Get_processor_name(mpi_name, &mpi_namelen);
+
+    if (mpi_rank == 1)
+       printf("\n*** tst_parallel testing very basic parallel access.\n");
+
+    /* Create a parallel netcdf-4 file. */
+    if ((res = nc_create_par(FILE, NC_NETCDF4|NC_MPIIO, comm,
+			     info, &ncid))) ERR;
+
+    /* Create two dimensions. */
+    if ((res = nc_def_dim(ncid, "d1", DIMSIZE, dimids))) ERR;
+    if ((res = nc_def_dim(ncid, "d2", DIMSIZE, &dimids[1]))) ERR;
+
+    /* Create one var. */
+    if ((res = nc_def_var(ncid, "v1", NC_INT, NDIMS, dimids, &v1id))) ERR;
+
+    if ((res = nc_enddef(ncid))) ERR;
+
+\end{verbatim}
+
+}
+\end{varwidth}
+\end{figure}
+
+\end{frame}
+
+\begin{frame}[fragile]{Parallel I/O Example -- Part II}
+
+\begin{figure}
+\centering
+\begin{varwidth}{\linewidth}
+{ \tiny
+
+\begin{verbatim}
+
+    /* Set up slab for this process. */
+    start[0] = mpi_rank * DIMSIZE/mpi_size;
+    start[1] = 0;
+    count[0] = DIMSIZE/mpi_size;
+    count[1] = DIMSIZE;
+
+    /* Create phoney data. We're going to write a 24x24 array of ints,
+       in 4 sets of 144. */
+    for (i=mpi_rank*QTR_DATA; i < (mpi_rank+1)*QTR_DATA; i++)
+       data[i] = mpi_rank;
+
+    /*if ((res = nc_var_par_access(ncid, v1id, NC_COLLECTIVE)))
+      ERR;*/
+    if ((res = nc_var_par_access(ncid, v1id, NC_INDEPENDENT))) ERR;
+
+    /* Write slabs of phoney data. */
+    if ((res = nc_put_vara_int(ncid, v1id, start, count,
+			       &data[mpi_rank*QTR_DATA]))) ERR;
+
+    /* Close the netcdf file. */
+    if ((res = nc_close(ncid)))	ERR;
+
+    /* Shut down MPI. */
+    MPI_Finalize();
+
+    return 0;
+
+\end{verbatim}
+
+}
+\end{varwidth}
+\end{figure}
+
+\end{frame}
+
 \section{Practising}
 
 \begin{frame}[fragile]{Files for Practising}
@@ -846,8 +929,14 @@ Implement an application that utilises parallel I/O to store and analyse data
 
 \appendix
 
+\begin{frame}[fragile]{}
+
+{ \huge \color{EsiBlue}{ Appendix}}
+
+\end{frame}
+
 \section{Starting with NetCDF}
-\label{netcdf}
+\label{ap:netcdf}
 
 \subsection{Building NetCDF}
 
@@ -860,11 +949,13 @@ Implement an application that utilises parallel I/O to store and analyse data
 
   \item Files for the libraries can be found in:
 
-\end{itemize}
+  \begin{center}
+  \url{ftp://ftp.unidata.ucar.edu/pub/netcdf/netcdf-4}
+  \end{center}
 
-\begin{center}
-\url{ftp://ftp.unidata.ucar.edu/pub/netcdf/netcdf-4}
-\end{center}
+  \item The following slides presents the steps for installing NetCDF in Ubuntu 18.04 \lr{Test 20.04}
+
+\end{itemize}
 
 \end{frame}
 

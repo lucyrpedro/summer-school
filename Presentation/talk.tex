@@ -20,18 +20,27 @@
 \usepackage[absolute,overlay]{textpos}
 \usepackage{varwidth}
 
+
 \newcommand{\lr}[1]{\textcolor{cyan}{LR: #1}}
 \setbeamercolor{bibliography item}{parent=palette primary}
 
 \newcommand{\sectionIntro}{
 \begin{frame}{Outline}
+  \begin{centering}
+  {\tiny
   \tableofcontents[currentsection,hideothersubsections]%,subsectionstyle=hide/hide/hide
+  }
+  \end{centering}
 \end{frame}
 }
 
 \newcommand{\sectionIntroHidden}{
 \begin{frame}{Outline}
+  \begin{centering}
+  {\tiny
   \tableofcontents[currentsection,subsectionstyle=hide/hide/hide]
+  }
+  \end{centering}
 \end{frame}
 }
 
@@ -86,9 +95,10 @@
 \begin{withoutheadline}
 \begin{frame}{Outline}
     \begin{centering}
+    {\tiny
     \tableofcontents[hideallsubsections]
+    }
     \end{centering}
-
     \disclaimer
 \end{frame}
 \end{withoutheadline}
@@ -96,45 +106,72 @@
 % Input/Output and Middleware
 % Climate and weather research is typically data-intensive and applications must utilise input/output efficiently. Often, a user struggles to assess observed performance leading to superflux attempts to tune the application and optimise performance in a wrong layer of the stack. The content of this session is twofold. Firstly, we discuss storage layers focusing on the NetCDF middleware and provide a performance model that aids users to identify inefficient I/O. Secondly, we introduce the NetCDF Climate and Forecast (CF) conventions that are often used as a standard to exchange data.
 
-\begin{frame}[fragile]{Learning Objectives}
+\begin{frame}[fragile]{Learning Objectives -- Talk}
+
+{\footnotesize
 
 \begin{itemize}
 \setlength\itemsep{0.4cm}
-  \item Discuss challenges for data-driven research (Section Introduction)
-  \item Describe the role of middleware and file formats (Section Middleware)
-  \item Identify typical I/O performance issues and their causes (Section I/O Performance)
-  \item Apply performance models to assess and optimize the application I/O performance (Section I/O Performance)
-  \item Design a data model for NetCDF/CF (Section NetCDF)
-  \item Describe ongoing research activities in high-performance storage (Section Research Activities)
+  \item Discuss challenges for data-driven research (Section \nameref{sec:intro})
+  \item Describe the role of middleware and file formats (Section \nameref{sec:mid})
+  \item Identify typical I/O performance issues and their causes (Section \nameref{sec:io-sol})
+  \item Apply performance models to assess and optimize the application I/O performance (Section \nameref{sec:io-perf})
+  \item Design a data model for NetCDF/CF (Section \nameref{sec:netcdf})
+  \item Implement an application that utilizes parallel I/O to store and analyze data (Section \nameref{sec:pio})
+  \item Describe ongoing research activities in high-performance storage (Section \nameref{sec:res})
 \end{itemize}
+
+}
+
+\end{frame}
+
+\begin{frame}[fragile]{Learning Objectives -- Lab}
+
+{\footnotesize
+
+\begin{itemize}
+\setlength\itemsep{1cm}
+  \item Execute programs in C that read and write NetCDF files in a metadata-aware manner
+  \item Analyze, manipulate and visualise NetCDF data
+  \item Implement an application that utilizes parallel I/O to store and analyze data
+\end{itemize}
+
+}
 
 \end{frame}
 
 \section{Introduction}
 \sectionIntro
+\label{sec:intro}
 
 \subsection{I/O Bottleneck}
 
-\begin{frame}[fragile]{I/O Bottleneck -- Example}
+\begin{frame}[fragile]{I/O Bottleneck -- Example -- Titan}
 
 \begin{center}
-\includegraphics[scale=0.5]{fig/bottleneck-titan}
+\includegraphics[scale=0.45]{fig/bottleneck}
 \end{center}
 
-\lr{tut153s3}
+\nocite{sensei-sc17}
 
 \end{frame}
 
-\begin{frame}[fragile]{I/O Bottleneck -- Historical Data}
+\begin{frame}[fragile]{I/O Bottleneck -- Mistral}
 
 \begin{itemize}
-
-\item Kunkel et al. \cite{ESSAASOEKK14} analyze historical data from the German Climate Computing Center (DKRZ) and predict processor performance growth by 20x each generation ($\sim$5 years), while storage throughput/capacity improves by just 6x.
-
+\setlength\itemsep{0.4cm}
+\item Predict processor performance growth by 20x each generation ($\sim$5 years).
+\item Storage throughput/capacity improves by just 6x.
+\item Costs and performance come together.
 \end{itemize}
 
+\vspace*{-1.6cm}
+
 \begin{center}
-\includegraphics[scale=0.4]{fig/bottleneck-dkrz}
+\begin{tabular}{cc}
+\raisebox{1cm}{\includegraphics[scale=0.4]{fig/bottleneck-dkrz}} &
+\raisebox{0.9cm}{\includegraphics[scale=0.45]{fig/mistral}}
+\end{tabular}
 \end{center}
 
 \nocite{ESSAASOEKK14}
@@ -180,8 +217,7 @@
 
 \section{Input/Output}
 \sectionIntro
-
-\subsection{Input/Output}
+\label{sec:io}
 
 \begin{frame}[fragile]{Input/Output}
 
@@ -243,7 +279,7 @@
 
   \item Going to extremes with an I/O pattern will typically lead to problems.
 
-  \item {\color{gold}\textbf{Golden Rule:}} \lr{Increase performance by decreasing the number of I/O operations (latency) and increasing size (bandwidth).}
+  \item {\color{gold}\textbf{Golden Rule:}} Increase performance by decreasing the number of I/O operations and increasing the size of each operation.
 
 \end{itemize}
 
@@ -254,27 +290,103 @@
 \begin{frame}[fragile]{I/O Types}
 
 \begin{center}
-\includegraphics[scale=0.3]{io-types}
+\includegraphics[scale=0.35]{io-types}
 \end{center}
 
-\lr{tut145s3}
+\lr{Pending reference: tut145s3}
 
 \end{frame}
 
-\begin{frame}[fragile]{I/O Access Patterns \lr{(Double-check the last two)}}
+\begin{frame}[fragile]{I/O Access Patterns}
 
 \begin{center}
-\includegraphics[scale=0.3]{io-patterns}
+\includegraphics[scale=0.35]{io-patterns}
 \end{center}
 
-\lr{tut145s3}
+\lr{Pending reference: tut145s3}
+
+\begin{comment}
+
+Burst Buffers deployed: a NERSC
+Case Study
+Thanks and Acknowledgement to Katie
+Antypas, Debbie Bard, Wahid Bhimji, and
+Glenn Lockwood of NERSC for much of these
+materials
+
+\end{comment}
+
+\end{frame}
+
+\begin{frame}[fragile]{I/O Stack}
+
+{\tiny
+
+\begin{columns}
+\begin{column}{0.38\textwidth}
+\begin{block}{Application}
+\begin{itemize}
+\item Weather forecasts.
+\item Climate simulations, impacts, predictions and projections.
+\item Decisions on emission reductions.
+\item Strategies for housing, cities, farming, coastal defenses and other parts of society.
+\end{itemize}
+\end{block}
+\begin{block}{High Level I/O Library}
+\begin{itemize}
+\item Match storage abstraction to domain.
+\item Provide self-describing, structured files.
+\item Map to middleware interface.
+\item Implement further optimizations.
+\end{itemize}
+\end{block}
+\end{column}
+\begin{column}{0.24\textwidth}
+\begin{center}
+\includegraphics[scale=0.8]{fig/io-stack}
+\end{center}
+\end{column}
+\begin{column}{0.38\textwidth}
+\begin{block}{I/O Middleware}
+\begin{itemize}
+\item Match the programming model (e.g. MPI).
+\item Facilitate concurrent access by groups of processes.
+\item Expose a generic interface.
+\item Efficiently map middleware operations into operations in the Parallel File System.
+\end{itemize}
+\end{block}
+\begin{block}{Parallel File System}
+\begin{itemize}
+\item Manage storage hardware.
+\item In the I/O software stack, focus on concurrent, independent access.
+\item Publish an interface that middleware can use effectively.
+\end{itemize}
+\end{block}
+\end{column}
+\end{columns}
+
+}
+
+\nocite{esiwace}
+
+\end{frame}
+
+\begin{frame}[fragile]{I/O Stack -- \lr{Optional Slide}}
+
+\vspace*{-0.7cm}
+
+\begin{center}
+\includegraphics[scale=0.35]{fig/stack2}
+\end{center}
 
 \end{frame}
 
 \begin{frame}[fragile]{File Striping}
 
+\vspace*{-0.7cm}
+
 \begin{center}
-\includegraphics[scale=0.3]{file-striping}
+\includegraphics[scale=0.35]{fig/file-striping}
 \end{center}
 
 \nocite{PIOTAPO12}
@@ -300,7 +412,7 @@
 
 \end{itemize}
 
-\lr{tut153s3}
+\nocite{sensei-sc17}
 
 \end{frame}
 
@@ -328,18 +440,21 @@ of these problems, when used appropriately.
 
 \end{itemize}
 
-%\begin{center}
-%\includegraphics[scale=0.5]{fig/challenges-io}
-%\end{center}
+\nocite{pio-sc17}
 
-\lr{tut145s3}
+\end{frame}
+
+\begin{frame}[fragile]{}
+
+\begin{center}
+\includegraphics[scale=0.6]{fig/esdm-chall}
+\end{center}
 
 \end{frame}
 
 \section{Middleware}
 \sectionIntro
-
-\subsection{Introduction}
+\label{sec:mid}
 
 \begin{frame}[fragile]{Middleware}
 
@@ -389,7 +504,7 @@ of these problems, when used appropriately.
 
   \item Messaging Systems: IBM MQ\footnote{\tiny \url{https://www.ibm.com/uk-en/products/mq}}, Jakarta Messaging API\footnote{\tiny \url{https://projects.eclipse.org/projects/ee4j.jms}}, and Java RMI (Remote Method Invocation)\footnote{\tiny \url{https://www.oracle.com/java/technologies/javase/remote-method-invocation-home.html}}.
 
-  \item \lr{Input/Output Systems: ESDM?}
+  \item \lr{Input/Output Systems: ESDM}
 
   \end{itemize}
 
@@ -398,6 +513,8 @@ of these problems, when used appropriately.
 \nocite{hailperin2006operating}
 
 \end{frame}
+
+\begin{comment}
 
 \begin{frame}[fragile]{Operating Systems and Middleware}
 
@@ -489,10 +606,11 @@ of these problems, when used appropriately.
 
 \end{frame}
 
+\end{comment}
+
 \section{I/O Solutions}
 \sectionIntro
-
-\subsection{I/O Solutions}
+\label{sec:io-sol}
 
 \begin{frame}[fragile]{I/O Solutions}
 
@@ -635,16 +753,11 @@ widen and researchers are looking for solutions to tackle this problem.\\[0.4cm]
 
 \end{frame}
 
-\begin{frame}[fragile]{Middleware Level}
+\begin{frame}[fragile]{}
 
-\begin{itemize}
-\setlength\itemsep{0.4cm}
-
-\item ESDM
-
-\end{itemize}
-
-% \nocite{3372390}
+\begin{center}
+\includegraphics[scale=0.6]{fig/esdm-mid}
+\end{center}
 
 \end{frame}
 
@@ -698,8 +811,7 @@ widen and researchers are looking for solutions to tackle this problem.\\[0.4cm]
 
 \section{I/O Performance}
 \sectionIntro
-
-\subsection{Introduction}
+\label{sec:io-perf}
 
 \begin{frame}[fragile]{I/O Performance}
 
@@ -718,100 +830,6 @@ widen and researchers are looking for solutions to tackle this problem.\\[0.4cm]
 
 \end{frame}
 
-\begin{frame}[fragile]{I/O Stack}
-
-\begin{itemize}
-
-\item I/O Hardware: Characteristics of Storage Devices affect performance, reliability, and system design.
-
-\item Parallel File System:
-  \begin{itemize}
-  \item Manage storage hardware.
-  \item In the I/O software stack, focus on concurrent, independent access.
-  \item Publish an interface that middleware can use effectively.
-  \end{itemize}
-
-\item I/O Middleware:
-  \begin{itemize}
-  \item Match the programming model (e.g. MPI).
-  \item Facilitate concurrent access by groups of processes.
-  \item Expose a generic interface.
-  \item Efficiently map middleware operations into operations in the Parallel File System.
-  \end{itemize}
-
-\item High Level Libraries
-  \begin{itemize}
-  \item Match storage abstraction to domain.
-  \item Provide self-describing, structured files.
-  \item Map to middleware interface.
-  \item Implement further optimizations.
-  \end{itemize}
-
-\item Application
-  \begin{itemize}
-  \item \lr{Climate and Weather (choose some)}
-  \end{itemize}
-
-\end{itemize}
-
-\begin{center}
-\includegraphics[scale=0.1]{fig/io-stack2}
-\end{center}
-
-\lr{tut145s3}
-
-\end{frame}
-
-\begin{frame}[fragile]{I/O Stack}
-
-{\tiny
-
-\begin{columns}
-\begin{column}{0.45\textwidth}
-\begin{block}{I/O Middleware}
-\begin{itemize}
-\item Match the programming model (e.g. MPI).
-\item Facilitate concurrent access by groups of processes.
-\item Expose a generic interface.
-\item Efficiently map middleware operations into operations in the Parallel File System.
-\end{itemize}
-\end{block}
-\begin{block}{Parallel File System}
-\begin{itemize}
-\item Manage storage hardware.
-\item In the I/O software stack, focus on concurrent, independent access.
-\item Publish an interface that middleware can use effectively.
-\end{itemize}
-\end{block}
-\end{column}
-\begin{column}{0.25\textwidth}
-\begin{center}
-\includegraphics[scale=0.8]{fig/io-stack}
-\end{center}
-\end{column}
-\begin{column}{0.28\textwidth}
-\begin{block}{High Level I/O Library}
-\begin{itemize}
-\item Match storage abstraction to domain.
-\item Provide self-describing, structured files.
-\item Map to middleware interface.
-\item Implement further optimizations.
-\end{itemize}
-\end{block}
-\begin{block}{Application}
-\begin{itemize}
-\item \lr{Climate and Weather (choose some)}
-\end{itemize}
-\end{block}
-\end{column}
-\end{columns}
-
-}
-
-\end{frame}
-
-\subsection{Typical Performance Factors}
-
 \begin{frame}[fragile]{Typical Performance Factors}
 
 \begin{center}
@@ -821,6 +839,8 @@ widen and researchers are looking for solutions to tackle this problem.\\[0.4cm]
 \nocite{SOPPOAASLK13}
 
 \end{frame}
+
+\subsection{I/O Performance Factors}
 
 \begin{frame}[fragile]{I/O Performance Factor -- Access Patterns}
 
@@ -851,7 +871,7 @@ widen and researchers are looking for solutions to tackle this problem.\\[0.4cm]
 %\includegraphics[scale=0.6]{fig/tree-io-ac-pat}
 %\end{center}
 
-\nocite{SOPPOAASLK13}
+\nocite{pio-sc17}
 
 \end{frame}
 
@@ -907,14 +927,55 @@ widen and researchers are looking for solutions to tackle this problem.\\[0.4cm]
 
 \end{frame}
 
-\subsection{I/O Performance Factors}
+\subsection{I/O Performance Analysis}
+
+\begin{frame}[fragile]{I/O Performance Analysis}
+
+\begin{itemize}
+\setlength\itemsep{0.3cm}
+
+  \item Problem
+
+    \begin{itemize}
+    \item Assessing observed time for I/O is difficult.
+    \item What best-case performance can we expect?
+    \end{itemize}
+
+  \item Support for performance analysis
+
+    \begin{itemize}
+
+    \item Models and simulation
+
+      \begin{itemize}
+      \item Trivial models: using throughput + latency
+      \item PIOSimHD: MPI application + storage system simulator
+      \end{itemize}
+
+    \item Tools to capture and analyze system statistics and I/O activities
+
+      \begin{itemize}
+      \item HDTrace -- Tracing tool for parallel I/O (+ PVFS2)
+      \item SIOX -- Tool to capture I/O on various levels
+      \item Grafana -- Online monitoring for DKRZ (support)
+      \end{itemize}
+
+    \item Benchmarks -- on various levels, e.g., Metadata (md-workbench, IOR)
+
+    \item Statistic model to determine likely cause based on time
+
+    \end{itemize}
+
+\end{itemize}
+
+\end{frame}
 
 \begin{frame}[fragile]{I/O Performance Tuning ``Rules of Thumb''}
 
 \begin{itemize}
 \setlength\itemsep{0.3cm}
 
-  \item Use collectives when possible
+  \item Use collective operations when possible
 
   \item Use high-level libraries (e.g. HDF5 or PNetCDF) when possible
 
@@ -930,7 +991,30 @@ widen and researchers are looking for solutions to tackle this problem.\\[0.4cm]
 
 \end{itemize}
 
-\lr{tut145s3}
+\lr{Pending reference: tut145s3}
+
+\begin{comment}
+
+Understanding I/O Behavior and
+Performance
+Thanks to the following for much of this material:
+Kevin Harms, Charles Bacon,
+Sam Lang, Bill Allcock
+Math and Computer Science Division
+and Argonne Leadership Computing
+Facility
+Argonne National Laboratory
+Yushu Yao and Katie Antypas
+National Energy Research Scientific
+Computing Center
+Lawrence Berkeley National Laboratory
+For more information, see:
+- P. Carns et al. Understanding and improving computational science
+storage access through continuous characterization. ACM TOS. 2011.
+- P. Carns et al. Production I/O characterization on the Cray XE6. CUG
+2013. May, 2013.
+
+\end{comment}
 
 \end{frame}
 
@@ -991,6 +1075,7 @@ widen and researchers are looking for solutions to tackle this problem.\\[0.4cm]
 
 \section{NetCDF}
 \sectionIntro
+\label{sec:netcdf}
 
 \subsection{Introduction}
 
@@ -1138,6 +1223,18 @@ data:
 
 \end{frame}
 
+\begin{frame}[fragile]{NetCDF Library Architecture}
+
+\begin{center}
+\begin{tabular}{ccc}
+\includegraphics[scale=0.3]{fig/netcdf-architecture}
+& $\qquad$ &
+\raisebox{3cm}{\includegraphics[scale=0.5]{fig/netcdf-architecture2}}
+\end{tabular}
+\end{center}
+
+\end{frame}
+
 \subsection{Best Practices for Writing NetCDF Files}
 
 \begin{frame}[fragile]{Experience-based ``Best Practices'' for Writing NetCDF Files}
@@ -1229,8 +1326,9 @@ data:
 
 \end{frame}
 
-\section{Parallel I/O in NetCDF-4}
+\section{Parallel I/O}
 \sectionIntro
+\label{sec:pio}
 
 \begin{frame}[fragile]{Parallel I/O}
 
@@ -1376,107 +1474,102 @@ nc_var_par_access(int ncid, int varid, int par_access);
 
 \end{frame}
 
-\begin{frame}[fragile]{Parallel I/O Example -- Part I}
-
-\begin{figure}
-\centering
-\begin{varwidth}{\linewidth}
-{ \tiny
-
-\begin{verbatim}
-
-/* Initialize MPI. */
-    MPI_Init(&argc,&argv);
-    MPI_Comm_size(MPI_COMM_WORLD, &mpi_size);
-    MPI_Comm_rank(MPI_COMM_WORLD, &mpi_rank);
-    MPI_Get_processor_name(mpi_name, &mpi_namelen);
-
-    if (mpi_rank == 1)
-       printf("\n*** tst_parallel testing very basic parallel access.\n");
-
-    /* Create a parallel netcdf-4 file. */
-    if ((res = nc_create_par(FILE, NC_NETCDF4|NC_MPIIO, comm,
-			     info, &ncid))) ERR;
-
-    /* Create two dimensions. */
-    if ((res = nc_def_dim(ncid, "d1", DIMSIZE, dimids))) ERR;
-    if ((res = nc_def_dim(ncid, "d2", DIMSIZE, &dimids[1]))) ERR;
-
-    /* Create one var. */
-    if ((res = nc_def_var(ncid, "v1", NC_INT, NDIMS, dimids, &v1id))) ERR;
-
-    if ((res = nc_enddef(ncid))) ERR;
-
-\end{verbatim}
-
-}
-\end{varwidth}
-\end{figure}
-
-\end{frame}
-
-\begin{frame}[fragile]{Parallel I/O Example -- Part II}
-
-\begin{figure}
-\centering
-\begin{varwidth}{\linewidth}
-{ \tiny
-
-\begin{verbatim}
-
-    /* Set up slab for this process. */
-    start[0] = mpi_rank * DIMSIZE/mpi_size;
-    start[1] = 0;
-    count[0] = DIMSIZE/mpi_size;
-    count[1] = DIMSIZE;
-
-    /* Create phoney data. We're going to write a 24x24 array of ints,
-       in 4 sets of 144. */
-    for (i=mpi_rank*QTR_DATA; i < (mpi_rank+1)*QTR_DATA; i++)
-       data[i] = mpi_rank;
-
-    /*if ((res = nc_var_par_access(ncid, v1id, NC_COLLECTIVE)))
-      ERR;*/
-    if ((res = nc_var_par_access(ncid, v1id, NC_INDEPENDENT))) ERR;
-
-    /* Write slabs of phoney data. */
-    if ((res = nc_put_vara_int(ncid, v1id, start, count,
-			       &data[mpi_rank*QTR_DATA]))) ERR;
-
-    /* Close the netcdf file. */
-    if ((res = nc_close(ncid)))	ERR;
-
-    /* Shut down MPI. */
-    MPI_Finalize();
-
-    return 0;
-
-\end{verbatim}
-
-}
-\end{varwidth}
-\end{figure}
-
-\end{frame}
-
 \section{Research Activities}
 \sectionIntro
-
-\subsection{}
+\label{sec:res}
 
 \begin{frame}[fragile]{Describe ongoing research activities in high-performance storage}
 
 \begin{itemize}
 
   \item
-    \begin{itemize}
-        \item TODO
-        \item
-    \end{itemize}
-  \item
-    \begin{itemize}
-      \item
-    \end{itemize}
+
+\end{itemize}
+
+\end{frame}
+
+\begin{frame}[fragile]{I/O Stack}
+
+\begin{center}
+\includegraphics[scale=0.7]{fig/stack3}
+\end{center}
+
+\end{frame}
+
+\subsection{ESDM}
+
+\begin{frame}[fragile]{ESiWACE -- WP4}
+
+\begin{center}
+\includegraphics[scale=0.6]{fig/esdm3}
+\end{center}
+
+\end{frame}
+
+\begin{frame}[fragile]{}
+
+\begin{center}
+\includegraphics[scale=0.6]{fig/esdm-1}
+\end{center}
+
+\end{frame}
+
+\begin{frame}[fragile]{}
+
+\begin{center}
+\includegraphics[scale=0.6]{fig/esdm-2}
+\end{center}
+
+\end{frame}
+
+\begin{frame}[fragile]{}
+
+\begin{center}
+\includegraphics[scale=0.6]{fig/esdm-3}
+\end{center}
+
+\end{frame}
+
+\begin{frame}[fragile]{}
+
+\begin{center}
+\includegraphics[scale=0.6]{fig/esdm-4}
+\end{center}
+
+\end{frame}
+
+\begin{frame}[fragile]{}
+
+\begin{itemize}
+
+    \item
+
+\end{itemize}
+
+\end{frame}
+
+\begin{frame}[fragile]{}
+
+\begin{itemize}
+
+    \item
+
+\end{itemize}
+
+\end{frame}
+
+\subsection{Compression}
+
+\begin{frame}[fragile]{Scientific Compression Library (SCIL)}
+
+\begin{itemize}
+
+    \item Separates concern of data accuracy and choice of algorithms
+    \item Users specify necessary accuracy and performance parameters
+    \item Metacompression library makes the choice of algorithms
+    \item Supports also new algorithms
+    \item Ongoing: standardization of useful compression quantities
+
 \end{itemize}
 
 \end{frame}
@@ -1510,5 +1603,37 @@ nc_var_par_access(int ncid, int varid, int par_access);
 \end{frame}
 
 \acknowledgement
+
+\appendix
+
+\begin{frame}[fragile]{}
+
+{ \huge \color{EsiBlue}{ Appendix}}
+
+\end{frame}
+
+\begin{frame}[fragile]{ESDM Architecture}
+
+\begin{center}
+\includegraphics[scale=0.6]{fig/esdm}
+\end{center}
+
+\end{frame}
+
+\begin{frame}[fragile]{ESDM Architecture}
+
+\begin{center}
+\includegraphics[scale=0.6]{fig/esdm2}
+\end{center}
+
+\end{frame}
+
+\begin{frame}[fragile]{}
+
+\begin{center}
+%\includegraphics[scale=0.6]{fig/}
+\end{center}
+
+\end{frame}
 
 \end{document}
