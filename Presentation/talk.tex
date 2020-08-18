@@ -21,6 +21,7 @@
 \usepackage[absolute,overlay]{textpos}
 \usepackage{varwidth}
 \usepackage{cancel}
+\usepackage{ulem}
 
 \newcommand{\lr}[1]{\textcolor{cyan}{LR: #1}}
 \setbeamercolor{bibliography item}{parent=palette primary}
@@ -170,8 +171,9 @@
 
 \begin{center}
 \begin{tabular}{cc}
+& { \footnotesize Real Values -- 2018} \\
 \raisebox{1cm}{\includegraphics[scale=0.4]{fig/bottleneck-dkrz}} &
-\raisebox{0.9cm}{\includegraphics[scale=0.45]{fig/mistral}}
+\raisebox{0.6cm}{\includegraphics[scale=0.45]{fig/mistral}}
 \end{tabular}
 \end{center}
 
@@ -369,6 +371,8 @@
 
 \end{frame}
 
+\begin{comment}
+
 \begin{frame}[fragile]{I/O Stack -- \lr{Alternative Slide}}
 
 \begin{center}
@@ -376,6 +380,8 @@
 \end{center}
 
 \end{frame}
+
+\end{comment}
 
 \begin{frame}[fragile]{I/O Problems}
 
@@ -561,10 +567,6 @@ widen and researchers are looking for solutions to tackle this problem.\\[0.4cm]
 
 \end{frame}
 
-\end{comment}
-
-\subsection{Middleware Level}
-
 \begin{frame}[fragile]{Middleware -- Definition}
 
 \begin{itemize}
@@ -598,8 +600,6 @@ widen and researchers are looking for solutions to tackle this problem.\\[0.4cm]
 \nocite{hailperin2006operating}
 
 \end{frame}
-
-\begin{comment}
 
 \begin{frame}[fragile]{Middleware -- Examples}
 
@@ -717,6 +717,8 @@ widen and researchers are looking for solutions to tackle this problem.\\[0.4cm]
 
 \end{comment}
 
+\subsection{Middleware Level}
+
 \begin{frame}[fragile]{Middleware Level}
 
 \begin{itemize}
@@ -794,17 +796,22 @@ widen and researchers are looking for solutions to tackle this problem.\\[0.4cm]
 \begin{itemize}
 \setlength\itemsep{0.2cm}
 
-\item No one-size-fits-all solution to the storage problem and programmers must take I/O into careful consideration when developing applications.
+\item No ``One Size Fits All'' solution to the storage problem and programmers must take I/O into careful consideration when developing applications.
 
 \item Mismatch between the massive computational performance of processors and relatively limited I/O bandwidth of storage systems.
 
 \item Three methods to alleviate this problem: new hardware technology, new I/O middleware, and application-specific solutions.
 
-\item Hardware technology shows promising solutions, but different systems might employ different solutions, reducing the portability and increasing the complexity. % of software.
+  \begin{itemize}
+  \setlength\itemsep{0.2cm}
 
-\item Middleware can alleviate some of this complexity with solutions such as ADIOS and ESDM.
+  \item Hardware technology shows promising solutions, but different systems might employ different solutions, reducing the portability and increasing the complexity. % of software.
 
-\item In-situ analysis is an example of how application-specific solutions can be used to improve I/O throughput and thus application performance.
+  \item Middleware can alleviate some of this complexity with solutions such as ADIOS and ESDM.
+
+  \item In-situ analysis is an example of how application-specific solutions can be used to improve I/O throughput and thus application performance.
+
+  \end{itemize}
 
 \end{itemize}
 
@@ -815,6 +822,8 @@ widen and researchers are looking for solutions to tackle this problem.\\[0.4cm]
 \section{I/O Performance}
 \sectionIntro
 \label{sec:io-perf}
+
+\begin{comment}
 
 \begin{frame}[fragile]{I/O Performance}
 
@@ -832,6 +841,8 @@ widen and researchers are looking for solutions to tackle this problem.\\[0.4cm]
 \nocite{SOPPOAASLK13}
 
 \end{frame}
+
+\end{comment}
 
 \begin{frame}[fragile]{Typical Performance Factors}
 
@@ -1102,7 +1113,7 @@ widen and researchers are looking for solutions to tackle this problem.\\[0.4cm]
 
     \begin{itemize}
     \setlength\itemsep{0.2cm}
-      \item $\displaystyle \frac{10\ \text{GiB}}{10\ \text{nodes} \times 10\ \text{seconds}} = 0.1\ \text{GiB/s per node} = 100\ \text{MiB/s}$.
+      \item $\displaystyle \frac{10\ \text{GiB}}{10\ \text{nodes} \times 10\ \text{seconds}} = 0.1\ \text{GiB/s per node} = 100\ \text{MiB/s per node}$.
     \end{itemize}
 
   \item Considering that a Gigabit Ethernet network should be capable of delivering a theoretical maximum transfer of about 125 MB/s \lr{MiB/s??}, the estimate throughput is close to the optimal value.
@@ -1149,7 +1160,7 @@ widen and researchers are looking for solutions to tackle this problem.\\[0.4cm]
 \item Caching of data:
 
   \begin{itemize}
-  \setlength\itemsep{0.3cm}
+  \setlength\itemsep{0.2cm}
     \item Allow application to continue while I/O completes in the background (write-behind).
     \item Allow to aggregate multiple (small) operations into larger operations.
     \item Read data from disk before it is needed (read-ahead).
@@ -1159,7 +1170,7 @@ widen and researchers are looking for solutions to tackle this problem.\\[0.4cm]
 \item Programming:
 
   \begin{itemize}
-  \setlength\itemsep{0.3cm}
+  \setlength\itemsep{0.2cm}
     \item Overlap I/O (or communication) with computation.
     \item I/O and communication comes almost for free.
     \item Optimize file format and access pattern (more complicated).
@@ -1168,6 +1179,8 @@ widen and researchers are looking for solutions to tackle this problem.\\[0.4cm]
 \end{itemize}
 
 \end{frame}
+
+\begin{comment}
 
 \begin{frame}[fragile]{I/O Performance Tuning ``Rules of Thumb''}
 
@@ -1191,8 +1204,6 @@ widen and researchers are looking for solutions to tackle this problem.\\[0.4cm]
 \end{itemize}
 
 \end{frame}
-
-\begin{comment}
 
 \begin{frame}[fragile]{I/O Performance Model}
 

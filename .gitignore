@@ -2,7 +2,8 @@
 *.log
 *.nav
 *.out
-*.pdf
+talk.pdf
+lab.pdf
 *.snm
 *.toc
 *.vrb
