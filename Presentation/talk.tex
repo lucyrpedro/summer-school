@@ -14,12 +14,13 @@
 \usepackage{ragged2e}
 \usepackage{pgfgantt}
 \usepackage{comment}
+\usepackage{tikz}
 % \usepackage[backend=bibtex]{biblatex}
 % \bibliography{io} % \footfullcite{jones00}
 % \usepackage[numbers]{natbib}
 \usepackage[absolute,overlay]{textpos}
 \usepackage{varwidth}
-
+\usepackage{cancel}
 
 \newcommand{\lr}[1]{\textcolor{cyan}{LR: #1}}
 \setbeamercolor{bibliography item}{parent=palette primary}
@@ -292,8 +293,6 @@
 \begin{center}
 \includegraphics[scale=0.35]{io-types}
 \end{center}
-
-\lr{Pending reference: tut145s3}
 
 \end{frame}
 
@@ -919,10 +918,6 @@ widen and researchers are looking for solutions to tackle this problem.\\[0.4cm]
 
 \end{itemize}
 
-%\begin{textblock}{0}(9,5)
-%   \includegraphics[scale=0.5]{fig/tree-io-pfs}
-%\end{textblock}
-
 \begin{center}
 \includegraphics[scale=0.5]{fig/tree-io-pfs}
 \end{center}
@@ -971,6 +966,94 @@ widen and researchers are looking for solutions to tackle this problem.\\[0.4cm]
     \end{itemize}
 
 \end{itemize}
+
+\end{frame}
+
+\begin{frame}[fragile]{Big Data Cluster Characteristics}
+
+\begin{itemize}
+\setlength\itemsep{0.2cm}
+
+  \item Usually commodity components
+  \item Cheap (on-board) interconnect, node-local storage
+  \item Communication (bisection) bandwidth between different racks is low
+
+\end{itemize}
+
+\begin{center}
+\includegraphics[scale=0.45]{fig/arch1}
+\end{center}
+
+\end{frame}
+
+\begin{frame}[fragile]{HPC Cluster Characteristics}
+
+\begin{columns}
+
+\begin{column}{0.32\textwidth}
+
+\begin{itemize}
+\setlength\itemsep{0.6cm}
+  \item High-end components
+  \item Extra fast interconnect, global/shared storage with dedicated servers
+  \item Network provides high (near-full) bisection bandwidth.
+\end{itemize}
+
+\end{column}
+
+\begin{column}{0.6\textwidth}
+\begin{center}
+\raisebox{0.1cm}{\includegraphics[scale=0.55]{fig/arch2}}
+\end{center}
+\end{column}
+
+\end{columns}
+
+\end{frame}
+
+\begin{frame}[fragile]{Performance: Hierarchical Model \lr{Extra slide}}
+
+\begin{center}
+\includegraphics[scale=0.6]{fig/bottleneck3}
+\end{center}
+
+\end{frame}
+
+\begin{frame}[fragile]{Hardware Performance}
+
+\begin{block}{Computation}
+
+\begin{itemize}
+\setlength\itemsep{0.2cm}
+
+  \item CPU performance (frequency $\times$ cores $\times$ sockets)
+
+    \begin{itemize}
+    \item E.g.: 2.5 GHz $\times$ 12 cores $\times$ 2 sockets = 60 Gcycles/s
+    \item The number of cycles per operation depend on the instruction stream
+    \end{itemize}
+
+  \item Memory (throughput $\times$ channels)
+
+    \begin{itemize}
+    \item E.g.: 25.6 GB/s per DDR4 DIMM $\times$ 3
+    \end{itemize}
+
+\end{itemize}
+
+\end{block}
+
+\begin{block}{Communication via the network}
+
+\begin{itemize}
+\setlength\itemsep{0.2cm}
+
+  \item Throughput, e.g., 125 MiB/s with Gigabit Ethernet
+  \item Latency, e.g., 0.1 ms with Gigabit Ethernet
+
+\end{itemize}
+
+\end{block}
 
 \end{frame}
 
