@@ -390,7 +390,7 @@
 
 \item Not enough I/O capacity on current HPC systems, and the trend is getting worse.
 
-\item If there is not enough I/O, you cannot write data to storage, so you can not analyze it.
+\item If there is not enough I/O, you cannot write data and then you can not analyze it.
     \begin{itemize}
         \item Lost science!
     \end{itemize}
@@ -823,8 +823,6 @@ widen and researchers are looking for solutions to tackle this problem.\\[0.4cm]
 \sectionIntro
 \label{sec:io-perf}
 
-\begin{comment}
-
 \begin{frame}[fragile]{I/O Performance}
 
 \begin{itemize}
@@ -834,7 +832,7 @@ widen and researchers are looking for solutions to tackle this problem.\\[0.4cm]
 
   \item Running the same application with different I/O configurations gives the possibility to tune the I/O system according to the application access pattern.
 
-  \item One way to predict application performance in HPC systems with different I/O configurations is by using modeling and simulation techniques.
+  \item Another way to predict application performance in HPC systems with different I/O configurations is by using modeling and simulation techniques.
 
 \end{itemize}
 
@@ -842,12 +840,10 @@ widen and researchers are looking for solutions to tackle this problem.\\[0.4cm]
 
 \end{frame}
 
-\end{comment}
-
-\begin{frame}[fragile]{Typical Performance Factors}
+\begin{frame}[fragile]{}
 
 \begin{center}
-\includegraphics[scale=0.44]{fig/tree-perf}
+\includegraphics[scale=0.5]{fig/tree-perf}
 \end{center}
 
 \nocite{SOPPOAASLK13}
@@ -952,33 +948,32 @@ widen and researchers are looking for solutions to tackle this problem.\\[0.4cm]
     \end{itemize}
 
   \item Support for performance analysis
+  \setlength\itemsep{0.4cm}
 
     \begin{itemize}
 
     \item Models and simulation
 
       \begin{itemize}
-      \item Trivial models: using throughput + latency
-      \item PIOSimHD: MPI application + storage system simulator
+        \item Trivial models -- Using throughput and latency
       \end{itemize}
 
     \item Tools to capture and analyze system statistics and I/O activities
 
       \begin{itemize}
-      \item HDTrace -- Tracing tool for parallel I/O (+ PVFS2)
-      \item SIOX -- Tool to capture I/O on various levels
-      \item Grafana -- Online monitoring for DKRZ (support)
+        \item Darshan -- Tool to identify I/O patterns and assess the performance
+        \item Grafana -- Online monitoring
       \end{itemize}
 
     \item Benchmarks -- On various levels, e.g., Metadata (md-workbench, IOR)
-
-    \item Statistic model to determine likely cause based on time
 
     \end{itemize}
 
 \end{itemize}
 
 \end{frame}
+
+\begin{comment}
 
 \begin{frame}[fragile]{Big Data Cluster Characteristics}
 
@@ -996,6 +991,8 @@ widen and researchers are looking for solutions to tackle this problem.\\[0.4cm]
 \end{center}
 
 \end{frame}
+
+\end{comment}
 
 \begin{frame}[fragile]{HPC Cluster Characteristics}
 
@@ -1021,6 +1018,8 @@ widen and researchers are looking for solutions to tackle this problem.\\[0.4cm]
 \end{columns}
 
 \end{frame}
+
+\begin{comment}
 
 \begin{frame}[fragile]{Performance: Hierarchical Model \lr{Extra slide}}
 
@@ -1067,6 +1066,8 @@ widen and researchers are looking for solutions to tackle this problem.\\[0.4cm]
 \end{block}
 
 \end{frame}
+
+\end{comment}
 
 \begin{frame}[fragile]{I/O Performance Analysis -- A Simple Model}
 
@@ -1116,9 +1117,9 @@ widen and researchers are looking for solutions to tackle this problem.\\[0.4cm]
       \item $\displaystyle \frac{10\ \text{GiB}}{10\ \text{nodes} \times 10\ \text{seconds}} = 0.1\ \text{GiB/s per node} = 100\ \text{MiB/s per node}$.
     \end{itemize}
 
-  \item Considering that a Gigabit Ethernet network should be capable of delivering a theoretical maximum transfer of about 125 MB/s \lr{MiB/s??}, the estimate throughput is close to the optimal value.
+  \item Considering that a Gigabit Ethernet network should be capable of delivering a theoretical maximum transfer of about 125 MiB/s, the estimate throughput is close to the optimal value.
 
-  \item However, if you are using an Infiniband capable of delivering 6 GiB/s, then 0.1 GiB/s is a problem.  \lr{I couldn't verify 6 GiB/s. There are lots of options! So I wrote as an example.}
+  \item However, if you are using an Infiniband capable of delivering 6 GiB/s, then 0.1 GiB/s is a problem.
 
 \end{itemize}
 
@@ -1129,9 +1130,9 @@ widen and researchers are looking for solutions to tackle this problem.\\[0.4cm]
 \begin{itemize}
 \setlength\itemsep{0.3cm}
 
-  \item \textbf{Network latency} is the time between the sending of a message and its arrival at the receiver side.
+  \item \textbf{Network latency:} Time between the sending of a message and its arrival at the receiver side.
 
-  \item \textbf{Network bandwidth} is the number of bits which can be transferred in a specific time.
+  \item \textbf{Network bandwidth:} Number of bits which can be transferred in a specific time.
 
   \item Because protocols like TCP have some overhead and control algorithms, the throughput is smaller than the bandwidth.
 
@@ -1164,7 +1165,7 @@ widen and researchers are looking for solutions to tackle this problem.\\[0.4cm]
     \item Allow application to continue while I/O completes in the background (write-behind).
     \item Allow to aggregate multiple (small) operations into larger operations.
     \item Read data from disk before it is needed (read-ahead).
-    \item \textbf{Require memory! Hiding vs. increased problem size!}.
+    \item \textbf{Require memory! Hiding vs. increased problem size!}
   \end{itemize}
 
 \item Programming:
@@ -1669,7 +1670,115 @@ nc_var_par_access(int ncid, int varid, int par_access);
 
 \end{frame}
 
-\subsection{ESDM}
+\subsection{NGI}
+
+\begin{frame}[fragile]{Next Generation Interfaces (NGI)}
+
+\begin{itemize}
+\setlength\itemsep{0.4cm}
+
+\item Towards a new I/O stack considering:
+
+  \begin{itemize}
+  \setlength\itemsep{0.2cm}
+    \item User metadata and workflows as first-class citizens
+    \item Smart hardware and software components
+    \item Liquid-Computing: Smart-placement of computing
+    \item Self-aware instead of unconscious
+    \item Improving over time (self-learning, hardware upgrades)
+  \end{itemize}
+
+\item Why do we need a new domain-independent API?
+
+  \begin{itemize}
+  \setlength\itemsep{0.2cm}
+    \item Other domains have similar issues
+    \item It is a hard problem approached by countless approaches
+    \item Harness RD\&E effort across domains
+  \end{itemize}
+
+\end{itemize}
+
+\end{frame}
+
+\subsection{Compression}
+
+\begin{frame}[fragile]{Smart Compression}
+
+\begin{itemize}
+\setlength\itemsep{0.4cm}
+
+\item The main purpose of compression methods is to shrink data and to save storage space.
+
+\item Compression methods also possess a huge potential to reduce the gap between computational power and I/O performance.
+
+  \begin{itemize}
+    \item Often, after compression, less data has to be moved.
+  \end{itemize}
+
+\item Many modern file formats, in particular HDF5 and NetCDF-4, provide native support for compression.
+
+  \begin{itemize}
+    \item Beneficial in climate science, where data amounts are huge and are growing constantly.
+  \end{itemize}
+
+\item The compression algorithms used in HDF5 and NetCDF-4 are lossless and do not meet the requirements of climate science to full extent.
+
+\end{itemize}
+
+\end{frame}
+
+\begin{comment}
+
+\begin{frame}[fragile]{I/O Stack}
+
+\begin{center}
+\includegraphics[scale=0.7]{fig/stack3}
+\end{center}
+
+\end{frame}
+
+\begin{frame}[fragile]{Previous Learning Objectives}
+
+\begin{itemize}
+
+    \item Describe the general layers involved in I/O on a supercomputer
+    \item Analyse the implications of parallel I/O on application efficiency
+    \item Identify typical I/O performance issues and their causes
+    \item Design a data model for NetCDF/CF
+    \item Read, analyse, and write NetCDF files in a metadata-aware manner
+    \item Visualise and regrid field constructs within NetCDF
+
+\end{itemize}
+
+\end{frame}
+
+\end{comment}
+
+\begin{frame}[allowframebreaks]{Bibliography}
+
+{
+
+\tiny
+
+\bibliographystyle{alpha}
+\bibliography{io}
+
+}
+
+\end{frame}
+
+\acknowledgement
+
+\appendix
+
+\begin{frame}[fragile]{}
+
+{ \huge \color{EsiBlue}{Appendix}}
+
+\end{frame}
+
+\section{ESDM}
 
 \begin{frame}[fragile]{Earth-System Data Middleware (ESDM)}
 
@@ -1727,57 +1836,19 @@ nc_var_par_access(int ncid, int varid, int par_access);
 
 \end{frame}
 
-\begin{frame}[fragile]{Next Generation Interfaces (NGI)}
+\begin{frame}[fragile]{ESDM Architecture}
 
-\begin{itemize}
-\setlength\itemsep{0.4cm}
-
-\item Towards a new I/O stack considering:
-
-  \begin{itemize}
-  \setlength\itemsep{0.2cm}
-    \item User metadata and workflows as first-class citizens
-    \item Smart hardware and software components
-    \item Liquid-Computing: Smart-placement of computing
-    \item Self-aware instead of unconscious
-    \item Improving over time (self-learning, hardware upgrades)
-  \end{itemize}
-
-\item Why do we need a new domain-independent API?
-
-  \begin{itemize}
-  \setlength\itemsep{0.2cm}
-    \item Other domains have similar issues
-    \item It is a hard problem approached by countless approaches
-    \item Harness RD\&E effort across domains
-  \end{itemize}
-
-\end{itemize}
+\begin{center}
+\includegraphics[scale=0.35]{fig/esdm-arch1}
+\end{center}
 
 \end{frame}
 
-\subsection{Smart Compression}
+\begin{frame}[fragile]{ESDM Architecture and Interactions}
 
-\begin{frame}[fragile]{Smart Compression}
-
-\begin{itemize}
-\setlength\itemsep{0.4cm}
-
-\item The main purpose of compression methods is to shrink data and to save storage space.
-
-\item Compression methods also possess a huge potential to reduce the gap between computational power and I/O performance.
-\begin{itemize}
-\item Often, after compression, less data has to be moved.
-\end{itemize}
-
-\item Many modern file formats, in particular HDF5 and NetCDF-4, provide native support for compression.
-\begin{itemize}
-\item Beneficial in climate science, where data amounts are huge and are growing constantly.
-\end{itemize}
-
-\item The compression algorithms used in HDF5 and NetCDF-4 are lossless and do not meet the requirements of climate science to full extent.
-
-\end{itemize}
+\begin{center}
+\includegraphics[scale=0.3]{fig/esdm-arch2}
+\end{center}
 
 \end{frame}
 
@@ -1799,74 +1870,6 @@ nc_var_par_access(int ncid, int varid, int par_access);
     \end{itemize}
 
 \end{itemize}
-
-\end{frame}
-
-\begin{comment}
-
-\begin{frame}[fragile]{I/O Stack}
-
-\begin{center}
-\includegraphics[scale=0.7]{fig/stack3}
-\end{center}
-
-\end{frame}
-
-\begin{frame}[fragile]{Previous Learning Objectives}
-
-\begin{itemize}
-
-    \item Describe the general layers involved in I/O on a supercomputer
-    \item Analyse the implications of parallel I/O on application efficiency
-    \item Identify typical I/O performance issues and their causes
-    \item Design a data model for NetCDF/CF
-    \item Read, analyse, and write NetCDF files in a metadata-aware manner
-    \item Visualise and regrid field constructs within NetCDF
-
-\end{itemize}
-
-\end{frame}
-
-\end{comment}
-
-\begin{frame}[allowframebreaks]{Bibliography}
-
-{
-
-\tiny
-
-\bibliographystyle{alpha}
-\bibliography{io}
-
-}
-
-\end{frame}
-
-\acknowledgement
-
-\appendix
-
-\begin{frame}[fragile]{}
-
-{ \huge \color{EsiBlue}{ Appendix}}
-
-\end{frame}
-
-\section{ESDM Architecture}
-
-\begin{frame}[fragile]{ESDM Architecture}
-
-\begin{center}
-\includegraphics[scale=0.35]{fig/esdm-arch1}
-\end{center}
-
-\end{frame}
-
-\begin{frame}[fragile]{ESDM Architecture and Interactions}
-
-\begin{center}
-\includegraphics[scale=0.3]{fig/esdm-arch2}
-\end{center}
 
 \end{frame}
 
