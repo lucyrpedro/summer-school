@@ -1267,12 +1267,12 @@ widen and researchers are looking for solutions to tackle this problem.\\[0.4cm]
 \sectionIntro
 \label{sec:netcdf}
 
-\subsection{Introduction}
+\subsection{NetCDF Data Models}
 
 \begin{frame}[fragile]{NetCDF}
 
 \begin{itemize}
-\setlength\itemsep{0.4cm}
+\setlength\itemsep{0.6cm}
 
 \item In a simple view, NetCDF is:
 
@@ -1294,58 +1294,14 @@ widen and researchers are looking for solutions to tackle this problem.\\[0.4cm]
 
 \end{frame}
 
-\subsection{Common Data form Language (CDL)}
-
-\begin{frame}[fragile]{Common Data form Language (CDL)}
-
-\begin{itemize}
-\setlength\itemsep{0.3cm}
-
-\item The notation used to describe a NetCDF object is called CDL (network Common Data form Language), which provides a convenient way of describing NetCDF datasets.
-
-\begin{figure}
-\centering
-\begin{varwidth}{\linewidth}
-\tiny{
-
-\begin{verbatim}
-
-netcdf short {
-dimensions:
-  latitude = 3 ;
-  longitude = 2 ;
-variables:
-  float sfc_temp(latitude, longitude) ;
-    sfc_temp:units = "celsius" ;
-data:
-
- sfc_temp =
-  10, 10.1,
-  10.2, 10.3,
-  10.4, 10.5 ;
-}
-
-\end{verbatim}
-}
-\end{varwidth}
-%\caption{C++ code}
-\end{figure}
-
-\item The NetCDF system includes utilities for producing human-oriented CDL text files from binary NetCDF datasets and vice-versa.
-
-\end{itemize}
-
-\nocite{netcdf}
-
-\end{frame}
-
-\subsection{NetCDF Data Models}
-
 \begin{frame}[fragile]{The Classic NetCDF Model}
 
 \begin{itemize}
+\setlength\itemsep{0.4cm}
 
-\item A NetCDF file (dataset) has a path name and possibly some dimensions, variables, global (file-level) attributes, and data values associated with the variables.
+  \item NetCDF files are containers for Dimensions, Variables, and Global Attributes.
+
+  \item A NetCDF file (dataset) has a path name and possibly some dimensions, variables, global (file-level) attributes, and data values associated with the variables.\\[0.4cm]
 
 \end{itemize}
 
@@ -1354,6 +1310,222 @@ data:
 \end{center}
 
 \nocite{netcdf}
+
+\end{frame}
+
+\begin{frame}[fragile]{The Classic NetCDF Model -- Dimensions}
+
+\begin{itemize}
+\setlength\itemsep{0.3cm}
+
+  \item Dimensions are used to specify variable shapes, grids, and coordinate systems.
+
+  \item A dimension has a name and a length. Dimensions are used to define the shape of one or more variables in a NetCDF file.
+
+  \item A dimension can be used to represent a real physical dimension, for example, time, latitude, longitude, or height.
+
+  \item A dimension can also be used to index other quantities, for example, station or model run number. It is possible to use the same dimension more than once in specifying a variable shape.
+
+\end{itemize}
+
+\begin{center}
+\includegraphics[scale=0.4]{fig/ncdim2}
+\end{center}
+
+\nocite{netcdf}
+
+\end{frame}
+
+\begin{frame}[fragile]{The Classic NetCDF Model -- Variables}
+
+\begin{itemize}
+\setlength\itemsep{0.3cm}
+
+  \item Variables hold data values. In the classic NetCDF data model, a variable can hold a multidimensional array of values of the same type.
+
+  \item A variable has a name, type, shape, attributes, and values.
+
+  \item In the classic data model, the type of a variable is the external type of its data as represented on disk, one of: \texttt{char} (text character), \texttt{byte} (8 bits), \texttt{short} (16 bits), \texttt{int} (32 bits), \texttt{float} (32 bits), \texttt{double} (64 bits).
+
+\end{itemize}
+
+\begin{center}
+\includegraphics[scale=0.5]{fig/ncvar}
+\end{center}
+
+\nocite{netcdf}
+
+\end{frame}
+
+\begin{frame}[fragile]{The Classic NetCDF Model -- Variables}
+
+\begin{itemize}
+\setlength\itemsep{0.4cm}
+
+  \item The shape of a variable is specified with a list of dimensions.
+
+  \item A variable may have attributes to specify properties such as units.
+
+  \item The values of variables are the data in a NetCDF file.
+
+  \item A record variable is a variable that uses a record (or unlimited) dimension. It can grow efficiently by having data added along the record dimension.
+
+  \item Things you can do with a NetCDF variable include getting information about it, putting data values into it, and getting data values out of it.
+
+\end{itemize}
+
+\nocite{netcdf}
+
+\end{frame}
+
+\begin{frame}[fragile]{The Classic NetCDF Model -- Coordinate Variables}
+
+\begin{itemize}
+\setlength\itemsep{0.4cm}
+
+  \item A one-dimensional variable with the same name as a dimension is a \textbf{coordinate variable}.
+
+  \item The coordinate variable is associated with a dimension of one or more data variables and typically defines a physical coordinate corresponding to that dimension.
+
+  \item Many programs that read NetCDF files recognize and use any coordinate values they find.
+
+\end{itemize}
+
+\begin{center}
+\includegraphics[scale=0.5]{fig/nccoords}
+\end{center}
+
+\nocite{netcdf}
+
+\end{frame}
+
+\begin{frame}[fragile]{The Classic NetCDF Model -- Attributes}
+
+\begin{itemize}
+\setlength\itemsep{0.4cm}
+
+  \item Attributes hold metadata (data about data). An attribute contains information about properties of a variable or dataset.
+
+  \item An attribute has a name, type, and values. Attributes are used to specify such properties as units, standard names (that identify types of quantity), special values, maximum and minimum valid values, scaling factors, offsets, and measurement parameters.
+
+\end{itemize}
+
+\begin{center}
+\includegraphics[scale=0.5]{fig/ncatts}
+\end{center}
+
+\nocite{netcdf}
+
+\end{frame}
+
+\begin{frame}[fragile]{The Classic NetCDF Model -- Attributes}
+
+\begin{itemize}
+\setlength\itemsep{0.2cm}
+
+  \item Things you can do with a NetCDF attribute include inquiring about its type or length, defining its value, and getting its value.
+  \item Like variables, the type of an attribute may be one of char, byte, short, int, float, or double for the classic model.
+  \item An attribute may have multiple values, but attributes cannot be multidimensional.
+  \item Global attributes apply to a whole file. Variable attributes apply to a specific variable.
+  \item NetCDF conventions are defined primarily in terms of attributes. Thus the names of attributes are standardized rather than the names of variables.
+  \item Attributes cannot have attributes.
+  \item Attributes are scalars or 1-D arrays.
+
+\end{itemize}
+
+\nocite{netcdf}
+
+\end{frame}
+
+\begin{frame}[fragile]{The Classic NetCDF Model -- UML Diagram}
+
+\begin{itemize}
+
+  \item The classic NetCDF data model uses dimensions, variables, and attributes, to capture the meaning of array-oriented scientific data.
+
+\begin{comment}
+  \item UML diagrams represent data models visually. Each box contains
+
+  \begin{itemize}
+
+    \item the name of a class of objects
+    \item characteristics of object in the class
+    \item operations (methods) for that class of objects
+
+  \end{itemize}
+
+  \item Connecting lines identify relationships of containment and use.
+  \item Here is a simplified (we don't list all the methods) UML diagram of the classic NetCDF data model:
+\end{comment}
+
+\end{itemize}
+
+\begin{center}
+\includegraphics[scale=0.35]{fig/nc-classic-uml}
+\end{center}
+
+\nocite{netcdf}
+
+\end{frame}
+
+\begin{frame}[fragile]{The Classic NetCDF Model -- Data}
+
+\begin{itemize}
+
+  \item The data in a NetCDF file is stored in the form of arrays. For example:\\[0.2cm]
+
+  \begin{itemize}
+  \setlength\itemsep{0.2cm}
+
+    \item Temperature varying over time at a location is stored as a \textbf{one-dimensional array}.
+    \item Temperature over an area for a given time is stored as a \textbf{two-dimensional array}.
+    \item Three-dimensional (3D) data, like temperature over an area varying with time, or four-dimensional (4D) data, like temperature over an area varying with time and altitude, is stored as a \textbf{series of two-dimensional arrays}.
+
+  \end{itemize}
+
+\end{itemize}
+
+\begin{center}
+\begin{tabular}{cc}
+\includegraphics[scale=0.5]{fig/netcdf1} &
+\includegraphics[scale=0.5]{fig/netcdf2}
+\end{tabular}
+\end{center}
+
+{\tiny Reference: \url{https://pro.arcgis.com/en/pro-app/help/data/multidimensional/fundamentals-of-netcdf-data-storage.htm}}
+
+\nocite{netcdf}
+
+\end{frame}
+
+\begin{frame}[fragile]{Common Data form Language (CDL)}
+
+\vspace*{-0.5cm}
+
+\begin{columns}
+
+\begin{column}{0.5\textwidth}
+
+{\footnotesize
+
+  \begin{itemize}
+  \setlength\itemsep{0.3cm}
+    \item The notation used to describe a NetCDF object is called CDL (network Common Data form Language), which provides a convenient way of describing NetCDF datasets.
+    \item The NetCDF system includes utilities for producing human-oriented CDL text files from binary NetCDF datasets and vice-versa.
+    \item A NetCDF file contains dimensions, variables, and attributes.
+    \item These components are used together to capture the meaning of data and relations among data fields in an array-oriented dataset.
+  \end{itemize}
+}
+
+\end{column}
+
+\begin{column}{0.4\textwidth}
+\begin{center}
+\includegraphics[scale=0.45]{fig/netcdf-cdl}
+\end{center}
+\end{column}
+
+\end{columns}
 
 \end{frame}
 
@@ -1378,17 +1550,26 @@ data:
 \begin{frame}[fragile]{The NetCDF-4 Enhanced Data Model}
 
 \begin{itemize}
-\setlength\itemsep{0.6cm}
+\setlength\itemsep{0.2cm}
 
     \item The NetCDF-4 Enhanced Data Model, which is known as the ``Common Data Model'', is part of an effort of Unidata to find a common engineering language for the development of scientific data solutions.
 
-    \item The model contains the variables, dimensions, and attributes of the classic data model, but adds:
+    \item The model contains the variables, dimensions, and attributes of the classic data model, but adds:\\[0.2cm]
 
     \begin{itemize}
+    \setlength\itemsep{0.2cm}
 
-        \item Groups -- A way of hierarchically organizing data, similar to directories in a Unix file system.\\[0.2cm]
+        \item \textbf{Groups} -- A way of hierarchically organizing data, similar to directories in a Unix file system.\\[0.2cm]
 
-        \item User-defined types -- The user can now define compound types (like C structures), enumeration types, variable length arrays, and opaque types.
+        \begin{itemize}
+        \setlength\itemsep{0.1cm}
+            \item A file has a top-level unnamed group.
+            \item Each group may contain one or more named subgroups, user-defined types, variables, dimensions, and attributes.
+        \end{itemize}
+
+        \item \textbf{User-defined types} -- The user can now define compound types (like C structures), enumeration types, variable length arrays, and opaque types.
+
+        \item One or more dimensions may be of \textbf{unlimited} length.
 
     \end{itemize}
 
@@ -1398,18 +1579,166 @@ data:
 
 \end{frame}
 
-\begin{frame}[fragile]{The NetCDF-4 Enhanced Data Model}
+\begin{frame}[fragile]{The NetCDF-4 Enhanced Data Model -- CDL Files}
 
-    \begin{itemize}
-    \setlength\itemsep{0.5cm}
-        \item A file has a top-level unnamed group.
-        \item Each group may contain one or more named subgroups, user-defined types, variables, dimensions, and attributes.
-        \item Variables also have attributes.
-        \item Variables may share dimensions, indicating a common grid.
-        \item One or more dimensions may be of unlimited length.
-    \end{itemize}
+\begin{columns}
 
-\nocite{netcdf}
+\begin{column}{0.35\textwidth}
+\begin{block}{Groups}
+\vspace*{-0.4cm}
+{ \tiny
+\begin{verbatim}
+netcdf regions {
+group: UK {
+  dimensions:
+    time = UNLIMITED ; // (2 currently)
+  variables:
+    float average_temperature(time) ;
+  data:
+   average_temperature = 13.4167, 63.4167 ;
+  group: Reading {
+    dimensions:
+      stations = 5 ;
+    variables:
+      float temperature(time, stations) ;
+    data:
+     temperature =
+       11, 12, 13, 14, 15,
+       61, 62, 63, 64, 65 ;
+    } // group Reading
+  } // group UK
+}
+\end{verbatim}
+}
+\vspace*{-0.4cm}
+\end{block}
+\end{column}
+
+\begin{column}{0.25\textwidth}
+\begin{block}{Vlen}
+\vspace*{-0.4cm}
+{ \tiny
+\begin{verbatim}
+netcdf vlens_example {
+types:
+  compound obs_t {
+    float pressure ;
+    float temperature ;
+    float salinity ;
+  }; // obs_t
+  obs_t(*) some_obs_t ;
+  compound profile_t {
+    float latitude ;
+    float longitude ;
+    int time ;
+    some_obs_t obs ;
+  }; // profile_t
+  profile_t(*) some_profiles_t ;
+  compound track_t {
+    string id ;
+    string description ;
+    some_profiles_t profiles ;
+  }; // track_t
+dimensions:
+  tracks = 42 ;
+variables:
+  track_t cruise(tracks) ;
+data:
+}
+\end{verbatim}
+}
+\end{block}
+\end{column}
+
+\begin{column}{0.37\textwidth}
+\begin{block}{Compound}
+\vspace*{-0.4cm}
+{ \tiny
+\begin{verbatim}
+netcdf nested_compound_example {
+types:
+  compound wind_vector_t {
+    float eastward ;
+    float northward ;
+    }
+  compound ob_t {
+      int station_id ;
+      double time ;
+      float temperature ;
+      float pressure ;
+      wind_vector_t wind ;
+  }
+dimensions:
+    stations = unlimited ;
+variables:
+    ob_t obs(stations) ;
+data:
+    obs = {42, 0.0, 20.5, 950.0, {2.5, 3.5}};
+}
+\end{verbatim}
+}
+\vspace*{-0.4cm}
+\end{block}
+\end{column}
+
+\end{columns}
+
+\end{frame}
+
+\begin{frame}[fragile]{The NetCDF-4 Enhanced Data Model -- CDL Files}
+
+\begin{columns}
+
+\begin{column}{0.45\textwidth}
+\begin{block}{Enum}
+\vspace*{-0.4cm}
+{ \tiny
+\begin{verbatim}
+netcdf enums_example {
+types:
+  byte enum cloud_t {Clear = 0, Cumulonimbus = 1,
+      Stratus = 2, Stratocumulus = 3, Cumulus = 4,
+      Altostratus = 5, Nimbostratus = 6, Altocumulus = 7,
+      Cirrostratus = 8, Cirrocumulus = 9, Cirrus = 10,
+      Missing = 127} ;
+dimensions:
+  time = UNLIMITED ; // (5 currently)
+variables:
+  cloud_t primary_cloud(time) ;
+    cloud_t primary_cloud:_FillValue = Missing ;
+data:
+ primary_cloud = Clear, Stratus, Clear, Cumulonimbus, _ ;
+}
+\end{verbatim}
+}
+\vspace*{-0.4cm}
+\end{block}
+\end{column}
+
+\begin{column}{0.5\textwidth}
+\begin{block}{Opaque}
+\vspace*{-0.4cm}
+{ \tiny
+\begin{verbatim}
+netcdf opaque {
+types:
+  opaque(11) raw_obs_t ;
+dimensions:
+  time = 5 ;
+variables:
+  raw_obs_t raw_obs(time) ;
+    raw_obs_t raw_obs:_FillValue = 0XCAFEBABECAFEBABECAFEBA ;
+data:
+ raw_obs = 0X0102030405060708090A0B, 0XAABBCCDDEEFFEEDDCCBBAA,
+    0XFFFFFFFFFFFFFFFFFFFFFF, _, 0XCF0DEFACED0CAFE0FACADE ;
+}
+\end{verbatim}
+}
+\vspace*{-0.4cm}
+\end{block}
+\end{column}
+
+\end{columns}
 
 \end{frame}
 

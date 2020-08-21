@@ -101,12 +101,14 @@
 \begin{frame}[fragile]{File Reference: \texttt{simple\_xy\_wr.c}}
 
 \begin{itemize}
+\setlength\itemsep{0.4cm}
 
-  \item This is an example program demonstrating a simple 2D write. It is intended to illustrate the use of the netCDF C API.\\[0.3cm]
+  \item This is an example program demonstrating a simple 2D write. It is intended to illustrate the use of the netCDF C API.
 
     \begin{itemize}
-      \item {\tiny \url{https://www.unidata.ucar.edu/software/netcdf/docs/simple__xy__wr_8c.html}}\\[0.3cm]
-      \item {\tiny \url{https://www.unidata.ucar.edu/software/netcdf/docs/simple__xy__wr_8c_source.html}}\\[0.4cm]
+    \setlength\itemsep{0.2cm}
+      \item {\scriptsize \url{https://www.unidata.ucar.edu/software/netcdf/docs/simple__xy__wr_8c.html}}
+      \item {\scriptsize \url{https://www.unidata.ucar.edu/software/netcdf/docs/simple__xy__wr_8c_source.html}}
     \end{itemize}
 
   \item Dependency graph for \verb|simple_xy_wr|:
@@ -419,20 +421,15 @@ int main()
   \item Create (copy!) and compile the file \verb|simple_xy_wr.c|.
 
     \begin{itemize}
-      \item {\tiny \verb|gcc -I/home/username/local/include simple_xy_wr.c -o simple_xy_wr -L/home/username/local/lib -lnetcdf|}
-        \begin{itemize}
-          \item \lr{What does that mean?!}
-        \end{itemize}
+      \item {\footnotesize \verb|gcc simple_xy_wr.c -o simple_xy_wr $(nc-config --libs --cflags)|}
     \end{itemize}
 
   \item Run the file \verb|simple_xy_wr|.
 
       \begin{itemize}
-
-        \item {\tiny \verb|./simple_xy_wr|}\\
-
-        \item {\tiny \verb|*** SUCCESS writing example file simple_xy.nc!|}\\[0.5cm]
-
+      \setlength\itemsep{0.2cm}
+        \item {\footnotesize \verb|./simple_xy_wr|}
+        \item {\footnotesize \verb|*** SUCCESS writing example file simple_xy.nc!|}
       \end{itemize}
 
   \item Check that the file \verb|simple_xy.nc| is in your directory.
@@ -444,12 +441,14 @@ int main()
 \begin{frame}[fragile]{File Reference: \texttt{simple\_xy\_rd.c}}
 
 \begin{itemize}
+\setlength\itemsep{0.4cm}
 
-  \item This is a simple example which reads a small dummy array that was written by \verb|simple_xy_wr.c|. \\[0.3cm]
+  \item This is a simple example which reads a small dummy array that was written by \verb|simple_xy_wr.c|.
 
     \begin{itemize}
-      \item {\tiny \url{https://www.unidata.ucar.edu/software/netcdf/docs/simple__xy__rd_8c.html}}\\[0.3cm]
-      \item {\tiny \url{https://www.unidata.ucar.edu/software/netcdf/docs/simple__xy__rd_8c_source.html}}\\[0.4cm]
+    \setlength\itemsep{0.2cm}
+      \item {\scriptsize \url{https://www.unidata.ucar.edu/software/netcdf/docs/simple__xy__rd_8c.html}}
+      \item {\scriptsize \url{https://www.unidata.ucar.edu/software/netcdf/docs/simple__xy__rd_8c_source.html}}
     \end{itemize}
 
   \item Dependency graph for \verb|simple_xy_rd|:
@@ -512,17 +511,18 @@ int main()
 
   \item Check that the file \verb|simple_xy.nc| is in your directory.
 
-  \item Create (copy!), compile and run the file \verb|simple_xy_rd.c|.\\[0.4cm]
+  \item Create (copy!), compile and run the file \verb|simple_xy_rd.c|.
 
         \begin{itemize}
-          \item {\tiny  \verb|gcc -I/home/username/local/include simple_xy_rd.c -o simple_xy_rd -L/home/username/local/lib -lnetcdf| }\\[0.4cm]
+          \item {\footnotesize  \verb|gcc simple_xy_rd.c -o simple_xy_rd $(nc-config --libs --cflags)| }
         \end{itemize}
 
   \item Run the file \verb|simple_xy_rd|.
 
         \begin{itemize}
-          \item {\tiny  \verb|./simple_xy_rd|}
-          \item {\tiny  \verb|*** SUCCESS reading example file simple_xy.nc!|}
+        \setlength\itemsep{0.2cm}
+          \item {\footnotesize  \verb|./simple_xy_rd|}
+          \item {\footnotesize  \verb|*** SUCCESS reading example file simple_xy.nc!|}
         \end{itemize}
 
 \end{itemize}
@@ -534,7 +534,7 @@ int main()
 \begin{frame}[fragile]{\texttt{ncdump} and \texttt{ncgen}}
 
 \begin{itemize}
-\setlength\itemsep{0.6cm}
+\setlength\itemsep{1cm}
 
   \item \texttt{ncdump} and \texttt{ncgen} are inverses:\\[0.4cm]
 
@@ -551,8 +551,8 @@ int main()
 \begin{frame}[fragile]{Editing a NetCDF File}
 
 \begin{itemize}
-\setlength\itemsep{0.6cm}
-  \item To edit metadata or data in a netCDF file:
+\setlength\itemsep{0.4cm}
+  \item To edit metadata or data in a netCDF file:\\[0.4cm]
 
 \begin{center}
 \includegraphics[scale=0.5]{fig/nc-edit}
@@ -596,18 +596,12 @@ int main()
 
 \begin{itemize}
 
-  \item Inspect the file \verb|simple_xy.nc| using \verb|ncdump|\\[0.4cm]
+  \item Inspect the file \verb|simple_xy.nc| using \texttt{ncdump}\\[0.4cm]
 
   \begin{itemize}
   \setlength\itemsep{0.5cm}
 
     \item \verb|ncdump simple_xy.nc|
-
-    \item \lr{Only works like that in my laptop:}
-
-    \item \verb|/home/lucy/netcdf/netcdf-c-4.7.4/ncdump/ncdump simple_xy.nc|
-
-    \item \lr{It should be just ncdump file, but esdm is on my way and I don’t know how to make another link.}
 
   \end{itemize}
 
@@ -653,16 +647,15 @@ data:
 
 \begin{itemize}
 
-  \item Create a NetCDF file using \verb|ncgen| and the CDL output\\[0.4cm]
+  \item Create a NetCDF file using \texttt{ncgen} and the CDL output\\[0.4cm]
 
     \begin{itemize}
     \setlength\itemsep{0.5cm}
 
-      \item \verb|/home/lucy/netcdf/netcdf-c-4.7.4/ncdump/ncdump simple_xy.nc > simple_xy_test.cdl|
+      \item \verb|ncdump simple_xy.nc > simple_xy_test.cdl|
       \item \verb|more simple_xy_test.cdl|
-      \item \verb|/home/lucy/netcdf/netcdf-c-4.7.4/ncgen/ncgen -b simple_xy_test.cdl|
+      \item \verb|ncgen -b simple_xy_test.cdl|
       \item \verb|cmp simple_xy_test.nc simple_xy.nc|
-      \item \lr{Fix ncdump!}
 
     \end{itemize}
 
@@ -680,10 +673,9 @@ data:
   \begin{itemize}
   \setlength\itemsep{0.5cm}
 
-    \item \verb|/home/lucy/netcdf/netcdf-c-4.7.4/ncgen/ncgen -lc simple_xy_test.cdl > simple_xy_test.c|
+    \item \verb|ncgen -lc simple_xy_test.cdl > simple_xy_test.c|
     \item \verb|more simple_xy_test.c|
     \item What is the difference between the files \verb|simple_xy_test.c| and \verb|simple_xy_wr.c|?
-    \item \lr{Fix ncgen!}
 
     \begin{itemize}
       \item \verb|cmp simple_xy_test.c simple_xy_wr.c|
@@ -701,7 +693,7 @@ data:
 \begin{itemize}
   \setlength\itemsep{0.5cm}
 
-  \item \verb|gcc -I/home/username/local/include simple_xy_test.c|\\
+  \item \verb|gcc simple_xy_test.c $(nc-config --libs --cflags)|\\
   \verb|-o simple_xy_test -L/home/username/local/lib -lnetcdf|
   \item \verb|mv simple_xy_test.nc simple_xy_test2.nc|
   \item \verb|./simple_xy_test|
@@ -713,16 +705,112 @@ data:
 
 \begin{frame}[fragile]{Using \texttt{ncview}}
 
+\begin{columns}
+
+\begin{column}{0.4\textwidth}
+
 \begin{itemize}
+  \item \verb|ncview simple_xy.nc|
+\end{itemize}
 
-  \item \lr{Installation is fine.}
-  \item \lr{What does it do?}
+\end{column}
 
-  \begin{center}
-  \includegraphics[scale=0.3]{fig/ncview}
-  \end{center}
+\begin{column}{0.6\textwidth}
+\begin{center}
+\raisebox{0.5cm}{\includegraphics[scale=0.5]{fig/simple_xy}}
+\end{center}
+\end{column}
+
+\end{columns}
+
+\begin{figure}
+\centering
+\begin{varwidth}{\linewidth}
+
+{\tiny
+
+\begin{verbatim}
+
+netcdf simple_xy {
+dimensions:
+	x = 6 ;
+	y = 12 ;
+variables:
+	int data(x, y) ;
+data:
+
+ data =
+  0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11,
+  12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23,
+  24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35,
+  36, 37, 38, 39, 40, 41, 42, 43, 44, 45, 46, 47,
+  48, 49, 50, 51, 52, 53, 54, 55, 56, 57, 58, 59,
+  60, 61, 62, 63, 64, 65, 66, 67, 68, 69, 70, 71 ;
+}
+
+\end{verbatim}
+
+}
+
+\end{varwidth}
+\end{figure}
+
+\end{frame}
+
+\begin{frame}[fragile]{Global Potential Vegetation Dataset}
+
+\begin{itemize}
+\setlength\itemsep{0.4cm}
+
+  \item File \verb|vegtype_5min.nc| -- NetCDF 5 min data
+  \item File \verb|vegtype_0.5.nc| -- NetCDF data aggregated to a 0.5 deg resolution
 
 \end{itemize}
+
+\begin{center}
+\begin{tabular}{cc}
+\raisebox{1cm}{\includegraphics[scale=0.4]{fig/veg-5min}} &
+\includegraphics[scale=0.4]{fig/veg-05min} \\
+File \verb|vegtype_5min.nc| & File \verb|vegtype_0.5.nc|
+\end{tabular}
+\end{center}
+
+{\tiny Files available at \url{http://nelson.wisc.edu/sage/data-and-models/global-potential-vegetation/index.php}}
+
+\end{frame}
+
+\begin{frame}[fragile]{Northern Hemisphere EASE-Grid Weekly Snow Cover}
+
+\begin{itemize}
+
+  \item File \verb|snowcover.mon.mean.nc|
+
+\end{itemize}
+
+\begin{center}
+{\tiny
+\begin{tabular}{ccc}
+\includegraphics[scale=0.35]{fig/snow12} &
+\includegraphics[scale=0.35]{fig/snow11} &
+\includegraphics[scale=0.35]{fig/snow10} \\
+January & February & March \\ & & \\
+\includegraphics[scale=0.35]{fig/snow9} &
+\includegraphics[scale=0.35]{fig/snow8} &
+\includegraphics[scale=0.35]{fig/snow7} \\
+April & May & June \\ & & \\
+\includegraphics[scale=0.35]{fig/snow6} &
+\includegraphics[scale=0.35]{fig/snow5} &
+\includegraphics[scale=0.35]{fig/snow4} \\
+July & August & September \\ & & \\
+\includegraphics[scale=0.35]{fig/snow3} &
+\includegraphics[scale=0.35]{fig/snow2} &
+\includegraphics[scale=0.35]{fig/snow1} \\
+October & November & December
+\end{tabular}
+}
+\end{center}
+
+{\tiny File available at \url{https://psl.noaa.gov/data/gridded/data.snowcover.html}}.
 
 \end{frame}
 
@@ -778,16 +866,6 @@ ncwa & weighted averager \\ \hline
 
 \end{frame}
 
-\end{comment}
-
-\section{Parallel I/O}
-
-\begin{frame}[fragile]{Parallel I/O}
-
-Implement an application that utilises parallel I/O to store and analyse data
-
-\end{frame}
-
 \begin{frame}[fragile]{Collective and Independent Operations with Parallel I/O}
 
 \begin{itemize}
@@ -814,6 +892,10 @@ Implement an application that utilises parallel I/O to store and analyse data
 \end{itemize}
 
 \end{frame}
+
+\end{comment}
+
+\section{Parallel I/O}
 
 \begin{frame}[fragile]{Parallel I/O Example -- MPI-IO}
 
@@ -1007,7 +1089,7 @@ int main(int argc, char *argv[])
 \begin{itemize}
 \setlength\itemsep{0.8cm}
 
-  \item The usual way of building netCDF requires the HDF5, zlib, and curl libraries.
+  \item The usual way of building netCDF requires the HDF5, zlib, curl and m4 libraries.
 
   \item Files for the libraries can be found in:
 
@@ -1015,19 +1097,21 @@ int main(int argc, char *argv[])
   \url{ftp://ftp.unidata.ucar.edu/pub/netcdf/netcdf-4}
   \end{center}
 
-  \item The following slides presents the steps for installing NetCDF in Ubuntu 18.04 \lr{Test 20.04}
+  \item The following slides presents the steps for installing NetCDF in Ubuntu 18.04 and 20.04 for a user named \textbf{username}. Adapt the path to your own user.
 
 \end{itemize}
 
 \end{frame}
 
-\subsection{Installing curl}
+\subsection{Installing curl and m4}
 
-\begin{frame}[fragile]{Installing curl}
+\begin{frame}[fragile]{Installing curl and m4}
 
 \begin{itemize}
+\setlength\itemsep{0.6cm}
 
   \item apt-get install libcurl4-openssl-dev
+  \item apt-get install m4
 
 \end{itemize}
 
@@ -1040,10 +1124,10 @@ int main(int argc, char *argv[])
 \begin{itemize}
 \setlength\itemsep{0.3cm}
 
-  \item wget \url{ftp://ftp.unidata.ucar.edu/pub/netcdf/netcdf-4/zlib-1.2.8.tar.gz}
+  \item {\footnotesize wget \url{ftp://ftp.unidata.ucar.edu/pub/netcdf/netcdf-4/zlib-1.2.8.tar.gz}}
   \begin{itemize}
-    \item Newest version to later use ncview
-    \item wget \url{https://sourceforge.net/projects/libpng/files/zlib/1.2.9/zlib-1.2.9.tar.gz}
+    \item Newest version to later use \texttt{ncview}
+    \item {\scriptsize wget \url{https://sourceforge.net/projects/libpng/files/zlib/1.2.9/zlib-1.2.9.tar.gz}}
   \end{itemize}
   \item tar -xvzf zlib-1.2.8.tar.gz
   \item cd zlib-1.2.8
@@ -1062,7 +1146,7 @@ int main(int argc, char *argv[])
 \begin{itemize}
 \setlength\itemsep{0.3cm}
 
-  \item wget \url{ftp://ftp.unidata.ucar.edu/pub/netcdf/netcdf-4/hdf5-1.8.13.tar.gz}
+  \item {\footnotesize wget \url{ftp://ftp.unidata.ucar.edu/pub/netcdf/netcdf-4/hdf5-1.8.13.tar.gz}}
   \item tar -xvzf hdf5-1.8.13.tar.gz
   \item cd hdf5-1.8.13
   \item ./configure {-}{-}with-zlib=/home/username/local/ {-}{-}prefix=/home/username/local/
@@ -1085,7 +1169,7 @@ int main(int argc, char *argv[])
 \setlength\itemsep{0.3cm}
 
   \item Check the latest version at \url{https://www.unidata.ucar.edu/downloads/netcdf/}
-  \item wget \url{ftp://ftp.unidata.ucar.edu/pub/netcdf/netcdf-c-4.7.4.tar.gz}
+  \item {\footnotesize wget \url{ftp://ftp.unidata.ucar.edu/pub/netcdf/netcdf-c-4.7.4.tar.gz}}
   \item tar -xvzf netcdf-c-4.7.4.tar.gz
   \item cd netcdf-c-4.7.4
   \item CPPFLAGS=-I/home/username/local/include LDFLAGS=-L/home/username/local/lib ./configure {-}{-}prefix=/home/username/local
@@ -1120,8 +1204,8 @@ int main(int argc, char *argv[])
 This is an example program demonstrating a simple 2D write. It is intended to illustrate the use of the netCDF C API.\\[0.3cm]
 
 \begin{itemize}
-  \item {\tiny \url{https://www.unidata.ucar.edu/software/netcdf/docs/simple__xy__wr_8c.html}}\\[0.3cm]
-  \item {\tiny \url{https://www.unidata.ucar.edu/software/netcdf/docs/simple__xy__wr_8c_source.html}}\\[0.4cm]
+  \item {\tiny \url{https://www.unidata.ucar.edu/software/netcdf/docs/simple__xy__wr_8c.html}}
+  \item {\tiny \url{https://www.unidata.ucar.edu/software/netcdf/docs/simple__xy__wr_8c_source.html}}
 \end{itemize}
 
 Dependency graph for \verb|simple_xy_wr|:
@@ -1142,7 +1226,7 @@ Dependency graph for \verb|simple_xy_wr|:
   \item Create (copy!) and compile the file \verb|simple_xy_wr.c|.
 
     \begin{itemize}
-      \item {\tiny \verb|gcc -I/home/username/local/include simple_xy_wr.c -o simple_xy_wr -L/home/username/local/lib -lnetcdf|}
+      \item {\tiny \verb|gcc simple_xy_wr.c -o simple_xy_wr $(nc-config --libs --cflags)|}
     \end{itemize}
 
   \item Run the file \verb|simple_xy_wr|.
@@ -1160,17 +1244,11 @@ Dependency graph for \verb|simple_xy_wr|:
 
 \begin{frame}[fragile]{Using \texttt{ncdump}}
 
-Inspect the output file \verb|simple_xy.nc| using \verb|ncdump|
+Inspect the output file \verb|simple_xy.nc| using \texttt{ncdump}
 
 \begin{itemize}
 
   \item \verb|ncdump simple_xy.nc|
-
-  \item \lr{Only works like that in my laptop:}
-
-  \item \verb|/home/lucy/netcdf/netcdf-c-4.7.4/ncdump/ncdump simple_xy.nc|
-
-  \item \lr{It should be just ncdump file, but esdm is on my way and I don’t know how to make another link}
 
 \end{itemize}
 
@@ -1218,11 +1296,10 @@ data:
 
     \begin{itemize}
 
-      \item \verb|/home/lucy/netcdf/netcdf-c-4.7.4/ncdump/ncdump simple_xy.nc > test.cdl|
+      \item \verb|ncdump simple_xy.nc > test.cdl|
       \item \verb|more test.cdl|
-      \item \verb|/home/lucy/netcdf/netcdf-c-4.7.4/ncgen/ncgen -b test.cdl|
+      \item \verb|ncgen -b test.cdl|
       \item \verb|cmp test.nc simple_xy.nc|
-      \item \lr{Fix ncdump!}
 
     \end{itemize}
 
@@ -1235,14 +1312,13 @@ data:
 \begin{itemize}
 \setlength\itemsep{0.5cm}
 
-  \item Create a C file using ncgen and the CDL output
+  \item Create a C file using \texttt{ncgen} and the CDL output
 
     \begin{itemize}
 
-      \item \verb|/home/lucy/netcdf/netcdf-c-4.7.4/ncgen/ncgen -lc simple_xy_test.cdl > simple_xy_test.c|
+      \item \verb|ncgen -lc simple_xy_test.cdl > simple_xy_test.c|
       \item \verb|more simple_xy_test.c|
       \item \verb|cmp simple_xy_test.c simple_xy_wr.c|
-      \item \lr{Fix ncgen!}
 
     \end{itemize}
 
@@ -1254,7 +1330,7 @@ data:
 
 \begin{itemize}
 
-  \item \verb|gcc -I/home/username/local/include simple_xy_test.c -o simple_xy_test -L/home/username/local/lib -lnetcdf|
+  \item \verb|gcc simple_xy_test.c -o simple_xy_test $(nc-config --libs --cflags)|
   \item \verb|mv simple_xy_test.nc simple_xy_test2.nc|
   \item \verb|./simple_xy_test|
   \item \verb|cmp simple_xy_test.nc simple_xy_test2.nc|
@@ -1290,7 +1366,7 @@ Dependency graph for \verb|simple_xy_wr|:
   \item Create (copy!), compile and run the file \verb|simple_xy_rd.c|\\[0.4cm]
 
         \begin{itemize}
-          \item {\tiny  \verb|gcc -I/home/username/local/include simple_xy_rd.c -o simple_xy_rd -L/home/username/local/lib -lnetcdf| }\\[0.4cm]
+          \item {\tiny  \verb|gcc simple_xy_rd.c -o simple_xy_rd $(nc-config --libs --cflags)| }\\[0.4cm]
         \end{itemize}
 
   \item Run the file \verb|simple_xy_rd|
@@ -1304,21 +1380,6 @@ Dependency graph for \verb|simple_xy_wr|:
         \end{itemize}
 
 \end{itemize}
-
-\end{frame}
-
-\begin{frame}[fragile]{ncview}
-
-\begin{itemize}
-
-  \item Installation is fine.
-  \item What does it do?
-
-\end{itemize}
-
-\begin{center}
-\includegraphics[scale=0.3]{fig/ncview}
-\end{center}
 
 \end{frame}
 
