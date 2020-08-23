@@ -62,7 +62,7 @@
 \setlength\itemsep{1cm}
   \item Execute programs in C that read and write NetCDF files in a metadata-aware manner
   \item Analyze, manipulate and visualise NetCDF data
-  \item Implement an application that utilizes parallel I/O to store and analyze data
+%  \item Implement an application that utilizes parallel I/O to store and analyze data
 \end{itemize}
 
 \end{frame}
@@ -595,13 +595,32 @@ int main()
 \begin{frame}[fragile]{Using \texttt{ncdump}}
 
 \begin{itemize}
+\setlength\itemsep{0.5cm}
 
-  \item Inspect the file \verb|simple_xy.nc| using \texttt{ncdump}\\[0.4cm]
+  \item Inspect the file \verb|simple_xy.nc| using \texttt{ncdump}:\\[0.4cm]
 
   \begin{itemize}
   \setlength\itemsep{0.5cm}
 
     \item \verb|ncdump simple_xy.nc|
+
+  \end{itemize}
+
+  \item Inspect the metadata of the file \verb|simple_xy.nc| using \texttt{ncdump}:\\[0.4cm]
+
+  \begin{itemize}
+  \setlength\itemsep{0.5cm}
+
+    \item \verb|ncdump -h simple_xy.nc|
+
+  \end{itemize}
+
+  \item Check other options for \texttt{ncdump} with:\\[0.4cm]
+
+  \begin{itemize}
+  \setlength\itemsep{0.5cm}
+
+    \item \verb|ncdump --help|
 
   \end{itemize}
 
@@ -646,16 +665,25 @@ data:
 \begin{frame}[fragile]{Using \texttt{ncgen}}
 
 \begin{itemize}
+\setlength\itemsep{0.4cm}
 
   \item Create a NetCDF file using \texttt{ncgen} and the CDL output\\[0.4cm]
 
     \begin{itemize}
-    \setlength\itemsep{0.5cm}
+    \setlength\itemsep{0.3cm}
 
       \item \verb|ncdump simple_xy.nc > simple_xy_test.cdl|
       \item \verb|more simple_xy_test.cdl|
       \item \verb|ncgen -b simple_xy_test.cdl|
       \item \verb|cmp simple_xy_test.nc simple_xy.nc|
+
+    \end{itemize}
+
+  \item Check other options for \texttt{ncgen} with:\\[0.4cm]
+
+    \begin{itemize}
+
+      \item \verb|ncgen --help|
 
     \end{itemize}
 
@@ -754,6 +782,15 @@ data:
 
 \end{varwidth}
 \end{figure}
+
+\end{frame}
+
+\begin{frame}[fragile]{Using \texttt{ncview} -- A Global Example}
+
+\begin{center}
+\includegraphics[scale=0.4]{fig/elevations} \\
+File \verb|elevations.nc|\\[0.3cm]
+\end{center}
 
 \end{frame}
 
@@ -893,8 +930,6 @@ ncwa & weighted averager \\ \hline
 
 \end{frame}
 
-\end{comment}
-
 \section{Parallel I/O}
 
 \begin{frame}[fragile]{Parallel I/O Example -- MPI-IO}
@@ -1015,42 +1050,87 @@ int main(int argc, char *argv[])
 
 \end{frame}
 
+\end{comment}
+
 \section{Practising}
 
 \begin{frame}[fragile]{Files for Practising}
 
 \begin{itemize}
-%\setlength\itemsep{0.2cm}
+\setlength\itemsep{0.4cm}
 
-  \item {\scriptsize File \verb|simple_xy_nc4|}
+  \item File \verb|simple_xy_nc4|\\[0.3cm]
     \begin{itemize}
-      \item {\scriptsize Write/Read the \verb|simple_xy| file with some of the features of netCDF-4.}
-      \item {\tiny \url{https://www.unidata.ucar.edu/software/netcdf/docs/simple__xy__nc4__wr_8c.html}}
-      \item {\tiny \url{https://www.unidata.ucar.edu/software/netcdf/docs/simple__xy__nc4__rd_8c.html}}
+    \setlength\itemsep{0.2cm}
+      \item {\footnotesize Write/Read the \verb|simple_xy| file with some of the features of netCDF-4.}
+      \item {\scriptsize \url{https://www.unidata.ucar.edu/software/netcdf/docs/simple__xy__nc4__wr_8c.html}}
+      \item {\scriptsize \url{https://www.unidata.ucar.edu/software/netcdf/docs/simple__xy__nc4__rd_8c.html}}
     \end{itemize}
 
-  \item {\scriptsize File \verb|simple_nc4|}
+  \item File \verb|simple_nc4|\\[0.3cm]
     \begin{itemize}
-      \item {\scriptsize Write/Read a file demonstrating some of the features of netCDF-4.}
-      \item {\tiny \url{https://www.unidata.ucar.edu/software/netcdf/docs/simple__nc4__wr_8c.html}}
-      \item {\tiny \url{https://www.unidata.ucar.edu/software/netcdf/docs/simple__nc4__rd_8c.html}}
-    \end{itemize}
-
-  \item {\scriptsize File \verb|sfc_pres_temp_wr|}
-    \begin{itemize}
-      \item {\scriptsize This is an example program which writes/reads surface pressure and temperatures.}
-      \item {\tiny \url{https://www.unidata.ucar.edu/software/netcdf/docs/sfc__pres__temp__wr_8c.html}}
-      \item {\tiny \url{https://www.unidata.ucar.edu/software/netcdf/docs/sfc__pres__temp__rd_8c.html}}
-    \end{itemize}
-
-  \item {\scriptsize File \verb|pres_temp_4D_wr|}
-    \begin{itemize}
-      \item {\scriptsize This is an example program which writes/reads 4D pressure and temperatures.}
-      \item {\tiny \url{https://www.unidata.ucar.edu/software/netcdf/docs/pres__temp__4D__wr_8c.html}}
-      \item {\tiny \url{https://www.unidata.ucar.edu/software/netcdf/docs/pres__temp__4D__rd_8c.html}}
+    \setlength\itemsep{0.2cm}
+      \item {\footnotesize Write/Read a file demonstrating some of the features of netCDF-4.}
+      \item {\scriptsize \url{https://www.unidata.ucar.edu/software/netcdf/docs/simple__nc4__wr_8c.html}}
+      \item {\scriptsize \url{https://www.unidata.ucar.edu/software/netcdf/docs/simple__nc4__rd_8c.html}}
     \end{itemize}
 
 \end{itemize}
+
+\end{frame}
+
+\begin{frame}[fragile]{Files for Practising}
+
+\begin{itemize}
+\setlength\itemsep{0.4cm}
+
+  \item File \verb|sfc_pres_temp|\\[0.3cm]
+    \begin{itemize}
+    \setlength\itemsep{0.2cm}
+      \item {\footnotesize This is an example program which writes/reads surface pressure and temperatures.}
+      \item {\scriptsize \url{https://www.unidata.ucar.edu/software/netcdf/docs/sfc__pres__temp__wr_8c.html}}
+      \item {\scriptsize \url{https://www.unidata.ucar.edu/software/netcdf/docs/sfc__pres__temp__rd_8c.html}}
+    \end{itemize}
+
+  \item File \verb|pres_temp_4D|\\[0.3cm]
+    \begin{itemize}
+    \setlength\itemsep{0.2cm}
+      \item {\footnotesize This is an example program which writes/reads 4D pressure and temperatures.}
+      \item {\scriptsize \url{https://www.unidata.ucar.edu/software/netcdf/docs/pres__temp__4D__wr_8c.html}}
+      \item {\scriptsize \url{https://www.unidata.ucar.edu/software/netcdf/docs/pres__temp__4D__rd_8c.html}}
+    \end{itemize}
+
+\end{itemize}
+
+\end{frame}
+
+\begin{frame}[fragile]{Files for Practising}
+
+Global Potential Vegetation Dataset
+
+    \begin{itemize}
+    \setlength\itemsep{0.2cm}
+      \item File \verb|vegtype_5min.nc| -- NetCDF 5 min data
+      \item File \verb|vegtype_0.5.nc| -- NetCDF data aggregated to a 0.5 deg resolution
+      \item Files available at:
+        \begin{itemize}
+          \item {\scriptsize \url{http://nelson.wisc.edu/sage/data-and-models/global-potential-vegetation/index.php}}
+        \end{itemize}
+    \end{itemize}
+
+\vspace*{0.3cm}
+
+Northern Hemisphere EASE-Grid Weekly Snow Cover
+
+    \begin{itemize}
+    \setlength\itemsep{0.2cm}
+      \item File \verb|snowcover.mon.mean.nc| -- Monthly Mean
+      \item File \verb|snowcover.mon.ltm.nc|	-- Monthly Long Term Mean
+      \item Files available at:
+        \begin{itemize}
+          \item {\scriptsize \url{https://psl.noaa.gov/data/gridded/data.snowcover.html}}
+        \end{itemize}
+    \end{itemize}
 
 \end{frame}
 
@@ -1059,13 +1139,14 @@ int main(int argc, char *argv[])
 \begin{itemize}
 \setlength\itemsep{0.3cm}
 
-  \item Inspect the read and write files in C code.
+  \item Inspect the write and read files in C code.
   \item Compile and run the write/read C files.
   \item Inspect the output NetCDF file (.nc) using \texttt{ncdump}.
   \item Create a CDL file for the NetCDF file.
   \item Recreate the NetCDF file using \texttt{ncgen} and the CDL file.
   \item Recreate the C file using \texttt{ncgen} and the CDL file.
   \item Visualize the data in the NetCDF file with \texttt{ncview}.
+  \item Change dimensions, variables, and attributes and rebuild the previous steps.
 
 \end{itemize}
 
