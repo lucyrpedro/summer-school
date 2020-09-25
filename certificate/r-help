@@ -1,0 +1,159 @@
+
+
+
+https://www.tutorialspoint.com/r/r_csv_files.htm
+
+#!/usr/bin/env Rscript
+
+# ########################################################
+
+pdf("figs.pdf")
+
+d = read.csv("24-08-2020.csv")
+#d = attach(d)
+
+name_unique = unique(d$Name)
+
+#length(Name)
+n = length(name_unique)
+p = 1:n
+#p
+#Name
+#name_unique[89]
+
+test   = c("Alanna")
+
+#for (i in 1:n){
+
+#Name
+#name_unique[2]
+
+#d$Name == "Alanna"
+#d$Name == name_unique[2]
+
+#test
+#subset(d, Name == test)
+#name_unique[2]
+#a = subset(d, Name == name_unique[2])
+#a
+#name_unique[2]
+
+n
+1:n
+test
+
+for (k in 1:5){
+
+test
+  name_unique[2]
+  k
+  a = subset(d, Name == name_unique[k])
+  name_unique[k]
+  a
+
+}
+
+k
+a
+length(name_unique)
+n
+
+# dev.off()
+print("Graphics constructed with success!")
+
+pdf("figs.pdf")
+
+d = read.csv("24-08-2020.csv")
+#d = attach(d)
+
+#test   = c("Alanna")
+
+#name_unique = unique(Name)
+#n = length(name_unique)
+
+for (k in 1:2){
+
+# subset(d, Name == test[1])
+  a = d[d$Name == "Alanna", ]
+  print(a)
+
+}
+
+#!/usr/bin/env Rscript
+
+# ########################################################
+
+pdf("figs.pdf")
+
+d = read.csv("24-08-2020.csv",na.strings=c("."))
+
+d <- read.csv("24-08-2020.csv",colClasses="character",na.strings="?")
+#d$Total.time2 <- as.Date(d$Total.time,format="%H:%M:%S")
+
+times = as.difftime(d$Total.time, "%H:%M:%S")
+
+print("Total")
+print(sum(times))
+
+#d = attach(d)
+#print(d)
+print(ncol(d))
+print(nrow(d))
+typeof(d$Total.time)
+typeof(d$Name)
+
+name_unique = unique(d$Name)
+#print(name_unique)
+#print(name_unique[4])
+#print(d[name_unique,])
+
+#test   = c("Alanna")
+
+#name_unique = unique(d$Name)
+n = length(name_unique)
+#print(n)
+#a = numeric(0)
+#vet = matrix(nrow=1,ncol=8)
+
+for (k in 4:4){
+
+  a = d[d$Name == name_unique[k], ]
+#  print("Name")
+#  print(name_unique[k])
+#  print("Time")
+#  print(a$Total.time)
+#  a[,7] = as.numeric(as.character(a[,7]))
+#  t = sum(a$Total.time)
+#  print("Total Time")
+#  print(t)
+#  vet = cbind(vet, a)
+#   print(length(d))
+}
+
+#print(a)
+print(a$Total.time)
+t = a$Total.time
+typeof(t)
+t2 = as.double(t)
+t1 = as.difftime(t2, "%H:%M:%S")
+print(t)
+
+times = as.difftime(c("2:50:04", "1:24:10", "3:10:43",
+                       "1:44:26", "2:10:19", "3:01:04"), "%H:%M:%S")
+
+typeof(times)
+print(sum(times))
+
+#dtm1 = strptime(c("1.1.2010 11:35"), format = "%d.%m.%Y %H:%M", tz = "CET")
+#dtm2 = strptime(c("1.1.2010 13:35"), format = "%d.%m.%Y %H:%M", tz = "CET")
+
+#dtm3 = sum(dtm1, dtm2)
+#print(dtm1)
+#print(dtm2)
+#print(dtm3)
+
+#print(vet$Name)
+#print(vet$Total.time)
+
+# dev.off()
+print("Graphics constructed with success!")

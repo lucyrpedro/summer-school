@@ -1,0 +1,85 @@
+\documentclass[a4paper,12pt]{esiwace-modified}
+\usepackage[titletoc]{appendix}
+% \documentclass[a4paper,12pt]{report}
+
+\title{D6.1 -- Report on Summer School and Its Material}
+\author{
+Luciana Pedro
+\and Julian Kunkel
+}
+
+\makeatletter
+\patchcmd{\@verbatim}
+  {\verbatim@font}
+  {\verbatim@font\tiny}
+  {}{}
+\makeatother
+
+\date{\today} % Replace with final date
+
+\usepackage[numbers]{natbib}
+\usepackage{adjustbox}
+\usepackage{listings}
+\usepackage{framed}
+\usepackage{textcomp}
+\usepackage{footnote}
+\usepackage{verbatim}
+\usepackage{float}
+\usepackage{url}
+\usepackage{array}
+\usepackage{graphicx}
+\usepackage{longtable}
+\usepackage{adjustbox}
+\usepackage{enumitem}
+\usepackage{comment}
+\usepackage{pdflscape}
+\usepackage{adjustbox}
+\usepackage{tabularx}
+\usepackage{tikz}
+
+\newcommand{\tab}{\hspace{9pt}}
+
+\makeatletter
+\global\let\tikz@ensure@dollar@catcode=\relax
+\makeatother
+
+\begin{document}
+\date{\today}
+
+\maketitle
+
+\tableofcontents
+
+\parskip 12pt
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\newpage
+
+\input{intro}
+\clearpage
+
+\input{proposal}
+\clearpage
+
+\input{ss2020}
+\clearpage
+
+\input{ss2021}
+\clearpage
+
+\input{material}
+\clearpage
+
+%\input{}
+%\clearpage
+
+%\input{}
+%\clearpage
+
+%\input{}
+%\clearpage
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\end{document}

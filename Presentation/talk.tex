@@ -553,7 +553,7 @@ widen and researchers are looking for solutions to tackle this problem.\\[0.4cm]
         \begin{itemize}
         \setlength\itemsep{0.6cm}
 
-        \item Attached SSDs to compute nodes to aggregate many small I/O requests into few larger ones and/or to compute nodes to speed-up MPI-IO.
+        \item Attached SSDs to compute nodes to aggregate many small I/O requests into few larger ones and/or to compute nodes to speed-up MPI-I/O.
 
         \item Multi-layer storage hierarchy with NVM, SSDs, and different types of hard disks. % drives.
 
@@ -1770,17 +1770,17 @@ data:
           \item Developers should be familiar with and use existing NetCDF conventions.
         \end{itemize}
 
-        \item	Coordinate Systems
+        \item	Coordinate systems
         \begin{itemize}
           \item Spatial and temporal location of data are supported by use of coordinate systems.
         \end{itemize}
 
-        \item	Variable Grouping
+        \item	Variable grouping
         \begin{itemize}
           \item How you group data into variables can determine whether common analysis and visualization software can effectively use the data.
         \end{itemize}
 
-        \item	Variable Attributes
+        \item	Variable attributes
         \begin{itemize}
           \item Conventional variable attributes supply necessary metadata.
         \end{itemize}
@@ -1796,22 +1796,22 @@ data:
     \begin{itemize}
     \setlength\itemsep{0.5cm}
 
-        \item	Strings and Character Variables
+        \item	Strings and character variables
         \begin{itemize}
           \item Use character data properly for representing text strings.
         \end{itemize}
 
-        \item Calendar Date and Time
+        \item Calendar date and time
         \begin{itemize}
           \item Represent calendar dates and times with standards and conventions.
         \end{itemize}
 
-        \item	Packed Data Values
+        \item	Packed data values
         \begin{itemize}
           \item Conventions for packing numeric data to save space have some subtleties.
         \end{itemize}
 
-        \item Missing Data Values
+        \item Missing data values
         \begin{itemize}
           \item To indicate that data values are missing, invalid, or not written, special values are conventionally used.
         \end{itemize}
@@ -1829,7 +1829,7 @@ data:
 \begin{frame}[fragile]{Parallel I/O}
 
 \begin{itemize}
-\setlength\itemsep{0.1cm}
+\setlength\itemsep{0.2cm}
 
   \item Parallel I/O allows each processor in a multi-processor system to read and write data from multiple processes to a common file independently.
 
@@ -1840,8 +1840,6 @@ data:
   \item Data-intensive scientific applications use parallel I/O software to access files.
 
   \item In HPC, increasing demands in the I/O system can cause bottlenecks. Parallel I/O plays a fundamental role to balance the fast increase in computational power and the progress of processor architectures.
-
-  \item Used properly, parallel I/O allows users to overcome I/O bottlenecks in HPC environments.
 
 \end{itemize}
 
@@ -1854,7 +1852,7 @@ data:
 
   \item NetCDF-4 provides parallel file access to both classic and NetCDF-4/HDF5 files.
 
-  \item The parallel I/O to NetCDF-4 files is achieved through the HDF5 library while the parallel I/O to classic files is through PNetCDF.
+  \item The parallel I/O to classic files is achieved through PNetCDF while the parallel I/O to NetCDF-4 files is through the HDF5 library.
 
   \item NetCDF-4 exposes the parallel I/O features of HDF5.
     \begin{itemize}
@@ -1870,36 +1868,53 @@ data:
 \begin{frame}[fragile]{Using Parallel I/O in NetCDF-4}
 
 \begin{itemize}
-\setlength\itemsep{0.3cm}
 
-  \item Special \verb|nc_create_par| and \verb|nc_open_par| functions are used to create/open a NetCDF file.
+  \item Functions \verb|nc_create_par| and \verb|nc_open_par| are used to create/open NetCDF files.
+
+\end{itemize}
+
+\vspace*{-0.3cm}
+
+\begin{columns}
+\begin{column}{0.45\textwidth}
+\begin{block}{}
+\vspace*{-0.3cm}
+{ \tiny
+\begin{verbatim}
+EXTERNL int
+nc_create_par(const char *path, int cmode, MPI_Comm comm,
+               MPI_Info info, int *ncidp);
+\end{verbatim}
+}
+\vspace*{-0.3cm}
+\end{block}
+\end{column}
+
+\begin{column}{0.45\textwidth}
+\begin{block}{}
+\vspace*{-0.3cm}
+{ \tiny
+\begin{verbatim}
+EXTERNL int
+nc_open_par(const char *path, int mode, MPI_Comm comm,
+             MPI_Info info, int *ncidp);
+\end{verbatim}
+}
+\vspace*{-0.3cm}
+\end{block}
+\end{column}
+\end{columns}
+
+\vspace*{0.3cm}
+
+  \begin{itemize}
+  \setlength\itemsep{0.3cm}
 
   \item The files they open are normal NetCDF-4/HDF5 files, but these functions also take MPI parameters.
 
   \item The parallel access associated with these functions is not a characteristic of the data file, but the way it was opened. The data file is the same, but using the parallel \verb|open/create| function allows parallel I/O to take place.
 
 \end{itemize}
-
-\begin{figure}
-\centering
-\begin{varwidth}{\linewidth}
-{ \tiny
-
-\begin{verbatim}
-
-EXTERNL int
-nc_create_par(const char *path, int cmode, MPI_Comm comm,
-               MPI_Info info, int *ncidp);
-
-EXTERNL int
-nc_open_par(const char *path, int mode, MPI_Comm comm,
-             MPI_Info info, int *ncidp);
-
-\end{verbatim}
-
-}
-\end{varwidth}
-\end{figure}
 
 \end{frame}
 
@@ -1911,35 +1926,167 @@ nc_open_par(const char *path, int mode, MPI_Comm comm,
   \item In MPI programs, I/O may be collective or independent.
 
     \begin{itemize}
-      \item Collective: It must be done by all processes at the same time
+      \item Collective: It must be done by all processes at the same time.
       \item Independent: It can be done by any process at any time.
     \end{itemize}
 
-  \item All NetCDF metadata writing operations are collective. That is, all creation of groups, types, variables, dimensions, or attributes.
+  \item All NetCDF metadata writing operations are collective. All creation of dimensions, variables, attributes, types, and groups are done by all processes at the same time.
 
-  \item Data reads and writes (ex. calls to \verb|nc_put_vara_int| and \verb|nc_get_vara_int|) may be independent (the default) or collective. To make writes to a variable collective, call the \verb|nc_var_par_access| function.
+  \item Reading and writing data (ex. calls to \verb|nc_put_var_int| and \verb|nc_get_var_int|) may be independent (the default) or collective. To write into a variable collectively, call the \verb|nc_var_par_access| function.
 
 \end{itemize}
 
-\begin{figure}
-\centering
-\begin{varwidth}{\linewidth}
+\vspace*{-0.3cm}
+
+\begin{columns}
+\begin{column}{0.45\textwidth}
+\begin{block}{}
+\vspace*{-0.3cm}
 { \tiny
-
 \begin{verbatim}
+EXTERNL int
+nc_var_par_access(int ncid, int varid, int par_access);
+\end{verbatim}
+}
+\vspace*{-0.3cm}
+\end{block}
+\end{column}
 
+\begin{column}{0.35\textwidth}
+\begin{block}{}
+\vspace*{-0.3cm}
+{ \tiny
+\begin{verbatim}
 /* Use these with nc_var_par_access(). */
 #define NC_INDEPENDENT 0
 #define NC_COLLECTIVE 1
-
-EXTERNL int
-nc_var_par_access(int ncid, int varid, int par_access);
-
 \end{verbatim}
-
 }
-\end{varwidth}
-\end{figure}
+\vspace*{-0.3cm}
+\end{block}
+\end{column}
+\end{columns}
+
+\end{frame}
+
+\begin{frame}[fragile]{Converting NetCDF-4 to Parallel NetCDF-4}
+
+\begin{center}
+\includegraphics[scale=0.42]{fig/netcdf-par1}
+\end{center}
+
+\end{frame}
+
+\begin{frame}[fragile]{Converting NetCDF-4 to Parallel NetCDF-4}
+
+\begin{center}
+\includegraphics[scale=0.42]{fig/netcdf-par2}
+\end{center}
+
+\end{frame}
+
+\begin{frame}[fragile]{Converting NetCDF-4 to Parallel NetCDF-4}
+
+\begin{center}
+\includegraphics[scale=0.42]{fig/netcdf-par3}
+\end{center}
+
+\end{frame}
+
+\subsection{Examples of Performance}
+
+\begin{frame}[fragile]{Examples of Performance -- POSIX $\times$ MPI-I/O}
+
+\begin{itemize}
+\setlength\itemsep{0.5cm}
+
+\item Two programs using POSIX to write a 16k file.
+
+  \begin{itemize}
+    \item The first program writes \textbf{every byte} with one I/O call.
+    \item The second program writes \textbf{all bytes} with one I/O call.
+  \end{itemize}
+
+\item One program using MPI-I/O to write a 16k file.
+
+  \begin{itemize}
+    \item The program writes \textbf{all bytes} with one I/O call.
+  \end{itemize}
+
+\item Codes are available at:
+
+  \begin{itemize}
+    \item \url{https://github.com/ESiWACE/io-training/tree/master/POSIX}
+    \item Also available in the Virtual Machine.
+  \end{itemize}
+
+\end{itemize}
+
+\end{frame}
+
+\begin{frame}[fragile]{}
+
+\begin{center}
+\includegraphics[scale=0.6]{fig/prog-posix1}
+\end{center}
+
+\end{frame}
+
+\begin{frame}[fragile]{}
+
+\begin{center}
+\includegraphics[scale=0.6]{fig/prog-posix2}
+\end{center}
+
+\end{frame}
+
+\begin{frame}[fragile]{}
+
+\begin{center}
+\includegraphics[scale=0.6]{fig/prog-mpi}
+\end{center}
+
+\end{frame}
+
+\begin{frame}[fragile]{Examples of Performance -- POSIX $\times$ MPI-I/O}
+
+\begin{itemize}
+\setlength\itemsep{0.4cm}
+
+\item \textbf{Best values measured in a standard laptop (Intel Core i5).}
+  \begin{itemize}
+    \item Similar order of magnitude in the VM.
+  \end{itemize}
+
+\item Two programs using POSIX to write a 16k file.
+
+  \begin{itemize}
+  \setlength\itemsep{0.2cm}
+
+    \item The first program writes every byte with one I/O call.
+    \begin{itemize}
+      \item Measured \onslide<2->{2.760475e-02}s at \onslide<3->{0.142} MiB/s.
+    \end{itemize}
+
+    \item The first program writes all bytes with one I/O call.
+    \begin{itemize}
+      \item Measured \onslide<2->{3.928800e-05}s at \onslide<4->{99.426} MiB/s.
+    \end{itemize}
+
+  \end{itemize}
+
+\item One program using MPI-I/O to write a 16k file.
+
+  \begin{itemize}
+
+  \item The program writes all bytes with one I/O call.
+  \begin{itemize}
+    \item Measured \onslide<2->{1.160006e-07}s at \onslide<5->{33674.397} MiB/s.
+  \end{itemize}
+
+  \end{itemize}
+
+\end{itemize}
 
 \end{frame}
 

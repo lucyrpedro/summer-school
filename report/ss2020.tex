@@ -1,0 +1,422 @@
+\chapter{Summer School on Effective HPC for Climate and Weather -- 2020}
+\label{ch:ss2020}
+
+\section{Introduction}
+
+The Summer School on Effective HPC for Climate and Weather will bring together young researchers and software engineers interested in the current technological developments in the field of climate modelling. Together, they will explore hot topics in high-performance computing and climate and weather applications.
+
+Making effective use of HPC environments becomes increasingly challenging for PhD students and young researchers. As their primary intent is to generate insight, they often struggle with the technical nature of the tools and environments that enable their computer-aided research: computation, integration, and analysis of relevant data. The scope of this event is the training of young researchers and software engineers in methods, tools, and theoretical knowledge to make effective use of HPC environments and generate insights for the field and their research.
+
+Due to COVID-19 restrictions, the Summer School 2020 will be an online-only event. We hope next year to welcome you in Reading - UK, as it was initially planned. You can check some preliminary information about the 2021 event in Summer School on Effective HPC for Climate and Weather.
+
+Date	24-28 August 2020
+Venue	Online Event (free to attend)
+Contact	Julian Kunkel (University of Reading, UK)
+Communication	Mailing List
+
+While the school aims to prepare the attendees for large scale simulation runs and data processing, it does also cover a representative selection of modern concepts such as machine learning, domain-specific languages, containerisation, and analysis of climate/weather data using Python 1).
+
+We will also provide an outlook of challenges and strategies for HPC for climate and weather. Additionally, we aim to foster networking among scientists bringing together users of specific models and tools and enabling them to exchange their knowledge.
+
+A certificate of attendance will be provided to all participants that attend the event regularly.
+
+The summer school will also support the mission of the European Network for Earth System modelling (ENES).
+
+The ESiWACE project funds this summer school.
+
+\section{Topics and Sessions}
+
+The topics covered in the summer school are as follows:
+
+\subsection{Extreme-Scale Computation}
+
+\subsubsection{Abstract}
+
+This session will introduce the concept of extreme-scale computing with an explanation of the trends in the computer architectures that provide the underlying computing power. In particular, the increasing use of parallelism and heterogeneity in these architectures will be discussed.
+A high-level overview will then be given of the performance, portability and productivity (3P's) requirements that Weather and Climate models have in order to run successfully on these computer architectures. It will be shown how current approaches can struggle to meet all three of these requirements.
+Lastly, a relatively new, Domain-Specific Language (DSL), approach to programming Weather and Climate models will be introduced with examples from two existing DSLs - DAWN and PSyclone. It will be shown that the DSL approach offers the possibility of supporting all three of the above requirements, by separating the implementation of the science code from its parallelisation and optimisation on the underlying computer architecture.
+
+\subsubsection{Learning Objectives}
+
+\begin{itemize}
+
+\item Illustrate the complexity and diversity of extreme-scale computing on examples in climate and weather
+\item State the Performance, Portability and Productivity requirements of Weather and Climate models (3P’s)
+\item Describe how Domain-Specific Languages (DSLs) can provide a solution to the problem of providing the 3P's
+\item Use PSyclone and Gridtools DSLs for small applications
+
+\end{itemize}
+
+\subsubsection{Sessions}
+
+\begin{table}[H]
+\begin{center}
+\begin{tabular}{|l|l|l|}
+\hline
+\multicolumn{3}{|c|}{\textbf{Extreme-Scale Computation}} \\ \hline
+\multicolumn{3}{|l|}{Chair: Rupert Ford (STFC, UK)} \\
+\multicolumn{3}{|l|}{Chair: Carlos Osuna (MeteoSwiss, Switzerland)} \\ \hline \hline
+Time & \multicolumn{1}{c|}{Title} & \multicolumn{1}{c|}{Speakers} \\ \hline \hline
+09:00 & Extreme Computing Session - Overview & Rupert Ford \\ \hline
+09:05 & Supercomputer Trends & Simon McIntosh-Smith \\ \hline
+09:30 & Performance, Portability and Productivity & Rupert Ford \\ \hline
+10:00 & Introduction to DSLs & Ben Weber and Rupert Ford \\ \hline
+10:45 & An Introduction to PSyclone & Andrew Porter (STFC, UK) \\ \hline
+11:15 & Dusk \& Dawn - Introduction and Overview & Giacomo Serafini \\ \hline
+11:45 & Tutorial Introduction & Carlos Osuna \\ \hline
+12:15 & Lab Tutorial: Extreme-Scale Computation & \\ \hline
+      & PSyclone Tutorial & \\ \hline
+      & Dusk \& Dawn Tutorial & \\ \hline
+\end{tabular}
+\end{center}
+\end{table}
+
+\subsection{Parallel Programming in Practice}
+
+\subsubsection{Abstract}
+
+In this session, we will provide a global overview of how the main concepts of parallel programming are implemented in weather and climate codes. We will detail the different parallel programming models for distributed and shared memory systems and describe the resulting scalability of commonly-used algorithms implementing those models. Particular attention will be devoted to specific features that may inhibit scaling and performance of weather and climate codes. This analysis will be done at the level of the code routine itself but also in the more general context of code coupling, the latter being a specific implementation of coarse grain parallelism.
+
+\subsubsection{Learning Objectives}
+
+\begin{itemize}
+
+\item Describe the scaling characteristics of commonly used algorithms in weather and climate models
+\item Discuss issues which may inhibit scaling and performance
+\item Classify programming models for distributed and shared memory systems
+\item Identify performance features and potential issues for computer processor architectures
+\item Describe the concepts of coupling software
+\item Classify coupling software implementations given their main characteristics
+\item Evaluate qualitatively the impact of different coupling configurations (sequential vs concurrent, multi vs mono-executable, …) on coupled model performance
+\item Describe the most used coupling software in climate and weather applications
+
+\end{itemize}
+
+\subsubsection{Sessions}
+
+\begin{table}[H]
+\begin{center}
+\begin{tabular}{|l|l|l|}
+\hline
+\multicolumn{3}{|c|}{\textbf{Parallel Programming in Practice}} \\ \hline
+\multicolumn{3}{|l|}{Chair: Sophie Valcke (Cerfacs, France)} \\
+\multicolumn{3}{|l|}{Chair: Christopher Maynard (University of Reading, UK)} \\ \hline \hline
+Time & \multicolumn{1}{c|}{Title} & \multicolumn{1}{c|}{Speakers} \\ \hline \hline
+13:30 & Scaling Algorithms & Christopher Maynard \\ \hline
+15:15 & Code Coupling & Sophie Valcke \\ \hline
+\end{tabular}
+\end{center}
+\end{table}
+
+\subsection{Modern Storage}
+
+\subsubsection{Abstract}
+
+\subsubsection{Learning Objectives}
+
+\begin{itemize}
+
+\item Describe the architecture and architectural implications of modern storage architectures and object stores suitable for extreme-scale computing
+\item Discuss the storage stack with its semantics and potential performance implications on different levels: in particular POSIX vs MPI-IO vs NetCDF and high-level I/O middleware
+\item Execute the Darshan tool to identify I/O patterns and assess the performance
+\item Apply benchmarking tools to assess the performance
+
+\end{itemize}
+
+\subsubsection{Sessions}
+
+\begin{table}[H]
+\begin{center}
+\begin{tabular}{|l|l|l|}
+\hline
+\multicolumn{3}{|c|}{\textbf{Modern Storage}} \\ \hline
+\multicolumn{3}{|l|}{Chair: Sai Narasimhamurthy (Seagate, UK)} \\
+\multicolumn{3}{|l|}{Chair: Jean-Thomas Acquaviva (DDN, France)} \\ \hline \hline
+Time & \multicolumn{1}{c|}{Title} & \multicolumn{1}{c|}{Speakers} \\ \hline \hline
+09:00 & Modern Storage & Sai Narasimhamurthy and \\
+      &                & Konstantinos Chasapis \\ \hline
+10:45 & Lab Tutorial: Modern Storage & \\ \hline
+      & Darshan Demonstration - Hands-on Session & Konstantinos Chasapis \\ \hline
+      & Installing Darshan for I/O Performance Analysis & Konstantinos Chasapis \\ \hline
+      & Introduction to Using Darshan for I/O Performance Analysis & Konstantinos Chasapis \\ \hline
+\end{tabular}
+\end{center}
+\end{table}
+
+\subsection{Input/Output and Middleware}
+
+\subsubsection{Abstract}
+
+Climate and weather research is typically data-intensive and applications must utilise input/output efficiently. Often, a user struggles to assess observed performance leading to superflux attempts to tune the application and optimise performance in a wrong layer of the stack. The content of this session is twofold. Firstly, we discuss storage layers focusing on the NetCDF middleware and provide a performance model that aids users to identify inefficient I/O. Secondly, we introduce the NetCDF Climate and Forecast (CF) conventions that are often used as a standard to exchange data.
+
+\subsubsection{Learning Objectives}
+
+\begin{itemize}
+
+\item Discuss challenges for data-driven research
+\item Describe the role of middleware and file formats
+\item Identify typical I/O performance issues and their causes
+\item Apply performance models to assess and optimise I/O performance
+\item Design a data model for NetCDF/CF
+\item Analyse, manipulate and visualise NetCDF data
+\item Execute programs in C and Python that read and write NetCDF files in a metadata-aware manner
+\item Implement an application that utilises parallel I/O to store and analyse data
+\item Describe ongoing research activities in high-performance storage
+
+\end{itemize}
+
+\subsubsection{Sessions}
+
+\begin{table}[H]
+\begin{center}
+\begin{tabular}{|l|l|l|}
+\hline
+\multicolumn{3}{|c|}{\textbf{Input/Output and Middleware}} \\ \hline
+\multicolumn{3}{|l|}{Chair: Julian Kunkel (University of Reading, UK)} \\
+\multicolumn{3}{|l|}{Chair: Luciana Pedro (University of Reading, UK)} \\ \hline \hline
+\multicolumn{3}{|l|}{Chair: Sadie Bartholomew (University of Reading, UK)} \\ \hline \hline
+Time & \multicolumn{1}{c|}{Title} & \multicolumn{1}{c|}{Speakers} \\ \hline \hline
+13:30 & Input/Output and Middleware & Luciana Pedro \\ \hline
+15:15 & Python Data Tools for CF-netCDF & Sadie Bartholomew \\ \hline
+16:45 & Lab Tutorial: Input/Output and Middleware & \\ \hline
+      & An Introduction to NetCDF Using C Language & Luciana Pedro \\ \hline
+      & CF-NetCDF with cfdm, cf-python and cf-plot & Sadie Bartholomew \\ \hline
+\end{tabular}
+\end{center}
+\end{table}
+
+\subsection{Machine Learning}
+
+\subsubsection{Abstract}
+
+(1) Predicting weather and climate require modelling the Earth System -- a huge system that consists of many individual components that show chaotic behaviour and for which conventional tools often struggle to provide satisfying results. (2) A huge amount of data of the Earth System is available from both observations and modelling. (3) Machine learning methods allow learning complex non-linear behaviour from data if enough data is available and to apply the learned tools efficiently on modern supercomputers. If you combine (1), (2) and (3), it is easy to see that there are a large number of potential application areas for machine learning in weather and climate science that are currently explored. However, whether these approaches will succeed is still unclear as there are also a number of challenges for the application of machine learning tools in weather predictions. This talk will provide an introduction to machine learning, outline how to apply machine learning in Earth System modelling, show examples for the application of machine learning throughout the weather and climate modelling workflow, and discuss the challenges that will need to be tackled.
+
+\subsubsection{Learning Objectives}
+
+\begin{itemize}
+
+\item Describe the relevance of Machine Learning and its application to judge why there is such a hype around the topic at the moment
+\item Explore how machine learning can be used in weather and climate modelling
+\item List a number of specific examples for the use of machine learning at ECMWF
+\item Discuss challenges for machine learning in weather and climate science
+
+\end{itemize}
+
+\subsubsection{Sessions}
+
+\begin{table}[H]
+\begin{center}
+\begin{tabular}{|l|l|l|}
+\hline
+\multicolumn{3}{|c|}{\textbf{Machine Learning}} \\ \hline
+\multicolumn{3}{|l|}{Chair: Peter Dueben (ECMWF, UK)} \\ \hline \hline
+Time & \multicolumn{1}{c|}{Title} & \multicolumn{1}{c|}{Speakers} \\ \hline \hline
+09:30 & Machine Learning for Weather and Climate Predictions & Peter Dueben \\ \hline
+\hline
+\end{tabular}
+\end{center}
+\end{table}
+
+\subsection{ECMWF - Virtual Visit}
+
+\subsubsection{Computer Hall Tour}
+
+Learn about the performance and specifications of the ECMWF High-Performance Computing Facilities, and the way this supercomputer is used for operations, storage and research by ECMWF and its 34 Member \& Co-operating States. The presentation will include a video tour of the computing facilities currently located in our HQ in Reading and a preview of what the new data centre will look like when it opens in Bologna (Italy) next year.
+
+\subsubsection{Weather Room Tour}
+
+Learn about ECMWF Forecasting products and activities. A member of the ECMWF Forecasting team will introduce you to the maps, charts and plots that are produced daily in the ``Weather Room'' for weather prediction and analysis.
+
+\subsubsection{Sessions}
+
+\begin{table}[H]
+\begin{center}
+\begin{tabular}{|l|l|l|}
+\hline
+\multicolumn{3}{|c|}{\textbf{ECMWF -- Virtual Visit}} \\ \hline
+\multicolumn{3}{|l|}{Chair: Chair: Peter Dueben (ECMWF, UK)} \\ \hline \hline
+Time & \multicolumn{1}{c|}{Title} & \multicolumn{1}{c|}{Speakers} \\ \hline \hline
+11:00 & Introduction to ECMWF & Peter Dueben \\ \hline
+11:30 & Computer Hall Tour & Umberto Modigliani \\ \hline
+12:00 & Weather Room Tour & David Lavers \\ \hline
+\hline
+\end{tabular}
+\end{center}
+\end{table}
+
+\subsection{High-Performance Data Analytics and Visualisation}
+
+\subsubsection{Abstract}
+
+Analysis and visualisation of scientific data, such as those in the field of climate and weather, requires solution capable of effectively and efficiently handling massive data. In this session, we will discuss some of the main challenges concerning scientific data management and in particular those related to data analytics and visualisation. Software solutions for high-performance data analytics and visualisation, as well as examples of applications of these systems for real use cases in the climate and weather domain, will be presented. The lab tutorial will provide a more practical introduction about some tools and modules for data analysis and how to apply these on climate data, as well as a walk-through of the VMI for the virtual lab.
+
+\subsubsection{Learning Objectives}
+
+\begin{itemize}
+
+\item Discuss the main challenges of joining big data and HPC for scientific data management, in particular for data analytics and visualisation
+\item Put into action practical hints about some HPDA tools and their application to scientific data at scale
+\item Apply techniques and knowledge acquired during the course to real case studies in the weather and climate domain
+
+\end{itemize}
+
+\subsubsection{Sessions}
+
+\begin{table}[H]
+\begin{center}
+\begin{tabular}{|l|l|l|}
+\hline
+\multicolumn{3}{|c|}{\textbf{High-Performance Data Analytics and Visualisation}} \\ \hline
+\multicolumn{3}{|l|}{Chair: Donatello Elia (CMCC, Italy)} \\
+\multicolumn{3}{|l|}{Chair: Niklas Röber (DKRZ, Germany)} \\ \hline \hline
+Time & \multicolumn{1}{c|}{Title} & \multicolumn{1}{c|}{Speakers} \\ \hline \hline
+13:30 & Data Visualization Using ParaView & Niklas Röber \\ \hline
+14:00 & Hands-on: Data Visualization Using ParaView & \\ \hline
+15:15 & High-Performance Data Analytics and Visualisation & Donatello Elia \\
+      &                                                   & and Sandro Fiore \\
+      &                                                   & (CMCC, Italy) \\ \hline
+16:45 & Lab Tutorial: High-Performance Data Analytics and Visualisation & \\ \hline
+      & High-Performance Data Analytics and Visualisation & Donatello Elia \\ \hline
+\hline
+\end{tabular}
+\end{center}
+\end{table}
+
+\subsection{Performance Analysis}
+
+\subsubsection{Abstract}
+
+\subsubsection{Learning Objectives}
+
+\begin{itemize}
+
+\item Define performance analysis fundamentals (objectives, methods, metrics, hardware counters, etc.)
+\item Describe the BSC performance analysis tools suite (Extrae, Paraver, Dimemas)
+\item Interpret uses cases from Earth System Models (IFS, NEMO, etc.) that illustrate how to identify and solve performance issues
+\item Apply profiling techniques to identify performance bottlenecks in your code
+\item Summarise typical performance problems
+\item Discuss specific knowledge about performance analysis applied to earth system modelling
+
+\end{itemize}
+
+\subsubsection{Sessions}
+
+\begin{table}[H]
+\begin{center}
+\begin{tabular}{|l|l|l|}
+\hline
+\multicolumn{3}{|c|}{\textbf{Performance Analysis}} \\ \hline
+\multicolumn{3}{|l|}{Chair: Mario C. Acosta (BSC, Spain)} \\
+\multicolumn{3}{|l|}{Chair: Xavier Yepes (BSC, Spain)} \\ \hline \hline
+Time & \multicolumn{1}{c|}{Title} & \multicolumn{1}{c|}{Speakers} \\ \hline \hline
+09:00 & Computational Profiling Analysis for Climate and Weather & Xavier Yepes and \\
+      &                                                          & Mario C. Acosta \\ \hline
+10:45 & Lab Tutorial: Performance Analysis & \\ \hline
+      & Paraver Hands-on Using the HARMONIE Model & Mario C. Acosta and \\
+      &                                           & Xavier Yepes \\ \hline
+\hline
+\end{tabular}
+\end{center}
+\end{table}
+
+\subsection{Containers}
+
+\subsubsection{Abstract}
+
+This session will present an introduction to an end-to-end scientific computing workflow utilising Docker containers. Attendees will learn about the fundamentals of containerisation and the advantages it brings to scientific software. Participants will then familiarise with Docker technologies and tools, discovering how to manage and run containers on personal computers, and how to build applications of increasing complexity into portable container images. Particular emphasis will be given to software resources which enable highly-efficient scientific applications, like MPI libraries and the CUDA Toolkit. The second part of the lecture will focus on deploying Docker images on high-end computing systems, using a container engine capable of leveraging the performance and scalability of such machines, while maintaining a consistent user experience with Docker.
+
+\subsubsection{Learning Objectives}
+
+\begin{itemize}
+
+\item Describe the difference between a container and a virtual machine
+\item Explain the relationship between a container and a container image
+\item Outline the basic workflow for the distribution of an image
+\item List advantages of using containers for scientific applications
+\item Write a Dockerfile
+\item Build a container image using Docker
+\item Run containers on personal computers using Docker
+\item Perform basic management of Docker containers and images
+\item Explain the motivations which drove the creation of HPC-focused container solutions
+\item Highlight differences and similarities between Docker and Sarus
+
+\end{itemize}
+
+\subsubsection{Sessions}
+
+\begin{table}[H]
+\begin{center}
+\begin{tabular}{|l|l|l|}
+\hline
+\multicolumn{3}{|c|}{\textbf{Containers}} \\ \hline
+\multicolumn{3}{|l|}{Chair: Alberto Madonna (ETH Zürich, Switzerland)} \\
+\multicolumn{3}{|l|}{Chair: Simon Wilson (NCAS, UK)} \\ \hline \hline
+Time & \multicolumn{1}{c|}{Title} & \multicolumn{1}{c|}{Speakers} \\ \hline \hline
+13:30 & Introduction to Containers and Docker & Alberto Madonna \\ \hline
+15:15 & Introduction to Containers on HPC & \\
+      & with the Sarus Container Engine & Alberto Madonna \\ \hline
+16:45 & Lab Tutorial: Containers & \\ \hline
+      & Containers Hands-on & \\ \hline
+\hline
+\end{tabular}
+\end{center}
+\end{table}
+
+\section{Applicants}
+
+\subsection{Letters}
+\label{sec:letters}
+
+Everyone interested in joining the Summer School 2020 were first required to make a formal registration. The selection procedure for applicants was conducted by a committee that oversees the registration to ensure the balance across countries and gender and support those in need. All applicants had to submit:
+
+\begin{itemize}
+
+\item Up to one-page motivational letter including:
+  \begin{itemize}
+    \item a tentative idea of a project that can be conducted as part of the Academic Group Projects, including no more than five keywords, and
+    \item how you will act as a multiplier of the gathered information.
+  \end{itemize}
+\item Up to one-page CV showing that the applicant satisfies the description of the target audience including a reference to one paper/thesis/dissertation/project in a related area in which the applicant is the author (or one of the authors).
+
+\end{itemize}
+
+Considering that the main idea behind the summer school is spreading concepts on effective HPC for climate and weather, typically only one applicant will be selected per university/company.
+
+Applicants that did not require funding from the summer school had priority to ensure that more people would benefit from the proposal.
+
+\subsection{Registration}
+\label{sec:registration}
+
+The applicants also had to choose between two main packages representing the fee structure of the event:
+
+\textbf{The Full Package Registration: £800}
+
+\begin{itemize}
+
+\item Registration in the event Mailing List
+\item Attendance to all sessions and social events
+\item Accommodation on university premises (Check Section Accommodation)
+\item All-inclusive meals (breakfast, lunch, and three-course self-service dinner with tea and coffee)
+\item Transport between London Heathrow Airport and the venue (by bus)
+
+\end{itemize}
+
+\textbf{The Minimal Registration: £350}
+
+\begin{itemize}
+
+\item Registration in the event Mailing List
+\item Attendance to all sessions and social events
+\item Lunch
+
+\end{itemize}
+
+\subsection{Form}
+
+All applicants had to fulfil a Google Form to register to the event. The form provided means to attach the letters (Session \ref{sec:letters}), indicate the type of registration (Session \ref{sec:registration}), and  whether a subsidy was required.
+
+For statistical purposes, we collected data on the applicants background in the fields explored in the summer school.
+
+\section{Participants}
+
+Due to COVID‑19 pandemic, the event ended up to being a virtual event. For this purpose case, a simpler form was created to guarantee access to the event links. We ended up with 162 participants, from which 122 assured they would participate in all topic sessions and 84 would participate in the lab sessions.
