@@ -36,12 +36,40 @@ Luciana Pedro
 \usepackage{adjustbox}
 \usepackage{tabularx}
 \usepackage{tikz}
+\usepackage{indentfirst} % To have the first paragraph indented
 
-\newcommand{\tab}{\hspace{9pt}}
+\graphicspath{{fig/}{slides/}}
 
 \makeatletter
 \global\let\tikz@ensure@dollar@catcode=\relax
 \makeatother
+
+% #1 summer-school-ec0_overview.png
+% #2 https://hps.vi4io.org/_media/events/2020/summer-school-ec0_overview.pdf
+% #3 https://www.youtube.com/watch?v=aZ8J7fqWd7M&list=PL_PBXYC_ExoP_hNaiBvvbt8y1sbbShroH&index=3&t=0s
+% #4 Extreme Computing Session - Overview
+
+\newcommand{\slidetable}[5] {
+\begin{table}[H]
+\begin{center}
+\begin{tabular}{|c|c|c|}
+\hline
+& & \\
+\raisebox{-15ex}{\includegraphics[scale=#5]{#1}} &
+\begin{tabular}{c}
+\raisebox{5ex}{\href{#2}{Slides}}
+\end{tabular}
+&
+\begin{tabular}{c}
+\raisebox{5ex}{\href{#3}{Video}}
+\end{tabular}
+\\
+& & \\ \hline
+\end{tabular}
+\end{center}
+\caption{#4}
+\end{table}
+}
 
 \begin{document}
 \date{\today}

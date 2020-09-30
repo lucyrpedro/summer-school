@@ -3,52 +3,96 @@
 
 \section{Introduction}
 
-In collaboration with PRACE, address the skills gap in computational science in the targeted domain by specialised training and capacity building measures to develop the human capital resources for increased adoption of advanced HPC in industry (including SMEs) and academia.
+The main targets of ESiWACE2 proposal concerning training are:
 
-Crossing the chasm in education between computational science and weather and climate modelling with regard to extreme-scale computing by supporting and organising specialised trainings, workshops and summer schools on HPC software engineering, IO, HPDA, containerisation, DSLs, etc., with a focus on (pre-)exascale challenges for weather and climate applications (WP6) Synchronisation of training with PRACE via CSA for CoE (WP6, WP7)
+\begin{itemize}
 
-CoE - Centre for Online Education or Centre of Excellence?
+\item In collaboration with PRACE, address the skills gap in computational science in the targeted domain by specialised training and capacity building measures to develop the human capital resources for increased adoption of advanced HPC in the industry (including SMEs) and academia.
 
-Interactions with the European HPC ecosystem (WP6)
+\item Crossing the chasm in education between computational science and weather and climate modelling concerning extreme-scale computing by supporting and organising specialised training, workshops and summer schools on HPC software engineering, I/O, HPDA, containerisation, DSLs, etc., with a focus on (pre-)exascale challenges for weather and climate applications (WP6).
 
-Additionally, we will organise two summer schools to train scientists in the efficient usage of supercomputers for high-resolution Earth system modelling.
+\item Synchronisation of training with PRACE via Coordination and Support Action (CSA) for Centre of Excellence (CoE) (WP6, WP7).
 
-Task 6.2: Training and schools on HPC software engineering, methods and tools [Lead: CERFACS. Partners: ECMWF, BSC, METO, CMCC, UREAD, STFC, SEAGATE, ETH Zurich, MeteoSwiss, DDN, CNRS-IPSL]
+\item Interactions with the European HPC ecosystem (WP6).
 
-This task organises the trainings offered in different HPC areas of ESiWACE2 pre-exascale expertise i.e. IO, computation (DSLs, C++ and coupling software), data analytics and containerisation. It also organises two summer schools to train scientists in these matters.
+\item Organise two summer schools to train scientists in the efficient usage of supercomputers for high-resolution Earth system modelling.
 
-For all trainings, we embrace the creation of online digital media as Open Educational Resources (OER) material (https://www.oercommons.org) that will be available under a permissive CC-by licence and can be reused by teachers and researchers outside the consortium. Resulting material will be presented during the summer schools.
+\end{itemize}
 
-All trainings also propose online sessions or face-to-face sessions at the partner’s institution (Deliverable D6.2). Additionally, we will explore the collaboration with the international effort of the Universität Hamburg to establish an HPC certificate programme for scientists (https://www.hhcc.uni- hamburg.de/en/hpc-certification-program.html).
+To achieve these goals, ESiWACE2 has designed Task 6.2:
 
-These trainings will result in a larger number of scientists and engineers with higher qualifications in the use and optimisation of climate and weather applications on tier-0 machines, increasing HPC awareness in that community. Ultimately, training will allow climate and weather research to be more productive, favouring European scientific excellence in that field.
+\textbf{Task 6.2:} Training and schools on HPC software engineering, methods and tools
 
-\paragraph{Summer school in HPC for weather and climate}
+[Lead: CERFACS. Partners: ECMWF, BSC, METO, CMCC, UREAD, STFC, SEAGATE, ETH Zurich, MeteoSwiss, DDN, CNRS-IPSL]
 
-In this task, we will organise two summer schools for Earth system scientists, including PhD students and postdocs, covering the HPC aspects to run scientific workflows on large scale HPC environments efficiently. A five day summer school will take place in year 2 and 3 of the project and support about 30 students each year and fund their attendance. The selection procedure for subsidising students will be established 6 months before the summer school taking into account the experience gained with summer schools held within the IS-ENES projects. It will prioritise diversity and internationality and fund students depending on the financial support possible by their home institution.
+This task organises the training offered in different HPC areas of ESiWACE2 pre-exascale expertise, i.e., I/O, computation (DSLs, C++ and coupling software), data analytics, and containerisation. It also organises two summer schools to train scientists in these matters.
 
-Theoretical courses and hands-on sessions will be organised on IO, HPC computation (DSLs, C++ and coupling software), data analytics, containers, efficient programming and usage of data Centre resources, using the teaching material created in this WP, but we will also invite external experts to give tutorials about selected topics. Selected presentations will be recorded and made available online after the summer school for a wider audience. A survey will be conducted to evaluate the feedback of participants about the content of the tutorial itself (D6.1).
+For all training, we embrace the creation of online digital media as \href{https://www.oercommons.org}{Open Educational Resources (OER)} material that will be available under a permissive CC-by licence and can be reused by teachers and researchers outside the consortium. The resulting material will be presented during the summer schools.
+
+All training also propose online sessions or face-to-face sessions at the partner's institution (Deliverable D6.2). Additionally, we will explore the collaboration with the international effort of the Universität Hamburg to establish an \href{https://www.hhcc.uni- hamburg.de/en/hpc-certification-program.html}{HPC certificate programme} for scientists.
+
+These training will result in a larger number of scientists and engineers with higher qualifications in the use and optimisation of climate and weather applications on tier-0 machines, increasing HPC awareness in that community. Ultimately, training will allow climate and weather research to be more productive, favouring European scientific excellence in that field.
+
+In the next sections, we introduce the specific topics that will be covered in training with their description of how the training will happen individually and all together in two summer schools.
 
 \section{Training on I/O and HPC Awareness}
+\label{sec:tio}
 
-This task covers training on the I/O hardware and software stack. Delivered material will target scientists accessing data on storage and developers that aim to utilise storage APIs efficiently. We will create descriptive course material covering the co-designed software stack of WP4 as a standardised and efficient platform for I/O (Cylc, XIOS, ESDM, NetCDF, HDF5) and how the analysis stack fits into this (in-depth analysis workflows are part of training on high-performance data analytics, see below), training on the underlying storage APIs and file systems (e.g., Mero/Clovis, Lustre), efficient creation of I/O dominated workflows, performance and efficiency considerations when dealing with file systems, NVM, tape or object storage, and cost-considerations in storage architectures. Material will cover roughly 8 hours course work in the form of presentations and a summarising paper covering the individual aspects. Webinars that present the created OER material and blog entries describing issues will be organised. Finally, we will harness existing community approaches like the Virtual Institute of I/O (https://www.vi4io.org/) for promoting this training.
+This task covers training on the I/O hardware and software stack. Delivered material will target scientists accessing data on storage and developers that aim to utilise storage APIs efficiently.
+
+We will create descriptive course material covering the co-designed software stack of WP4 as a standardised and efficient platform for I/O (Cylc, XIOS, ESDM, NetCDF, HDF5). We will explore how the analysis stack fits into it (in-depth analysis workflows are part of training on high-performance data analytics, see below). Furthermore, we will cover training on the underlying storage APIs and file systems (e.g., Mero/Clovis, Lustre), efficient creation of I/O dominated workflows, performance and efficiency considerations when dealing with file systems, NVM, tape or object storage, and cost-considerations in storage architectures.
+
+% Material will cover roughly eight hours of course work in the form of presentations and a summarising paper covering the individual aspects. Webinars that present the created OER material and blog entries describing issues will be organised. Finally, we will harness existing community approaches like the Virtual Institute of I/O (\url{https://www.vi4io.org/}) for promoting this training.
 
 \section{Training on DSL}
 
-The rapid changes in the multiple supercomputing architectures used to run weather and climate codes and the different programming models used seriously affect the development productivity and the ability to retain a single source code running efficiently everywhere. Domain-specific languages provide a solution to portability of these codes. In this training, we provide insights on DSLs considered in ESiWACE2 (PSyclone, CLAW and GridTools ecosystem) and demonstrate how to apply them to weather and climate models. The training will be organised in the form of a 5-day face-to-face training workshop in spring of year 2 for about 25 people. Participants will theoretically and practically learn how to use the DSL languages to implement PDE operators. During a hands-on session, participants will be encouraged to implement some of the benchmark models defined by WP2 using DSLs and to build their own toy models, followed by an in- depth evaluation of generated optimised implementation and performance benefits.
+The rapid changes in the multiple supercomputing architectures used to run weather and climate codes and the different programming models used seriously affect the development productivity and the ability to retain a single source code running efficiently everywhere. Domain-specific languages provide a solution to portability of these codes.
+
+In this training, we provide insights on DSLs considered in ESiWACE2 (PSyclone, CLAW and GridTools ecosystem) and demonstrate how to apply them to weather and climate models.
+% The training will be organised in the form of a five-day face-to-face training workshop in spring of year two for about 25 people.
+Participants will theoretically and practically learn how to use the DSL languages to implement PDE operators.
+
+During a hands-on session, participants will be encouraged to implement some of the benchmark models defined by WP2 using DSLs and to build their own toy models, followed by an in-depth evaluation of generated optimised implementation and performance benefits.
 
 \section{Training on C++ for HPC}
 
-ETH Zurich organises an advanced course for C++ in HPC as part of its regular trainings. Up to 12 domain scientists can further improve their software-engineering skills by participating in the autumn 2021 three-day course on "Advanced C++ programming for HPC”. This course will present advanced tools for effective C++ programming in the context of HPC, such as generic programming techniques, API development, specific C++-11/14 constructs, rather than treating parallel programming primitives, such as OpenMP or MPI, a subject of widely available courses.
+ETH Zurich organises an advanced course for C++ in HPC as part of its regular training.
+% Up to 12 domain scientists can further improve their software-engineering skills by participating in the autumn 2021 three-day course on ``Advanced C++ programming for HPC''.
+This course will present advanced tools for effective C++ programming in the context of HPC, such as generic programming techniques, API development, specific C++-11/14 constructs, rather than treating parallel programming primitives, such as OpenMP or MPI, a subject of widely available courses.
 
 \section{Online Training Course for Code Coupling with OASIS3-MCT}
 
-The objectives of this task is to create an online course that teaches the participants basic concepts in code coupling, focussing on the ocean- atmosphere context, and help them learn on how to use OASIS3-MCT. This training course is for engineers, physicists, and computer scientists wishing to use this code coupling software in their own coupled model. The training course will be delivered once per year during the 2nd, 3rd and 4th year of the project, over 4 consecutive weeks with learning activities delivered each week and requiring about 2 hours of work per week from the participants. The material will cover theoretical concepts about code coupling, instructions on how to download, install and compile OASIS3-MCT and finally implementation of the coupling between two toy models in a hands-on tutorial session.
+The objectives of this task are to create an online course that teaches the participants basic concepts in code coupling, focussing on the ocean-atmosphere context, and help them learn how to use OASIS3-MCT.
+
+This training course is for engineers, physicists, and computer scientists wishing to use this code coupling software in their own coupled model.
+% The training course will be delivered once per year during the years two, three and four of the project, over four consecutive weeks with learning activities delivered each week and requiring about two hours of work per week from the participants.
+The material will cover theoretical concepts about code coupling, instructions on how to download, install and compile OASIS3-MCT and finally implementation of the coupling between two toy models in a hands-on tutorial session.
 
 \section{Training on High-Performance Data Analytics}
 
-The objective of this task is to increase scientists’ expertise on scientific data analysis at scale applied to climate and weather domains, using high-performance data analytics tools available from the open source market (e.g., Ophidia). It will address several vertical training levels (e.g., intermediate, expert) from different horizontal perspectives (e.g., end-user, developer, administrator), covering from simple analytics tasks to workflows and applications (e.g., Python-based) and providing best practices and guidelines on dealing with massive scientific datasets on HPC architectures. Delivered material, using aforementioned material on I/O and HPC awareness as background, will include 8 hours of theoretical and practical aspects on big data (both introductory and advanced topics), high- performance data management (including performance and optimisation aspects), scientific data analytics at scale, and analytics workflows. As for the training on code coupling with OASIS3-MCT, the online training course (e.g. webinar) will be delivered once per year, during 2nd, 3rd and 4th year of the project, over 4 consecutive weeks, with 2 hours of work per week from the participants.
+The objective of this task is to increase scientists' expertise on scientific data analysis at scale applied to climate and weather domains, using high-performance data analytics tools available from the open-source market (e.g., Ophidia). It will address several vertical training levels (e.g., intermediate, expert) from different horizontal perspectives (e.g., end-user, developer, administrator), covering from simple analytics tasks to workflows and applications (e.g., Python-based), and providing best practices and guidelines on dealing with massive scientific datasets on HPC architectures.
+
+The delivered material, using the material mentioned above on I/O and HPC awareness as background, will include
+% eight hours of
+theoretical and practical aspects of big data (both introductory and advanced topics), high-performance data management (including performance and optimisation aspects), scientific data analytics at scale, and analytics workflows.
+
+% As for the training on code coupling with OASIS3-MCT, the online training course (e.g. webinar) will be delivered once per year, during years two, three and four of the project, over four consecutive weeks, with two hours of work per week from the participants.
 
 \section{Training on Docker Containerisation}
+\label{sec:tdc}
 
-Docker is an open software technology for developers to build, ship, and run distributed applications in containers. This is achieved by describing the software environment and build instructions allowing the creation of a container that can be executed on different environments and does not depend on system-wide software packages. Consisting of a rich ecosystem, Docker enables applications to be quickly assembled from components and eliminates the friction between development, QA, and production environments. As a result, software can ship faster and run the same unchanged stack on laptops, data centres, and virtual machines. With Docker, developers can build any application in any language using any toolchain; “dockerised” applications are completely portable and can run anywhere. A 4-hour introductory tutorial followed by a 2-hour hands-on session on Docker containers will be produced, condensing the experiences from WP2, task 2.4. A recording of the material presented at the summer schools will be made available online in order to reach a wider audience.
+Docker is an open software technology for developers to build, ship, and run distributed applications in containers. This aim is achieved by describing the software environment and build instructions allowing the creation of a container that can be executed on different environments and does not depend on system-wide software packages.
+
+Consisting of a rich ecosystem, Docker enables applications to be quickly assembled from components and eliminates the friction between development, QA, and production environments. As a result, the software can ship faster and run the same unchanged stack on laptops, data centres, and virtual machines. With Docker, developers can build any application in any language using any toolchain; \textit{dockerised} applications are entirely portable and can run anywhere.
+
+% A four-hour introductory tutorial followed by a two-hour hands-on session on Docker containers will be produced, condensing the experiences from WP2, Task 2.4.
+A recording of the material presented at the summer schools will be made available online to reach a wider audience.
+
+\section{Summer School in HPC for Weather and Climate}
+\label{sec:tss}
+
+In this task, we will organise two summer schools for Earth system scientists, including PhD students and postdocs, covering the HPC aspects to run scientific workflows on a large scale HPC environments efficiently. A five-day summer school will take place in years two and three of the project and support about 30 students each year and fund their attendance. The selection procedure for subsidising students will be established six months before the summer school taking into account the experience gained with summer schools held within the IS-ENES projects. It will prioritise diversity and internationality and fund students depending on the financial support possible by their home institution.
+
+Theoretical courses and hands-on sessions will be organised on I/O, HPC computation (DSLs, C++ and coupling software), data analytics, containers, efficient programming and usage of Data Centre resources, using the teaching material created in this Work Package (WP). We will also invite external experts to give tutorials about selected topics. Selected presentations will be recorded and made available online after the summer school for a wider audience.
+
+A survey will be conducted to evaluate the feedback of participants about the content of the tutorial itself (D6.1\footnote{This document.}).
