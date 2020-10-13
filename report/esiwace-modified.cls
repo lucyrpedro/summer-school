@@ -43,6 +43,13 @@
 \definecolor{EsiGreen}{HTML}{9ac013}
 \definecolor{EsiGreen2}{HTML}{007000}
 
+\hypersetup{
+    colorlinks,
+    linkcolor=EsiBlue,
+    citecolor=EsiOrange,
+    urlcolor=EsiGreen
+}
+
 \usepackage{listings}
 \lstset{postbreak=\raisebox{0ex}[0ex][0ex]{\ensuremath{\color{blue}\hookrightarrow\space}},
 %\lstdefinestyle{sig}{ %
