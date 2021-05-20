@@ -84,7 +84,7 @@
 \author[Pedro, Kunkel]{Luciana Pedro, Julian Kunkel
 }
 \institute[WP4 Team]{Department of Computer Science, University of Reading}
-\date{18 June 2020}
+\date{25 August 2020}
 
 \begin{document}
 
@@ -117,9 +117,9 @@
   \item Discuss challenges for data-driven research (Section \nameref{sec:intro})
   \item Describe the role of middleware and file formats (Section \nameref{sec:io-sol})
   \item Identify typical I/O performance issues and their causes (Section \nameref{sec:io-sol})
-  \item Apply performance models to assess and optimize the application I/O performance (Section \nameref{sec:io-perf})
+  \item Apply performance models to assess and optimise the application I/O performance (Section \nameref{sec:io-perf})
   \item Design a data model for NetCDF/CF (Section \nameref{sec:netcdf})
-  \item Implement an application that utilizes parallel I/O to store and analyze data (Section \nameref{sec:pio})
+  \item Implement an application that utilises parallel I/O to store and analyse data (Section \nameref{sec:pio})
   \item Describe ongoing research activities in high-performance storage (Section \nameref{sec:res})
 \end{itemize}
 
@@ -134,8 +134,8 @@
 \begin{itemize}
 \setlength\itemsep{1cm}
   \item Execute programs in C that read and write NetCDF files in a metadata-aware manner
-  \item Analyze, manipulate and visualise NetCDF data
-  \item Implement an application that utilizes parallel I/O to store and analyze data
+  \item Analyse, manipulate and visualise NetCDF data
+  \item Implement an application that utilises parallel I/O to store and analyse data
 \end{itemize}
 
 }
@@ -337,7 +337,7 @@
 \item Match storage abstraction to domain.
 \item Provide self-describing, structured files.
 \item Map to middleware interface.
-\item Implement further optimizations.
+\item Implement further optimisations.
 \end{itemize}
 \end{block}
 \end{column}
@@ -390,7 +390,7 @@
 
 \item Not enough I/O capacity on current HPC systems, and the trend is getting worse.
 
-\item If there is not enough I/O, you cannot write data and then you can not analyze it.
+\item If there is not enough I/O, you cannot write data and then you can not analyse it.
     \begin{itemize}
         \item Lost science!
     \end{itemize}
@@ -740,7 +740,7 @@ widen and researchers are looking for solutions to tackle this problem.\\[0.4cm]
 
 \item \textbf{ADIOS:} I/O abstraction framework for HPC applications that enables switching between different I/O transport methods with little modification to application code and enabling integration of new I/O solutions.
 
-\item \textbf{DeltaFS:} File systems that improves the scalability of file systems by letting compute nodes manage metadata instead of a centralized server.
+\item \textbf{DeltaFS:} File systems that improves the scalability of file systems by letting compute nodes manage metadata instead of a centralised server.
 
 \end{itemize}
 
@@ -783,9 +783,9 @@ widen and researchers are looking for solutions to tackle this problem.\\[0.4cm]
 
     \item In biology and biomedical engineering, in situ means to examine the phenomenon exactly in place where it occurs (i.e., without moving it to some special medium).
 
-    \item Rather than applications writing their raw output to storage to later be read again for post-processing (e.g., visualization, filtering, statistics), in-situ processing removes this overhead by performing the analysis directly on the same machines as where the applications run.
+    \item Rather than applications writing their raw output to storage to later be read again for post-processing (e.g., visualisation, filtering, statistics), in-situ processing removes this overhead by performing the analysis directly on the same machines as where the applications run.
 
-    \item ParaView, Dax, and Damaris/Viz are tools for large-scale in-situ visualization.
+    \item ParaView, Dax, and Damaris/Viz are tools for large-scale in-situ visualisation.
 
     \end{itemize}
 
@@ -901,7 +901,7 @@ widen and researchers are looking for solutions to tackle this problem.\\[0.4cm]
   the access pattern which will be observed \\
   on the servers.
 
-  \item Similar to optimizations in communication, \\
+  \item Similar to optimisations in communication, \\
   these strategies could be applied on any layer involved in I/O.
 
 \end{itemize}
@@ -923,7 +923,7 @@ widen and researchers are looking for solutions to tackle this problem.\\[0.4cm]
 \begin{itemize}
 \setlength\itemsep{0.5cm}
 
-  \item Performance of a parallel file system highly depends on its design as it provides the frame for the deployed optimization strategies.
+  \item Performance of a parallel file system highly depends on its design as it provides the frame for the deployed optimisation strategies.
 
   \item Several aspects like consistency semantics also apply to higher level interfaces like domain specific I/O libraries.
 
@@ -962,7 +962,7 @@ widen and researchers are looking for solutions to tackle this problem.\\[0.4cm]
         \item Trivial models -- Using throughput and latency
       \end{itemize}
 
-    \item Tools to capture and analyze system statistics and I/O activities
+    \item Tools to capture and analyse system statistics and I/O activities
 
       \begin{itemize}
         \item Darshan -- Tool to identify I/O patterns and assess the performance
@@ -1178,7 +1178,7 @@ widen and researchers are looking for solutions to tackle this problem.\\[0.4cm]
   \setlength\itemsep{0.2cm}
     \item Overlap I/O (or communication) with computation.
     \item I/O and communication comes almost for free.
-    \item Optimize file format and access pattern (more complicated).
+    \item Optimise file format and access pattern (more complicated).
   \end{itemize}
 
 \end{itemize}
@@ -1230,7 +1230,7 @@ widen and researchers are looking for solutions to tackle this problem.\\[0.4cm]
 
 \end{frame}
 
-\begin{frame}[fragile]{Assess and Optimize the Application I/O Performance}
+\begin{frame}[fragile]{Assess and Optimise the Application I/O Performance}
 
 \begin{itemize}
 \setlength\itemsep{0.4cm}
@@ -1241,7 +1241,7 @@ widen and researchers are looking for solutions to tackle this problem.\\[0.4cm]
       \item What?
     \end{itemize}
 
-    \item Analyze access pattern and define how it defines the performance of the I/O subsystems
+    \item Analyse access pattern and define how it defines the performance of the I/O subsystems
 
     \begin{itemize}
       \item How?
@@ -1253,7 +1253,7 @@ widen and researchers are looking for solutions to tackle this problem.\\[0.4cm]
       \item Which?
     \end{itemize}
 
-    \item Identify options for the deployed optimization strategies in a specific PVFS\footnote{Parallel Virtual File System.}
+    \item Identify options for the deployed optimisation strategies in a specific PVFS\footnote{Parallel Virtual File System.}
 
     \begin{itemize}
       \item Which?
@@ -1288,7 +1288,7 @@ widen and researchers are looking for solutions to tackle this problem.\\[0.4cm]
 
 \item Together, the data model, file format, and APIs support the creation, access, and sharing of scientific data.
 
-\item NetCDF allows the user to describe multidimensional data and include metadata which further characterizes the data.
+\item NetCDF allows the user to describe multidimensional data and include metadata which further characterises the data.
 
 \item NetCDF APIs are available for most programming languages used in geosciences.
 
@@ -1391,7 +1391,7 @@ widen and researchers are looking for solutions to tackle this problem.\\[0.4cm]
 
   \item The coordinate variable is associated with a dimension of one or more data variables and typically defines a physical coordinate corresponding to that dimension.
 
-  \item Many programs that read NetCDF files recognize and use any coordinate values they find.
+  \item Many programs that read NetCDF files recognise and use any coordinate values they find.
 
 \end{itemize}
 
@@ -1431,7 +1431,7 @@ widen and researchers are looking for solutions to tackle this problem.\\[0.4cm]
   \item Like variables, the type of an attribute may be one of char, byte, short, int, float, or double for the classic model.
   \item An attribute may have multiple values, but attributes cannot be multidimensional.
   \item Global attributes apply to a whole file. Variable attributes apply to a specific variable.
-  \item NetCDF conventions are defined primarily in terms of attributes. Thus the names of attributes are standardized rather than the names of variables.
+  \item NetCDF conventions are defined primarily in terms of attributes. Thus the names of attributes are standardised rather than the names of variables.
   \item Attributes cannot have attributes.
   \item Attributes are scalars or 1-D arrays.
 
@@ -1563,7 +1563,7 @@ widen and researchers are looking for solutions to tackle this problem.\\[0.4cm]
     \begin{itemize}
     \setlength\itemsep{0.2cm}
 
-        \item \textbf{Groups} -- A way of hierarchically organizing data, similar to directories in a Unix file system.\\[0.2cm]
+        \item \textbf{Groups} -- A way of hierarchically organising data, similar to directories in a Unix file system.\\[0.2cm]
 
         \begin{itemize}
         \setlength\itemsep{0.1cm}
@@ -1777,7 +1777,7 @@ data:
 
         \item	Variable grouping
         \begin{itemize}
-          \item How you group data into variables can determine whether common analysis and visualization software can effectively use the data.
+          \item How you group data into variables can determine whether common analysis and visualisation software can effectively use the data.
         \end{itemize}
 
         \item	Variable attributes
@@ -2249,7 +2249,7 @@ nc_var_par_access(int ncid, int varid, int par_access);
 \begin{enumerate}
 \setlength\itemsep{0.1cm}
   \item Relaxed access semantics, tailored to scientific data generation
-  \item Site-specific (optimized) data layout schemes
+  \item Site-specific (optimised) data layout schemes
   \item Ease of use and deploy a particular configuration
   \item Enable a configurable namespace based on scientific metadata
 \end{enumerate}
@@ -2259,12 +2259,12 @@ nc_var_par_access(int ncid, int varid, int par_access);
 
 \begin{frame}[fragile]{ESDM -- Architecture}
 
-\begin{block}{\textbf{Key Concept}: Decouple data localization decisions from science}
+\begin{block}{\textbf{Key Concept}: Decouple data localisation decisions from science}
 \begin{itemize}
 \setlength\itemsep{0.2cm}
-  \item Middleware utilizes layout component to make placement decisions
+  \item Middleware utilises layout component to make placement decisions
   \item Applications work through existing API
-  \item Data is then written/read efficiently; potential for optimization inside library
+  \item Data is then written/read efficiently; potential for optimisation inside library
 \end{itemize}
 \end{block}
 
@@ -2283,7 +2283,7 @@ nc_var_par_access(int ncid, int varid, int par_access);
   \item No fixed storage layout
   \item Less performance tuning from users needed
   \item Exploit characteristics of different storage technology
-  \item Multiple layouts of one data structure optimize access patterns
+  \item Multiple layouts of one data structure optimise access patterns
   \item Flexible namespace (similar to MP3 library)
 \end{itemize}
 
